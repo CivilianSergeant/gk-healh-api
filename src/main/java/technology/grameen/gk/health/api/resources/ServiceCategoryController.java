@@ -1,16 +1,18 @@
 package technology.grameen.gk.health.api.resources;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import technology.grameen.gk.health.api.entity.ServiceCategory;
+import technology.grameen.gk.health.api.responses.ExceptionResponse;
+import technology.grameen.gk.health.api.responses.ResponseEnum;
 import technology.grameen.gk.health.api.services.ServiceCategoryService;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
+@CrossOrigin("http://localhost:8081")
 @RestController
 @RequestMapping("/api/v1/service-category")
 public class ServiceCategoryController {
@@ -30,5 +32,11 @@ public class ServiceCategoryController {
     public ResponseEntity<Object> addCategory(@RequestBody ServiceCategory req){
         ServiceCategory center = serviceCategoryService.addCategory(req);
         return new ResponseEntity<>(center, HttpStatus.OK);
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<ExceptionResponse> handleException(HttpServletRequest req, DataIntegrityViolationException e) {
+        return new ResponseEntity<>(new ExceptionResponse(ResponseEnum.SERVICE_CATEGORY_NOT_UNIQUE.getCode(),
+                "Sorry, please try later "),HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

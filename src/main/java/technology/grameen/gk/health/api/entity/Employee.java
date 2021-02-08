@@ -34,4 +34,92 @@ public class Employee {
 
     @UpdateTimestamp
     private LocalDateTime lastUpdatedAt;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getApiEmployeeId() {
+        return apiEmployeeId;
+    }
+
+    public void setApiEmployeeId(Long apiEmployeeId) {
+        this.apiEmployeeId = apiEmployeeId;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public String getDesignation() {
+        return designation;
+    }
+
+    public void setDesignation(String designation) {
+        this.designation = designation;
+    }
+
+    public String getContactNumber() {
+        return contactNumber;
+    }
+
+    public void setContactNumber(String contactNumber) {
+        this.contactNumber = contactNumber;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public HealthCenter getCenter() {
+        return center;
+    }
+
+    public void setCenter(HealthCenter center) {
+        this.center = center;
+    }
+
+    public Set<Patient> getPatients() {
+        return patients;
+    }
+
+    public void setPatients(Set<Patient> patients) {
+        this.patients = patients;
+    }
+
+    public Set<Prescription> getPrescribes() {
+        return prescribes;
+    }
+
+    public void setPrescribes(Set<Prescription> prescribes) {
+        this.prescribes = prescribes;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getLastUpdatedAt() {
+        return lastUpdatedAt;
+    }
+
+    public void setLastUpdatedAt(LocalDateTime lastUpdatedAt) {
+        this.lastUpdatedAt = lastUpdatedAt;
+    }
 }

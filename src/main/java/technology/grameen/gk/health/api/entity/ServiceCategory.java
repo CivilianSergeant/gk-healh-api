@@ -1,5 +1,6 @@
 package technology.grameen.gk.health.api.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -61,6 +62,7 @@ public class ServiceCategory {
         isActive = active;
     }
 
+    @JsonIgnore
     public Set<Service> getServices() {
         return services;
     }
@@ -70,8 +72,9 @@ public class ServiceCategory {
             if(services == null){
                 this.services = new HashSet<>();
             }
-            this.services.add(service);
             service.setServiceCategory(this);
+            this.services.add(service);
+
         }
 
     }

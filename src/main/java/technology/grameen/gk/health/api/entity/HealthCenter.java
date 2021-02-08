@@ -1,10 +1,12 @@
 package technology.grameen.gk.health.api.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -74,12 +76,20 @@ public class HealthCenter {
         this.address = address;
     }
 
+    @JsonIgnore
     public Set<Employee> getEmployees() {
         return employees;
     }
 
-    public void setEmployees(Set<Employee> employees) {
-        this.employees = employees;
+    public void addEmployee(Employee employee) {
+        if(employee != null){
+            if(this.employees == null){
+                this.employees = new HashSet<>();
+            }
+            employee.setCenter(this);
+            this.employees.add(employee);
+        }
+
     }
 
     public Set<Patient> getPatients() {
