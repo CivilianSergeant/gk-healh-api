@@ -1,21 +1,17 @@
-package technology.grameen.gk.health.api.entity;
+package technology.grameen.gk.health.api.requests;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import technology.grameen.gk.health.api.entity.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Set;
 
-@Entity
-@Table(name = "patients")
-public class Patient {
+public class PatientRequest {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private Long id;
     private Long apiVillageId;
     private String village;
@@ -28,30 +24,11 @@ public class Patient {
     private String mobileNumber;
     private LocalDateTime dateOfBirth;
 
-    @ManyToOne
-    @JoinColumn(columnDefinition = "center_id",referencedColumnName = "id")
     private HealthCenter center;
 
-    @OneToOne(mappedBy = "patient")
     private PatientDetail detail;
 
-    @OneToMany(mappedBy = "patient")
-    private Set<PatientRegistration> registrations;
-
-    @OneToMany(mappedBy = "prescriptionPatient")
-    private Set<Prescription> prescriptions;
-
-
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(columnDefinition = "created_by",referencedColumnName = "id")
     private Employee createdBy;
-
-    @CreationTimestamp
-    private LocalDateTime createdAt;
-
-    @UpdateTimestamp
-    private LocalDateTime lastUpdatedAt;
 
 
     public Long getId() {
@@ -142,7 +119,6 @@ public class Patient {
         this.dateOfBirth = dateOfBirth;
     }
 
-
     public HealthCenter getCenter() {
         return center;
     }
@@ -159,23 +135,6 @@ public class Patient {
         this.detail = detail;
     }
 
-    public Set<PatientRegistration> getRegistrations() {
-        return registrations;
-    }
-
-    public void setRegistrations(Set<PatientRegistration> registrations) {
-        this.registrations = registrations;
-    }
-
-    public Set<Prescription> getPrescriptions() {
-        return prescriptions;
-    }
-
-    public void setPrescriptions(Set<Prescription> prescriptions) {
-        this.prescriptions = prescriptions;
-    }
-
-
     public Employee getCreatedBy() {
         return createdBy;
     }
@@ -184,19 +143,7 @@ public class Patient {
         this.createdBy = createdBy;
     }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
 
-    public LocalDateTime getLastUpdatedAt() {
-        return lastUpdatedAt;
-    }
 
-    public void setLastUpdatedAt(LocalDateTime lastUpdatedAt) {
-        this.lastUpdatedAt = lastUpdatedAt;
-    }
 }

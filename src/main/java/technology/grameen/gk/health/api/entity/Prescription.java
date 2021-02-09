@@ -19,6 +19,7 @@ public class Prescription {
     private Patient prescriptionPatient;
 
     @ManyToOne
+    @JoinColumn(name = "doctor_id",referencedColumnName = "id")
     private Employee doctor;
 
     @ManyToOne

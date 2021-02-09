@@ -1,5 +1,6 @@
 package technology.grameen.gk.health.api.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -92,12 +93,19 @@ public class HealthCenter {
 
     }
 
+    @JsonBackReference
     public Set<Patient> getPatients() {
         return patients;
     }
 
-    public void setPatients(Set<Patient> patients) {
-        this.patients = patients;
+    public void addPatient(Patient patient) {
+        if(patient != null){
+            if(this.patients == null){
+                this.patients = new HashSet<>();
+            }
+            patient.setCenter(this);
+            this.patients.add(patient);
+        }
     }
 
     public Set<Prescription> getPrescriptions() {
