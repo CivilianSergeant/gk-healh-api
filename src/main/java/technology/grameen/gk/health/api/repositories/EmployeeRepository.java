@@ -10,6 +10,6 @@ import java.util.List;
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee,Long> {
 
-    @Query("Select e,c,p,ps from Employee e LEFT JOIN FETCH e.center c LEFT JOIN FETCH e.patients p LEFT JOIN FETCH e.prescribes ps")
+    @Query("Select e from Employee e JOIN FETCH e.center c ")
     public List<Employee> findAll();
 }

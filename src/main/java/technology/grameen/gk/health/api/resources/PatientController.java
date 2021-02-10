@@ -1,5 +1,9 @@
 package technology.grameen.gk.health.api.resources;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,8 +26,9 @@ public class PatientController {
     }
 
     @RequestMapping(value = "")
-    public ResponseEntity<List<Patient>> list(){
-        return new ResponseEntity<>(null, HttpStatus.OK);
+    public ResponseEntity<Page<Patient>> list(@Param("page") int page,@Param("size") int size){
+        Pageable pageable = PageRequest.of(page,size);
+        return new ResponseEntity<>(patientManageService.getPatients(pageable), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/add")

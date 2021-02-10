@@ -6,6 +6,8 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Entity
@@ -16,7 +18,7 @@ public class CardRegistration {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Patient patient;
 
     /**
@@ -38,6 +40,9 @@ public class CardRegistration {
 
     @UpdateTimestamp
     private LocalDateTime lastUpdatedAt;
+
+    @OneToMany(mappedBy = "cardRegistration")
+    private Set<CardMember> members;
 
     public Long getId() {
         return id;
@@ -134,5 +139,18 @@ public class CardRegistration {
 
     public void setLastUpdatedAt(LocalDateTime lastUpdatedAt) {
         this.lastUpdatedAt = lastUpdatedAt;
+    }
+
+    public Set<CardMember> getMembers() {
+        return members;
+    }
+
+    public void addMember(CardMember member) {
+        if(member != null){
+            if(this.members == null){
+                this.members = new HashSet<>();
+            }
+            this.members.add(member);
+        }
     }
 }

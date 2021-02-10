@@ -28,7 +28,7 @@ public class HealthCenter {
     @OneToMany(mappedBy = "center")
     private Set<Patient> patients;
 
-    @OneToMany(mappedBy = "center")
+    @OneToMany(mappedBy = "center",fetch = FetchType.LAZY)
     private Set<Prescription> prescriptions;
 
     @CreationTimestamp
@@ -108,6 +108,8 @@ public class HealthCenter {
         }
     }
 
+    @JsonBackReference
+    @JsonIgnore
     public Set<Prescription> getPrescriptions() {
         return prescriptions;
     }

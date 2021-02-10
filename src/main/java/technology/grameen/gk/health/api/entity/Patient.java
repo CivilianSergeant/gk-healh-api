@@ -1,8 +1,6 @@
 package technology.grameen.gk.health.api.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -10,6 +8,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
+
 
 @Entity
 @Table(name = "patients")
@@ -44,7 +43,7 @@ public class Patient {
 
 
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(columnDefinition = "created_by",referencedColumnName = "id")
     private Employee createdBy;
 
@@ -54,6 +53,28 @@ public class Patient {
     @UpdateTimestamp
     private LocalDateTime lastUpdatedAt;
 
+    public Patient() {
+
+    }
+
+    public Patient(Long id) {
+        this.id = id;
+    }
+
+    public Patient(Long id, String pid, String fullName, String gender, String maritalStatus,
+                   LocalDateTime dateOfBirth, HealthCenter center, String guardianName,
+                   LocalDateTime createdAt, LocalDateTime lastUpdatedAt) {
+        this.id = id;
+        this.pid = pid;
+        this.fullName = fullName;
+        this.gender = gender;
+        this.maritalStatus = maritalStatus;
+        this.dateOfBirth = dateOfBirth;
+        this.center = center;
+        this.guardianName = guardianName;
+        this.createdAt = createdAt;
+        this.lastUpdatedAt = lastUpdatedAt;
+    }
 
     public Long getId() {
         return id;
@@ -160,6 +181,7 @@ public class Patient {
         this.detail = detail;
     }
 
+
     public Set<CardRegistration> getRegistrations() {
         return registrations;
     }
@@ -175,6 +197,7 @@ public class Patient {
 
     }
 
+
     public Set<Prescription> getPrescriptions() {
         return prescriptions;
     }
@@ -183,7 +206,7 @@ public class Patient {
         this.prescriptions = prescriptions;
     }
 
-
+    @JsonIgnore
     public Employee getCreatedBy() {
         return createdBy;
     }

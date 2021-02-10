@@ -1,6 +1,7 @@
 package technology.grameen.gk.health.api.requests;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import technology.grameen.gk.health.api.entity.*;
@@ -8,6 +9,7 @@ import technology.grameen.gk.health.api.entity.*;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Set;
+
 
 public class PatientRequest {
 

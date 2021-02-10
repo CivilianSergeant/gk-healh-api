@@ -1,12 +1,19 @@
 package technology.grameen.gk.health.api.services;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import technology.grameen.gk.health.api.entity.*;
-import technology.grameen.gk.health.api.repositories.*;
+import technology.grameen.gk.health.api.repositories.CardMemberRepository;
+import technology.grameen.gk.health.api.repositories.CardRegistrationRepository;
+import technology.grameen.gk.health.api.repositories.PatientDetailRepository;
+import technology.grameen.gk.health.api.repositories.PatientRepository;
 import technology.grameen.gk.health.api.requests.PatientRequest;
 
-import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PatientManageServiceImpl implements PatientManageService {
@@ -17,13 +24,17 @@ public class PatientManageServiceImpl implements PatientManageService {
 
     private CardRegistrationRepository cardRegistrationRepository;
 
+    private CardMemberRepository cardMemberRepository;
+
 
     PatientManageServiceImpl(PatientRepository patientRepository,
                              PatientDetailRepository detailRepository,
-                             CardRegistrationRepository cardRegistrationRepository){
+                             CardRegistrationRepository cardRegistrationRepository,
+                             CardMemberRepository cardMemberRepository){
         this.patientRepository = patientRepository;
         this.detailRepository = detailRepository;
         this.cardRegistrationRepository = cardRegistrationRepository;
+        this.cardMemberRepository = cardMemberRepository;
     }
 
     @Override
@@ -50,8 +61,24 @@ public class PatientManageServiceImpl implements PatientManageService {
             CardRegistration cardRegistration = req.getCardRegistration();
             patient.addRegistration(cardRegistration);
             cardRegistrationRepository.save(cardRegistration);
+
+            if(cardRegistration.getId()>0){
+                cardRegistration.getMembers()
+                        .stream()
+                        .map(cardMember -> {
+                            cardMember.setCardRegistration(cardRegistration);
+
+                            return cardMember;
+                        }).collect(Collectors.toSet());
+                cardMemberRepository.saveAll(cardRegistration.getMembers());
+            }
         }
         return patient;
+    }
+
+    @Override
+    public Page<Patient> getPatients(Pageable pageable) {
+        return patientRepository.findAll(pageable);
     }
 
     Patient getPatient(PatientRequest req){

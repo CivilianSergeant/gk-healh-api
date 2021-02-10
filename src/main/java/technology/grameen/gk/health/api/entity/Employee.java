@@ -1,6 +1,8 @@
 package technology.grameen.gk.health.api.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -28,7 +30,9 @@ public class Employee {
     @OneToMany(mappedBy = "createdBy")
     private Set<Patient> patients;
 
-    @OneToMany(mappedBy = "doctor")
+    @OneToMany(mappedBy = "doctor",fetch = FetchType.LAZY)
+    @JsonManagedReference
+    @JsonIgnore
     private Set<Prescription> prescribes;
 
     @CreationTimestamp
@@ -108,6 +112,8 @@ public class Employee {
         }
     }
 
+    @JsonBackReference
+    @JsonIgnore
     public Set<Prescription> getPrescribes() {
         return prescribes;
     }
