@@ -11,7 +11,7 @@ import technology.grameen.gk.health.api.services.EmployeeService;
 
 import java.util.List;
 
-@CrossOrigin("http://localhost:8081")
+
 @RestController
 @RequestMapping("/api/v1/employee")
 public class EmployeeController {

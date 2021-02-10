@@ -8,6 +8,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -36,7 +37,7 @@ public class Patient {
     private PatientDetail detail;
 
     @OneToMany(mappedBy = "patient")
-    private Set<PatientRegistration> registrations;
+    private Set<CardRegistration> registrations;
 
     @OneToMany(mappedBy = "prescriptionPatient")
     private Set<Prescription> prescriptions;
@@ -159,12 +160,19 @@ public class Patient {
         this.detail = detail;
     }
 
-    public Set<PatientRegistration> getRegistrations() {
+    public Set<CardRegistration> getRegistrations() {
         return registrations;
     }
 
-    public void setRegistrations(Set<PatientRegistration> registrations) {
-        this.registrations = registrations;
+    public void addRegistration(CardRegistration registration) {
+        if(registration != null){
+            if(this.registrations == null){
+                this.registrations = new HashSet<>();
+            }
+            registration.setPatient(this);
+            this.registrations.add(registration);
+        }
+
     }
 
     public Set<Prescription> getPrescriptions() {

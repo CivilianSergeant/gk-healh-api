@@ -30,6 +30,8 @@ public class PatientRequest {
 
     private Employee createdBy;
 
+    private CardRegistration cardRegistration;
+
 
     public Long getId() {
         return id;
@@ -143,7 +145,11 @@ public class PatientRequest {
         this.createdBy = createdBy;
     }
 
+    public CardRegistration getCardRegistration() {
+        return cardRegistration;
+    }
 
-
-
+    public void setCardRegistration(CardRegistration cardRegistration) {
+        this.cardRegistration = cardRegistration;
+    }
 }

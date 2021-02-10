@@ -2,14 +2,8 @@ package technology.grameen.gk.health.api.services;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import technology.grameen.gk.health.api.entity.Employee;
-import technology.grameen.gk.health.api.entity.HealthCenter;
-import technology.grameen.gk.health.api.entity.Patient;
-import technology.grameen.gk.health.api.entity.PatientDetail;
-import technology.grameen.gk.health.api.repositories.EmployeeRepository;
-import technology.grameen.gk.health.api.repositories.HealthCenterRepository;
-import technology.grameen.gk.health.api.repositories.PatientDetailRepository;
-import technology.grameen.gk.health.api.repositories.PatientRepository;
+import technology.grameen.gk.health.api.entity.*;
+import technology.grameen.gk.health.api.repositories.*;
 import technology.grameen.gk.health.api.requests.PatientRequest;
 
 import java.util.ArrayList;
@@ -21,23 +15,22 @@ public class PatientManageServiceImpl implements PatientManageService {
 
     private PatientDetailRepository detailRepository;
 
+    private CardRegistrationRepository cardRegistrationRepository;
+
 
     PatientManageServiceImpl(PatientRepository patientRepository,
-                             PatientDetailRepository detailRepository){
+                             PatientDetailRepository detailRepository,
+                             CardRegistrationRepository cardRegistrationRepository){
         this.patientRepository = patientRepository;
         this.detailRepository = detailRepository;
+        this.cardRegistrationRepository = cardRegistrationRepository;
     }
 
     @Override
     @Transactional
     public Patient addPatient(PatientRequest req) {
-        Patient patient = new Patient();
-        patient.setCenter(req.getCenter());
-        patient.setCreatedBy(req.getCreatedBy());
-        patient.setFullName(req.getFullName());
-        patient.setGender(req.getGender());
-        patient.setDetail(req.getDetail());
 
+        Patient patient = getPatient(req);
         HealthCenter center = patient.getCenter();
         Employee employee = patient.getCreatedBy();
 
@@ -51,6 +44,23 @@ public class PatientManageServiceImpl implements PatientManageService {
             detail.setPatient(patient);
             detailRepository.save(detail);
         }
+
+
+        if(req.getCardRegistration() != null){
+            CardRegistration cardRegistration = req.getCardRegistration();
+            patient.addRegistration(cardRegistration);
+            cardRegistrationRepository.save(cardRegistration);
+        }
+        return patient;
+    }
+
+    Patient getPatient(PatientRequest req){
+        Patient patient = new Patient();
+        patient.setCenter(req.getCenter());
+        patient.setCreatedBy(req.getCreatedBy());
+        patient.setFullName(req.getFullName());
+        patient.setGender(req.getGender());
+        patient.setDetail(req.getDetail());
         return patient;
     }
 }
