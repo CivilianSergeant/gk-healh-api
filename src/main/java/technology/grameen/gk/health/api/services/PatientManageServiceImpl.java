@@ -2,7 +2,6 @@ package technology.grameen.gk.health.api.services;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import technology.grameen.gk.health.api.entity.*;
@@ -13,8 +12,8 @@ import technology.grameen.gk.health.api.repositories.PatientRepository;
 import technology.grameen.gk.health.api.requests.PatientRequest;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Calendar;
-import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -66,6 +65,10 @@ public class PatientManageServiceImpl implements PatientManageService {
 
         if(req.getCardRegistration() != null){
             CardRegistration cardRegistration = req.getCardRegistration();
+            cardRegistration.setCardNumber(getCardNumber(center));
+            cardRegistration.setStartDate(getRegistrationStartDate());
+            cardRegistration.setExpiredDate(getRegistrationExpireDate());
+            cardRegistration.setTotalServiceTaken(0);
             patient.addRegistration(cardRegistration);
             cardRegistrationRepository.save(cardRegistration);
 
@@ -116,5 +119,25 @@ public class PatientManageServiceImpl implements PatientManageService {
         int month = (calendar.get(Calendar.MONTH));
         int maxId = (patientRepository.getMaxId()+1);
         return center.getCenterCode()+"-"+ year + (((month+1)<10)? "0"+(month+1) : (month+1)) + maxId;
+    }
+
+    String getCardNumber(HealthCenter center){
+        Calendar calendar = Calendar.getInstance();
+        int year = (calendar.get(Calendar.YEAR));
+        int month = (calendar.get(Calendar.MONTH));
+        int maxId = (patientRepository.getMaxCardRegId()+1);
+        return center.getCenterCode()+"-"+ year + (((month+1)<10)? "0"+(month+1) : (month+1)) + maxId;
+    }
+
+    LocalDateTime getRegistrationStartDate(){
+
+        return LocalDateTime.now();
+    }
+
+    LocalDateTime getRegistrationExpireDate(){
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.MONTH,12);
+        ZoneId zoneId = calendar.getTimeZone().toZoneId();
+        return LocalDateTime.ofInstant(calendar.toInstant(),zoneId);
     }
 }

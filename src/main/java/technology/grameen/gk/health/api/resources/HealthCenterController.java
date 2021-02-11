@@ -8,7 +8,7 @@ import technology.grameen.gk.health.api.services.HealthCenterService;
 
 import java.util.List;
 
-@CrossOrigin("http://localhost:8081")
+
 @RestController
 @RequestMapping(value = "/api/v1/health-center")
 public class HealthCenterController {

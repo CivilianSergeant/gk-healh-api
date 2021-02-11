@@ -14,7 +14,7 @@ import technology.grameen.gk.health.api.services.ServiceCategoryService;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
-@CrossOrigin("http://localhost:8081")
+
 @RestController
 @RequestMapping("/api/v1/service")
 public class ServiceController {

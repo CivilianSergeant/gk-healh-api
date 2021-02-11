@@ -23,4 +23,7 @@ public interface PatientRepository extends JpaRepository<Patient,Long> {
 
     @Query(value = "SELECT MAX(p.id) from Patient p")
     int getMaxId();
+
+    @Query(value = "SELECT Max(r.id) FROM Patient p JOIN p.registrations r")
+    int getMaxCardRegId();
 }
