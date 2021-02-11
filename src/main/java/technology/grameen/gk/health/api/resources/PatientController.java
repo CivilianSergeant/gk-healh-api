@@ -11,9 +11,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import technology.grameen.gk.health.api.entity.Patient;
 import technology.grameen.gk.health.api.requests.PatientRequest;
+import technology.grameen.gk.health.api.responses.IResponse;
+import technology.grameen.gk.health.api.responses.PatientCreationResponse;
 import technology.grameen.gk.health.api.services.PatientManageService;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/api/v1/patient")
@@ -32,8 +35,14 @@ public class PatientController {
     }
 
     @RequestMapping(value = "/add")
-    public ResponseEntity<Patient> addPatient(@RequestBody PatientRequest patient){
-        Patient newPatient = patientManageService.addPatient(patient);
-        return new ResponseEntity<>(newPatient, HttpStatus.OK);
+    public ResponseEntity<IResponse>addPatient(@RequestBody PatientRequest patient){
+        try {
+            Patient newPatient = patientManageService.addPatient(patient);
+            return new ResponseEntity<>(new PatientCreationResponse(HttpStatus.OK.value(),newPatient), HttpStatus.OK);
+        }catch (Exception ex){
+            return new ResponseEntity<>(new PatientCreationResponse(HttpStatus.UNPROCESSABLE_ENTITY.value(),
+                    ex.getMessage()),HttpStatus.UNPROCESSABLE_ENTITY);
+        }
+
     }
 }

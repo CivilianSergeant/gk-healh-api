@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface PatientManageService {
 
-   Patient addPatient(PatientRequest patient);
+   Patient addPatient(PatientRequest patient) throws Exception;
 
    Page<Patient> getPatients(Pageable pageable);
 }

@@ -12,7 +12,10 @@ import technology.grameen.gk.health.api.repositories.PatientDetailRepository;
 import technology.grameen.gk.health.api.repositories.PatientRepository;
 import technology.grameen.gk.health.api.requests.PatientRequest;
 
+import java.time.LocalDateTime;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,20 +29,24 @@ public class PatientManageServiceImpl implements PatientManageService {
 
     private CardMemberRepository cardMemberRepository;
 
+    private HealthCenterService centerService;
+
 
     PatientManageServiceImpl(PatientRepository patientRepository,
                              PatientDetailRepository detailRepository,
                              CardRegistrationRepository cardRegistrationRepository,
-                             CardMemberRepository cardMemberRepository){
+                             CardMemberRepository cardMemberRepository,
+                             HealthCenterService centerService){
         this.patientRepository = patientRepository;
         this.detailRepository = detailRepository;
         this.cardRegistrationRepository = cardRegistrationRepository;
         this.cardMemberRepository = cardMemberRepository;
+        this.centerService = centerService;
     }
 
     @Override
     @Transactional
-    public Patient addPatient(PatientRequest req) {
+    public Patient addPatient(PatientRequest req) throws Exception {
 
         Patient patient = getPatient(req);
         HealthCenter center = patient.getCenter();
@@ -81,13 +88,33 @@ public class PatientManageServiceImpl implements PatientManageService {
         return patientRepository.findAll(pageable);
     }
 
-    Patient getPatient(PatientRequest req){
+    Patient getPatient(PatientRequest req) throws Exception {
         Patient patient = new Patient();
-        patient.setCenter(req.getCenter());
+        Optional<HealthCenter> center = this.centerService.findById(req.getCenter().getId());
+        if(center.isPresent() == false){
+            throw new Exception("Center not found");
+        }
         patient.setCreatedBy(req.getCreatedBy());
+        patient.setPid(getPid(center.get()));
+        patient.setCenter(center.get());
         patient.setFullName(req.getFullName());
+        patient.setGuardianName(req.getGuardianName());
+        patient.setMotherName(req.getMotherName());
+        patient.setMobileNumber(req.getMobileNumber());
+        patient.setMaritalStatus(req.getMaritalStatus());
         patient.setGender(req.getGender());
+        patient.setDateOfBirth(req.getDateOfBirth());
+        patient.setApiVillageId(req.getApiVillageId());
+        patient.setVillage(req.getVillage());
         patient.setDetail(req.getDetail());
         return patient;
+    }
+
+    String getPid(HealthCenter center){
+        Calendar calendar = Calendar.getInstance();
+        int year = (calendar.get(Calendar.YEAR));
+        int month = (calendar.get(Calendar.MONTH));
+        int maxId = (patientRepository.getMaxId()+1);
+        return center.getCenterCode()+"-"+ year + (((month+1)<10)? "0"+(month+1) : (month+1)) + maxId;
     }
 }

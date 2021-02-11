@@ -20,4 +20,7 @@ public interface PatientRepository extends JpaRepository<Patient,Long> {
             "p.createdAt, p.lastUpdatedAt) FROM Patient p",
             countQuery = "SELECT count(p) FROM Patient p")
     Page<Patient> findAll(Pageable pageable);
+
+    @Query(value = "SELECT MAX(p.id) from Patient p")
+    int getMaxId();
 }
