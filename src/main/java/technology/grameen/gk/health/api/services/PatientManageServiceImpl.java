@@ -91,6 +91,11 @@ public class PatientManageServiceImpl implements PatientManageService {
         return patientRepository.findAll(pageable);
     }
 
+    @Override
+    public Optional<Patient> getPatientById(Long id) {
+        return this.patientRepository.findById(id);
+    }
+
     Patient getPatient(PatientRequest req) throws Exception {
         Patient patient = new Patient();
         Optional<HealthCenter> center = this.centerService.findById(req.getCenter().getId());
@@ -117,16 +122,18 @@ public class PatientManageServiceImpl implements PatientManageService {
         Calendar calendar = Calendar.getInstance();
         int year = (calendar.get(Calendar.YEAR));
         int month = (calendar.get(Calendar.MONTH));
-        int maxId = (patientRepository.getMaxId()+1);
-        return center.getCenterCode()+"-"+ year + (((month+1)<10)? "0"+(month+1) : (month+1)) + maxId;
+        int maxId = ((patientRepository.getMaxId()!=null)? (patientRepository.getMaxId()+1) : 1);
+        return center.getCenterCode()+"-"+ year + (((month+1)<10)? "0"+(month+1) :
+                (month+1)) + ((maxId<10)? "0"+maxId : maxId);
     }
 
     String getCardNumber(HealthCenter center){
         Calendar calendar = Calendar.getInstance();
         int year = (calendar.get(Calendar.YEAR));
         int month = (calendar.get(Calendar.MONTH));
-        int maxId = (patientRepository.getMaxCardRegId()+1);
-        return center.getCenterCode()+"-"+ year + (((month+1)<10)? "0"+(month+1) : (month+1)) + maxId;
+        int maxId = ((patientRepository.getMaxCardRegId() !=null)? (patientRepository.getMaxCardRegId()+1): 1);
+        return center.getCenterCode()+"-"+ year + (((month+1)<10)? "0"+(month+1) :
+                (month+1)) + ((maxId<10)? "0"+maxId : maxId);
     }
 
     LocalDateTime getRegistrationStartDate(){

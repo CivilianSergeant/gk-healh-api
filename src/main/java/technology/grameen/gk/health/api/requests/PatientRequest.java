@@ -8,6 +8,7 @@ import technology.grameen.gk.health.api.entity.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Set;
 
 
@@ -119,8 +120,10 @@ public class PatientRequest {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(LocalDateTime dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
+    public void setDateOfBirth(String dateOfBirth) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime dateTime = LocalDateTime.parse(dateOfBirth, formatter);
+        this.dateOfBirth = dateTime;
     }
 
     public HealthCenter getCenter() {

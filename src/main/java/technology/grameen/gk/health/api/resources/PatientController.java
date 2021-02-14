@@ -6,9 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import technology.grameen.gk.health.api.entity.Patient;
 import technology.grameen.gk.health.api.requests.PatientRequest;
 import technology.grameen.gk.health.api.responses.IResponse;
@@ -28,13 +26,28 @@ public class PatientController {
        this.patientManageService = patientManageService;
     }
 
+
+
+    @RequestMapping(value = "/{id}")
+    public ResponseEntity<Optional<Patient>> findById(@PathVariable("id") Long id){
+
+        return new ResponseEntity<>(patientManageService.getPatientById(id), HttpStatus.OK);
+    }
+
     @RequestMapping(value = "")
-    public ResponseEntity<Page<Patient>> list(@Param("page") int page,@Param("size") int size){
+    public ResponseEntity<Page<Patient>> list(@Param("page") Integer page,@Param("size") Integer size){
+        if(page==null){
+            page=0;
+        }
+        if(size==null){
+            size=20;
+        }
         Pageable pageable = PageRequest.of(page,size);
         return new ResponseEntity<>(patientManageService.getPatients(pageable), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/add")
+    @CrossOrigin("http://localhost")
+    @PostMapping(value = "/add")
     public ResponseEntity<IResponse>addPatient(@RequestBody PatientRequest patient){
         try {
             Patient newPatient = patientManageService.addPatient(patient);

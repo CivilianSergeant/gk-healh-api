@@ -22,8 +22,9 @@ public interface PatientRepository extends JpaRepository<Patient,Long> {
     Page<Patient> findAll(Pageable pageable);
 
     @Query(value = "SELECT MAX(p.id) from Patient p")
-    int getMaxId();
+    Integer getMaxId();
 
     @Query(value = "SELECT Max(r.id) FROM Patient p JOIN p.registrations r")
-    int getMaxCardRegId();
+    Integer getMaxCardRegId();
+
 }
