@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import technology.grameen.gk.health.api.entity.Patient;
 import technology.grameen.gk.health.api.requests.PatientRequest;
+import technology.grameen.gk.health.api.responses.ExceptionResponse;
 import technology.grameen.gk.health.api.responses.IResponse;
 import technology.grameen.gk.health.api.responses.PatientCreationResponse;
 import technology.grameen.gk.health.api.services.PatientManageService;
@@ -57,5 +58,14 @@ public class PatientController {
                     ex.getMessage()),HttpStatus.UNPROCESSABLE_ENTITY);
         }
 
+    }
+
+    @GetMapping(value = "/by-pid/{pid}")
+    public ResponseEntity<IResponse> getPatientByPID(@PathVariable("pid") String pid){
+        Optional<Patient> patient = patientManageService.getPatientByPId(pid);
+        if(patient.isPresent()){
+            return new ResponseEntity<>(new PatientCreationResponse(HttpStatus.OK.value(),patient.get()), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(new ExceptionResponse(422,"No Patient found"), HttpStatus.OK);
     }
 }

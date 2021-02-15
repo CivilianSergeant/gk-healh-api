@@ -41,6 +41,9 @@ public class Patient {
     @OneToMany(mappedBy = "prescriptionPatient")
     private Set<Prescription> prescriptions;
 
+    @OneToMany(mappedBy = "patient")
+    private Set<PatientInvoice> patientInvoices;
+
 
 
     @ManyToOne
@@ -205,6 +208,22 @@ public class Patient {
     public void setPrescriptions(Set<Prescription> prescriptions) {
         this.prescriptions = prescriptions;
     }
+
+    public Set<PatientInvoice> getPatientInvoices() {
+        return patientInvoices;
+    }
+
+    public void addPatientInvoices(PatientInvoice patientInvoice) {
+        if(patientInvoice != null){
+            if(this.patientInvoices == null){
+                this.patientInvoices = new HashSet<>();
+            }
+            patientInvoice.setPatient(this);
+            this.patientInvoices.add(patientInvoice);
+        }
+    }
+
+
 
     @JsonIgnore
     public Employee getCreatedBy() {

@@ -10,6 +10,7 @@ import technology.grameen.gk.health.api.entity.Patient;
 
 import javax.persistence.NamedAttributeNode;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface PatientRepository extends JpaRepository<Patient,Long> {
@@ -26,5 +27,7 @@ public interface PatientRepository extends JpaRepository<Patient,Long> {
 
     @Query(value = "SELECT Max(r.id) FROM Patient p JOIN p.registrations r")
     Integer getMaxCardRegId();
+
+    Optional<Patient> findByPid(String id);
 
 }

@@ -31,6 +31,9 @@ public class HealthCenter {
     @OneToMany(mappedBy = "center",fetch = FetchType.LAZY)
     private Set<Prescription> prescriptions;
 
+    @OneToMany(mappedBy = "center")
+    private Set<PatientInvoice> patientInvoices;
+
     @CreationTimestamp
     private LocalDateTime createdAt;
 

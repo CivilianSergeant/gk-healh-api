@@ -6,6 +6,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
 @Table(name = "services")
@@ -18,6 +19,9 @@ public class Service {
     @ManyToOne
     @JoinColumn(name = "serviceCategoryId",referencedColumnName = "id")
     private ServiceCategory serviceCategory;
+
+    @OneToMany(mappedBy = "service")
+    private Set<PatientService> patientServices;
 
     private String name;
 

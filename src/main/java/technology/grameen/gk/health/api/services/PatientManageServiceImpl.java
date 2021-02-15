@@ -96,6 +96,11 @@ public class PatientManageServiceImpl implements PatientManageService {
         return this.patientRepository.findById(id);
     }
 
+    @Override
+    public Optional<Patient> getPatientByPId(String pid){
+        return this.patientRepository.findByPid(pid);
+    }
+
     Patient getPatient(PatientRequest req) throws Exception {
         Patient patient = new Patient();
         Optional<HealthCenter> center = this.centerService.findById(req.getCenter().getId());

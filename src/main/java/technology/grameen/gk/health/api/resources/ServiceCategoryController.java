@@ -36,7 +36,7 @@ public class ServiceCategoryController {
 
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<ExceptionResponse> handleException(HttpServletRequest req, DataIntegrityViolationException e) {
-        return new ResponseEntity<>(new ExceptionResponse(ResponseEnum.SERVICE_CATEGORY_NOT_UNIQUE.getCode(),
+        return new ResponseEntity<>(new ExceptionResponse(Integer.parseInt(ResponseEnum.SERVICE_CATEGORY_NOT_UNIQUE.getCode()),
                 "Sorry, please try later "),HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
