@@ -5,12 +5,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import technology.grameen.gk.health.api.entity.*;
-import technology.grameen.gk.health.api.repositories.CardMemberRepository;
-import technology.grameen.gk.health.api.repositories.CardRegistrationRepository;
-import technology.grameen.gk.health.api.repositories.PatientDetailRepository;
-import technology.grameen.gk.health.api.repositories.PatientRepository;
+import technology.grameen.gk.health.api.repositories.*;
 import technology.grameen.gk.health.api.requests.PatientRequest;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Calendar;
@@ -30,17 +28,28 @@ public class PatientManageServiceImpl implements PatientManageService {
 
     private HealthCenterService centerService;
 
+    private PatientInvoiceRepository invoiceRepository;
+    private PatientServiceRepository patientServiceRepository;
+
+    private ServiceRepository serviceRepository;
+
 
     PatientManageServiceImpl(PatientRepository patientRepository,
                              PatientDetailRepository detailRepository,
                              CardRegistrationRepository cardRegistrationRepository,
                              CardMemberRepository cardMemberRepository,
-                             HealthCenterService centerService){
+                             HealthCenterService centerService,
+                             PatientInvoiceRepository invoiceRepository,
+                             PatientServiceRepository patientServiceRepository,
+                             ServiceRepository serviceRepository){
         this.patientRepository = patientRepository;
         this.detailRepository = detailRepository;
         this.cardRegistrationRepository = cardRegistrationRepository;
         this.cardMemberRepository = cardMemberRepository;
         this.centerService = centerService;
+        this.invoiceRepository = invoiceRepository;
+        this.serviceRepository = serviceRepository;
+        this.patientServiceRepository = patientServiceRepository;
     }
 
     @Override
@@ -101,6 +110,72 @@ public class PatientManageServiceImpl implements PatientManageService {
         return this.patientRepository.findByPid(pid);
     }
 
+    @Override
+    public Patient cardRegister(CardRegistration cardRegistration) throws Exception {
+
+        Optional<technology.grameen.gk.health.api.entity.Service> findService = serviceRepository.findByCode("103");
+
+        technology.grameen.gk.health.api.entity.Service service = null;
+
+        if(findService.isPresent()){
+            service = findService.get();
+        }
+
+        if(service ==null){
+            throw new Exception("Service Not found");
+        }
+
+        Optional<Patient> findPatient = patientRepository.findById(cardRegistration.getPatient().getId());
+        Patient patient = null;
+
+        if(findPatient.isPresent()==false){
+            throw new Exception("Patient Not found");
+        }
+
+        if(findPatient.isPresent()){
+            patient = findPatient.get();
+            HealthCenter center = patient.getCenter();
+            cardRegistration.setCardNumber(getCardNumber(center));
+            cardRegistration.setStartDate(getRegistrationStartDate());
+            cardRegistration.setExpiredDate(getRegistrationExpireDate());
+            cardRegistration.setTotalServiceTaken(0);
+            patient.addRegistration(cardRegistration);
+            cardRegistration.setActive(true);
+            cardRegistrationRepository.save(cardRegistration);
+
+            if(cardRegistration.getId()>0){
+
+                PatientInvoice patientInvoice = new PatientInvoice();
+                center.addPatientInvoices(patientInvoice);
+                patient.addPatientInvoices(patientInvoice);
+
+                patientInvoice.setCreatedBy(patient.getCreatedBy());
+                patientInvoice.setInvoiceNumber(String.valueOf(Math.random()*100));
+                patientInvoice.setServiceAmount(service.getCurrentCost());
+                patientInvoice.setPayableAmount(service.getCurrentCost());
+                patientInvoice.setDiscountAmount(BigDecimal.valueOf(0));
+                patientInvoice.setPaidAmount(BigDecimal.valueOf(0));
+
+                invoiceRepository.save(patientInvoice);
+
+                if(patientInvoice.getId()>0){
+                    PatientService patientService = new PatientService();
+                    patientService.setServiceQty(1);
+                    patientService.setServiceAmount(service.getCurrentCost());
+                    patientService.setPayableAmount(service.getCurrentCost());
+                    patientService.setDiscountAmount(BigDecimal.valueOf(0));
+                    service.addPatientService(patientService);
+                    patientInvoice.addPatientService(patientService);
+
+                    patientServiceRepository.save(patientService);
+                }
+
+
+            }
+        }
+        return patient;
+    }
+
     Patient getPatient(PatientRequest req) throws Exception {
         Patient patient = new Patient();
         Optional<HealthCenter> center = this.centerService.findById(req.getCenter().getId());
@@ -152,4 +227,6 @@ public class PatientManageServiceImpl implements PatientManageService {
         ZoneId zoneId = calendar.getTimeZone().toZoneId();
         return LocalDateTime.ofInstant(calendar.toInstant(),zoneId);
     }
+
+
 }

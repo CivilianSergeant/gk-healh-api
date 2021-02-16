@@ -2,6 +2,7 @@ package technology.grameen.gk.health.api.services;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import technology.grameen.gk.health.api.entity.CardRegistration;
 import technology.grameen.gk.health.api.entity.Patient;
 import technology.grameen.gk.health.api.requests.PatientRequest;
 
@@ -17,4 +18,6 @@ public interface PatientManageService {
    Optional<Patient> getPatientById(Long id);
 
    Optional<Patient> getPatientByPId(String id);
+
+   Patient cardRegister(CardRegistration cardRegistration) throws Exception;
 }

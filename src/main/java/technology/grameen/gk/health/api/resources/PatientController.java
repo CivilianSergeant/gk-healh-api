@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import technology.grameen.gk.health.api.entity.CardRegistration;
 import technology.grameen.gk.health.api.entity.Patient;
 import technology.grameen.gk.health.api.requests.PatientRequest;
 import technology.grameen.gk.health.api.responses.ExceptionResponse;
@@ -47,7 +48,6 @@ public class PatientController {
         return new ResponseEntity<>(patientManageService.getPatients(pageable), HttpStatus.OK);
     }
 
-    @CrossOrigin("http://localhost")
     @PostMapping(value = "/add")
     public ResponseEntity<IResponse>addPatient(@RequestBody PatientRequest patient){
         try {
@@ -67,5 +67,20 @@ public class PatientController {
             return new ResponseEntity<>(new PatientCreationResponse(HttpStatus.OK.value(),patient.get()), HttpStatus.OK);
         }
         return new ResponseEntity<>(new ExceptionResponse(422,"No Patient found"), HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/card-registration")
+    public ResponseEntity<IResponse> registerPatient(@RequestBody CardRegistration cardRegistration){
+        try {
+            Optional<Patient> patient = Optional.ofNullable(patientManageService.cardRegister(cardRegistration));
+            if(patient.isPresent()){
+                return new ResponseEntity<>(new PatientCreationResponse(HttpStatus.OK.value(),patient.get()), HttpStatus.OK);
+            }
+            return new ResponseEntity<>(new ExceptionResponse(HttpStatus.UNPROCESSABLE_ENTITY.value(),"No Patient found"), HttpStatus.OK);
+        }catch (Exception ex){
+            return new ResponseEntity<>(new ExceptionResponse(HttpStatus.UNPROCESSABLE_ENTITY.value(),
+                    ex.getMessage()),HttpStatus.UNPROCESSABLE_ENTITY);
+        }
+
     }
 }

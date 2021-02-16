@@ -1,11 +1,14 @@
 package technology.grameen.gk.health.api.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -63,6 +66,8 @@ public class PatientInvoice {
         this.invoiceNumber = invoiceNumber;
     }
 
+    @JsonBackReference
+    @JsonIgnore
     public Patient getPatient() {
         return patient;
     }
@@ -71,6 +76,8 @@ public class PatientInvoice {
         this.patient = patient;
     }
 
+    @JsonBackReference
+    @JsonIgnore
     public HealthCenter getCenter() {
         return center;
     }
@@ -83,8 +90,15 @@ public class PatientInvoice {
         return patientServices;
     }
 
-    public void setPatientServices(Set<PatientService> patientServices) {
-        this.patientServices = patientServices;
+    public void addPatientService(PatientService patientService) {
+
+        if(patientService != null){
+            if(this.patientServices == null){
+                this.patientServices = new HashSet<>();
+            }
+            patientService.setPatientInvoice(this);
+            this.patientServices.add(patientService);
+        }
     }
 
     public BigDecimal getServiceAmount() {
@@ -119,6 +133,8 @@ public class PatientInvoice {
         this.paidAmount = paidAmount;
     }
 
+    @JsonBackReference
+    @JsonIgnore
     public Employee getCreatedBy() {
         return createdBy;
     }

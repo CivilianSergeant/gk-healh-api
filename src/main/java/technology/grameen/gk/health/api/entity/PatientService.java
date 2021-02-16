@@ -1,5 +1,7 @@
 package technology.grameen.gk.health.api.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -23,6 +25,8 @@ public class PatientService {
     @JoinColumn(name = "patient_invoice_id",referencedColumnName = "id")
     private PatientInvoice patientInvoice;
 
+
+
     private Integer serviceQty;
 
     private BigDecimal serviceAmount;
@@ -38,4 +42,79 @@ public class PatientService {
     private LocalDateTime lastUpdatedAt;
 
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+
+    public Service getService() {
+        return service;
+    }
+
+    public void setService(Service service) {
+        this.service = service;
+    }
+
+    @JsonBackReference
+    @JsonIgnore
+    public PatientInvoice getPatientInvoice() {
+        return patientInvoice;
+    }
+
+
+    public void setPatientInvoice(PatientInvoice patientInvoice) {
+        this.patientInvoice = patientInvoice;
+    }
+
+    public Integer getServiceQty() {
+        return serviceQty;
+    }
+
+    public void setServiceQty(Integer serviceQty) {
+        this.serviceQty = serviceQty;
+    }
+
+    public BigDecimal getServiceAmount() {
+        return serviceAmount;
+    }
+
+    public void setServiceAmount(BigDecimal serviceAmount) {
+        this.serviceAmount = serviceAmount;
+    }
+
+    public BigDecimal getDiscountAmount() {
+        return discountAmount;
+    }
+
+    public void setDiscountAmount(BigDecimal discountAmount) {
+        this.discountAmount = discountAmount;
+    }
+
+    public BigDecimal getPayableAmount() {
+        return payableAmount;
+    }
+
+    public void setPayableAmount(BigDecimal payableAmount) {
+        this.payableAmount = payableAmount;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getLastUpdatedAt() {
+        return lastUpdatedAt;
+    }
+
+    public void setLastUpdatedAt(LocalDateTime lastUpdatedAt) {
+        this.lastUpdatedAt = lastUpdatedAt;
+    }
 }

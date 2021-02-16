@@ -5,9 +5,12 @@ import org.springframework.data.jpa.repository.Query;
 import technology.grameen.gk.health.api.entity.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ServiceRepository extends JpaRepository<Service,Long> {
 
     @Query("SELECT s,sc from Service s JOIN FETCH s.serviceCategory sc")
-    public List<Service> findAll();
+    List<Service> findAll();
+
+    Optional<Service> findByCode(String code);
 }

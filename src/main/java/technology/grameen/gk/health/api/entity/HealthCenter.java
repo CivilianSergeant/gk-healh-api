@@ -97,6 +97,23 @@ public class HealthCenter {
     }
 
     @JsonBackReference
+    @JsonIgnore
+    public Set<PatientInvoice> getPatientInvoices() {
+        return patientInvoices;
+    }
+
+    public void addPatientInvoices(PatientInvoice patientInvoice) {
+
+        if(patientInvoice != null){
+            if(this.patientInvoices == null){
+                this.patientInvoices = new HashSet<>();
+            }
+            patientInvoice.setCenter(this);
+            this.patientInvoices.add(patientInvoice);
+        }
+    }
+
+    @JsonBackReference
     public Set<Patient> getPatients() {
         return patients;
     }

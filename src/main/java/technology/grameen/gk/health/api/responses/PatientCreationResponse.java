@@ -4,12 +4,12 @@ import technology.grameen.gk.health.api.entity.Patient;
 
 public class PatientCreationResponse implements IResponse {
     int status;
-    String msg;
+    String message;
     Patient patient =null;
 
-    public PatientCreationResponse(int status, String msg){
+    public PatientCreationResponse(int status, String message){
         this.status = status;
-        this.msg = msg;
+        this.message = message;
     }
 
     public PatientCreationResponse(int status, Patient patient){
@@ -25,12 +25,12 @@ public class PatientCreationResponse implements IResponse {
         this.status = status;
     }
 
-    public String getMsg() {
-        return msg;
+    public String getMessage() {
+        return message;
     }
 
-    public void setMsg(String msg) {
-        this.msg = msg;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public Patient getPatient() {

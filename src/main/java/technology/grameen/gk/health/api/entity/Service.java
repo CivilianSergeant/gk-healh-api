@@ -1,11 +1,14 @@
 package technology.grameen.gk.health.api.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -108,6 +111,23 @@ public class Service {
 
     public void setActive(Boolean active) {
         isActive = active;
+    }
+
+    @JsonBackReference
+    @JsonIgnore
+    public Set<PatientService> getPatientServices() {
+        return patientServices;
+    }
+
+    public void addPatientService(PatientService patientService) {
+
+        if(patientService != null){
+            if(this.patientServices == null){
+                this.patientServices = new HashSet<>();
+            }
+            patientService.setService(this);
+            this.patientServices.add(patientService);
+        }
     }
 
     public LocalDateTime getCreatedAt() {
