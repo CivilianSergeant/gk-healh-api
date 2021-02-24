@@ -32,6 +32,9 @@ public class PatientInvoice {
     @OneToMany(mappedBy = "patientInvoice")
     private Set<PatientService> patientServices;
 
+    @OneToMany(mappedBy = "patientInvoice")
+    private Set<LabTest> labTests;
+
     private BigDecimal serviceAmount;
 
     private BigDecimal discountAmount;

@@ -33,6 +33,9 @@ public class Employee {
     @OneToMany(mappedBy = "createdBy")
     private Set<PatientInvoice> patientInvoices;
 
+    @OneToMany(mappedBy = "createdBy")
+    private Set<LabTest> labTests;
+
     @OneToMany(mappedBy = "doctor",fetch = FetchType.LAZY)
     @JsonManagedReference
     @JsonIgnore

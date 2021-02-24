@@ -26,14 +26,23 @@ public class Service {
     @OneToMany(mappedBy = "service")
     private Set<PatientService> patientServices;
 
+    @OneToMany(mappedBy = "service")
+    private Set<LabTestAttribute> labTestAttributes;
+
+    @OneToMany(mappedBy = "service")
+    private Set<LabTestDetail> labTestDetails;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private LabTestGroup labTestGroup;
+
     private String name;
 
     private String code;
     private BigDecimal currentCost;
     private BigDecimal currentGbCost;
     private String description;
-    private BigDecimal currentRevisitCost;
     private Boolean isActive;
+    private Boolean isLabTest;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
@@ -97,20 +106,20 @@ public class Service {
         this.description = description;
     }
 
-    public BigDecimal getCurrentRevisitCost() {
-        return currentRevisitCost;
-    }
-
-    public void setCurrentRevisitCost(BigDecimal currentRevisitCost) {
-        this.currentRevisitCost = currentRevisitCost;
-    }
-
     public Boolean getActive() {
         return isActive;
     }
 
     public void setActive(Boolean active) {
         isActive = active;
+    }
+
+    public Boolean isLabTest() {
+        return isLabTest;
+    }
+
+    public void setLabTest(Boolean labTest) {
+        this.isLabTest = labTest;
     }
 
     @JsonBackReference

@@ -44,6 +44,8 @@ public class Patient {
     @OneToMany(mappedBy = "patient")
     private Set<PatientInvoice> patientInvoices;
 
+    @OneToMany(mappedBy = "patient")
+    private Set<LabTest> labTests;
 
 
     @ManyToOne

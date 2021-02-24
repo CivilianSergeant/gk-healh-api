@@ -18,6 +18,7 @@ public class ServiceCategory {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    private String alias;
     private String description;
     private boolean isActive;
 
@@ -44,6 +45,14 @@ public class ServiceCategory {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getAlias() {
+        return alias;
+    }
+
+    public void setAlias(String alias) {
+        this.alias = alias;
     }
 
     public String getDescription() {

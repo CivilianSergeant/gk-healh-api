@@ -26,6 +26,7 @@ public class PatientService {
     private PatientInvoice patientInvoice;
 
 
+    private Integer roomNumber;
 
     private Integer serviceQty;
 
@@ -76,6 +77,14 @@ public class PatientService {
 
     public void setServiceQty(Integer serviceQty) {
         this.serviceQty = serviceQty;
+    }
+
+    public Integer getRoomNumber() {
+        return roomNumber;
+    }
+
+    public void setRoomNumber(Integer roomNumber) {
+        this.roomNumber = roomNumber;
     }
 
     public BigDecimal getServiceAmount() {

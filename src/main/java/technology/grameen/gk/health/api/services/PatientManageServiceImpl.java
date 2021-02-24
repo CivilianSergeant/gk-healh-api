@@ -56,6 +56,18 @@ public class PatientManageServiceImpl implements PatientManageService {
     @Transactional
     public Patient addPatient(PatientRequest req) throws Exception {
 
+        Optional<technology.grameen.gk.health.api.entity.Service> findService = serviceRepository.findByCode("103");
+
+        technology.grameen.gk.health.api.entity.Service service = null;
+
+        if(findService.isPresent()){
+            service = findService.get();
+        }
+
+        if(service ==null){
+            throw new Exception("Card Registration Service Not found with code 103");
+        }
+
         Patient patient = getPatient(req);
         HealthCenter center = patient.getCenter();
         Employee employee = patient.getCreatedBy();
@@ -90,6 +102,31 @@ public class PatientManageServiceImpl implements PatientManageService {
                             return cardMember;
                         }).collect(Collectors.toSet());
                 cardMemberRepository.saveAll(cardRegistration.getMembers());
+
+                PatientInvoice patientInvoice = new PatientInvoice();
+                center.addPatientInvoices(patientInvoice);
+                patient.addPatientInvoices(patientInvoice);
+
+                patientInvoice.setCreatedBy(patient.getCreatedBy());
+                patientInvoice.setInvoiceNumber(String.valueOf(Math.random()*100));
+                patientInvoice.setServiceAmount(service.getCurrentCost());
+                patientInvoice.setPayableAmount(service.getCurrentCost());
+                patientInvoice.setDiscountAmount(BigDecimal.valueOf(0));
+                patientInvoice.setPaidAmount(BigDecimal.valueOf(0));
+
+                invoiceRepository.save(patientInvoice);
+
+                if(patientInvoice.getId()>0){
+                    PatientService patientService = new PatientService();
+                    patientService.setServiceQty(1);
+                    patientService.setServiceAmount(service.getCurrentCost());
+                    patientService.setPayableAmount(service.getCurrentCost());
+                    patientService.setDiscountAmount(BigDecimal.valueOf(0));
+                    service.addPatientService(patientService);
+                    patientInvoice.addPatientService(patientService);
+
+                    patientServiceRepository.save(patientService);
+                }
             }
         }
         return patient;
@@ -122,7 +159,7 @@ public class PatientManageServiceImpl implements PatientManageService {
         }
 
         if(service ==null){
-            throw new Exception("Service Not found");
+            throw new Exception("Card Registration Service Not found with code 103");
         }
 
         Optional<Patient> findPatient = patientRepository.findById(cardRegistration.getPatient().getId());
