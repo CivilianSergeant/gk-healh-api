@@ -13,8 +13,9 @@ import technology.grameen.gk.health.api.services.ServiceCategoryService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Optional;
 
-
+@CrossOrigin("${client-url}")
 @RestController
 @RequestMapping("/api/v1/service")
 public class ServiceController {
@@ -31,11 +32,26 @@ public class ServiceController {
     }
 
     @PostMapping(value = "/add")
-    public ResponseEntity<Object> addService(@RequestBody Service req){
+    public ResponseEntity<Service> addService(@RequestBody Service req){
 
-            Service center = healthServiceInterface.addService(req);
-            return new ResponseEntity<>(center, HttpStatus.OK);
+            Service service = healthServiceInterface.addService(req);
+            return new ResponseEntity<>(service, HttpStatus.OK);
 
+    }
+
+
+    @PutMapping(value = "/update")
+    public ResponseEntity<Service> updateService(@RequestBody Service req){
+
+        Service service = healthServiceInterface.addService(req);
+        return new ResponseEntity<>(service, HttpStatus.OK);
+
+    }
+
+    @GetMapping(value = "/{id}")
+    public ResponseEntity< Optional<Service>> findServiceById(@PathVariable("id") Long id){
+        Optional<Service> service = healthServiceInterface.findServiceById(id);
+        return new ResponseEntity<>(service, HttpStatus.OK);
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)

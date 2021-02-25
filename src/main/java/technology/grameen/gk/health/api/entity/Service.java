@@ -2,6 +2,7 @@ package technology.grameen.gk.health.api.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.sun.istack.Nullable;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -32,7 +33,7 @@ public class Service {
     @OneToMany(mappedBy = "service")
     private Set<LabTestDetail> labTestDetails;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(optional = true)
     private LabTestGroup labTestGroup;
 
     private String name;
@@ -120,6 +121,15 @@ public class Service {
 
     public void setLabTest(Boolean labTest) {
         this.isLabTest = labTest;
+    }
+
+
+    public LabTestGroup getLabTestGroup() {
+        return labTestGroup;
+    }
+
+    public void setLabTestGroup(LabTestGroup labTestGroup) {
+        this.labTestGroup = labTestGroup;
     }
 
     @JsonBackReference
