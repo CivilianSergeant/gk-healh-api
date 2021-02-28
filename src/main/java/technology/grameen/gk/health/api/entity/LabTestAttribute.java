@@ -1,5 +1,9 @@
 package technology.grameen.gk.health.api.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.math.BigInteger;
 
@@ -15,7 +19,7 @@ public class LabTestAttribute {
     @JoinColumn(name = "service_id")
     private Service service;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "lab_test_unit_id",referencedColumnName = "id")
     private LabTestUnit labTestUnit;
 
@@ -27,6 +31,8 @@ public class LabTestAttribute {
     private Integer displayOrder;
     private Boolean isActive;
 
+    private Boolean isGroup;
+
     public Long getId() {
         return id;
     }
@@ -35,6 +41,8 @@ public class LabTestAttribute {
         this.id = id;
     }
 
+    @JsonBackReference
+    @JsonIgnore
     public Service getService() {
         return service;
     }
@@ -97,5 +105,22 @@ public class LabTestAttribute {
 
     public void setActive(Boolean active) {
         isActive = active;
+    }
+
+    public Boolean getGroup() {
+        return isGroup;
+    }
+
+    public void setGroup(Boolean group) {
+        isGroup = group;
+    }
+
+    @JsonManagedReference
+    public LabTestUnit getLabTestUnit() {
+        return labTestUnit;
+    }
+
+    public void setLabTestUnit(LabTestUnit labTestUnit) {
+        this.labTestUnit = labTestUnit;
     }
 }

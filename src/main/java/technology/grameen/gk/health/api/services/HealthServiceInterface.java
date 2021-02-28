@@ -11,5 +11,7 @@ public interface HealthServiceInterface {
 
     public Optional<Service> findServiceById(Long id);
 
+    public Service addServiceAttributes(Service service) throws Exception;
+
     public List<Service> getAll();
 }

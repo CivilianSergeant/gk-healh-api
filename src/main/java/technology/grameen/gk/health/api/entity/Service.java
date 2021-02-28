@@ -28,6 +28,7 @@ public class Service {
     private Set<PatientService> patientServices;
 
     @OneToMany(mappedBy = "service")
+    @OrderBy("displayOrder ASC")
     private Set<LabTestAttribute> labTestAttributes;
 
     @OneToMany(mappedBy = "service")
@@ -147,6 +148,22 @@ public class Service {
             patientService.setService(this);
             this.patientServices.add(patientService);
         }
+    }
+
+    @OrderBy("displayOrder ASC")
+    public Set<LabTestAttribute> getLabTestAttributes() {
+        return labTestAttributes;
+    }
+
+    public void addLabTestAttribute(LabTestAttribute labTestAttribute) {
+        if(labTestAttribute != null){
+            if(this.labTestAttributes == null){
+                this.labTestAttributes = new HashSet<>();
+            }
+            labTestAttribute.setService(this);
+            this.labTestAttributes.add(labTestAttribute);
+        }
+
     }
 
     public LocalDateTime getCreatedAt() {

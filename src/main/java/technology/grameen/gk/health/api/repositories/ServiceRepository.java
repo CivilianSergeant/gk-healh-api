@@ -14,4 +14,6 @@ public interface ServiceRepository extends JpaRepository<Service,Long> {
     List<Service> findAll();
 
     Optional<Service> findByCode(String code);
+
+
 }

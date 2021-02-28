@@ -2,20 +2,29 @@ package technology.grameen.gk.health.api.services;
 
 import org.springframework.transaction.annotation.Transactional;
 import technology.grameen.gk.health.api.entity.LabTestGroup;
+import technology.grameen.gk.health.api.entity.LabTestUnit;
 import technology.grameen.gk.health.api.entity.Service;
 import technology.grameen.gk.health.api.entity.ServiceCategory;
+import technology.grameen.gk.health.api.repositories.LabTestAttributeRepository;
 import technology.grameen.gk.health.api.repositories.ServiceRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @org.springframework.stereotype.Service
 public class HealthServiceImpl implements HealthServiceInterface {
 
     ServiceRepository serviceRepository;
+    LabTestUnitService labTestUnitService;
+    LabTestAttributeRepository labTestAttributeRepository;
 
-    public HealthServiceImpl(ServiceRepository serviceRepository){
+    public HealthServiceImpl(ServiceRepository serviceRepository,
+                             LabTestUnitService labTestUnitService,
+                             LabTestAttributeRepository labTestAttributeRepository){
         this.serviceRepository=serviceRepository;
+        this.labTestUnitService=labTestUnitService;
+        this.labTestAttributeRepository = labTestAttributeRepository;
     }
 
     @Override
@@ -48,5 +57,31 @@ public class HealthServiceImpl implements HealthServiceInterface {
     @Override
     public List<Service> getAll() {
         return serviceRepository.findAll();
+    }
+
+    @Override
+    @Transactional
+    public Service addServiceAttributes(Service s) throws Exception {
+        Optional<Service> serviceOptional = findServiceById(s.getServiceId());
+        if(!serviceOptional.isPresent()){
+            throw new Exception("Service Not Found");
+        }
+
+        labTestAttributeRepository.flush();
+        Service service = serviceOptional.get();
+        s.getLabTestAttributes().stream().map((attr)->{
+            LabTestUnit u = attr.getLabTestUnit();
+            if(u != null && u.getId()>0) {
+                u.addLabTestAttribute(attr);
+            }
+            service.addLabTestAttribute(attr);
+            return attr;
+        }).collect(Collectors.toSet());
+
+        labTestAttributeRepository.saveAll(service.getLabTestAttributes());
+        serviceRepository.save(service);
+
+        return service;
+
     }
 }
