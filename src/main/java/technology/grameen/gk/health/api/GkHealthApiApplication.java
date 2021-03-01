@@ -18,7 +18,9 @@ public class GkHealthApiApplication {
 		return new WebMvcConfigurer() {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("/api/v1/**").allowedOrigins("http://localhost:8081");
+				registry.addMapping("/api/v1/**")
+						.allowedMethods("OPTIONS","GET","POST","PUT","DELETE")
+						.allowedOrigins("http://localhost:8081");
 			}
 		};
 	}

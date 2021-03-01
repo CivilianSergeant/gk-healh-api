@@ -33,7 +33,8 @@ public class CardRegistration {
     private Boolean isActive;
     private Boolean isCardReceived;
     private LocalDateTime cardReceivedDate;
-    private int totalServiceTaken;
+    private Integer totalServiceTaken;
+    private Integer validityDuration;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
@@ -117,12 +118,20 @@ public class CardRegistration {
         this.cardReceivedDate = cardReceivedDate;
     }
 
-    public int getTotalServiceTaken() {
+    public Integer getTotalServiceTaken() {
         return totalServiceTaken;
     }
 
-    public void setTotalServiceTaken(int totalServiceTaken) {
+    public void setTotalServiceTaken(Integer totalServiceTaken) {
         this.totalServiceTaken = totalServiceTaken;
+    }
+
+    public Integer getValidityDuration() {
+        return validityDuration;
+    }
+
+    public void setValidityDuration(Integer validityDuration) {
+        this.validityDuration = validityDuration;
     }
 
     public LocalDateTime getCreatedAt() {

@@ -14,4 +14,6 @@ public interface HealthServiceInterface {
     public Service addServiceAttributes(Service service) throws Exception;
 
     public List<Service> getAll();
+
+    void deleteAttributeById(Long id);
 }

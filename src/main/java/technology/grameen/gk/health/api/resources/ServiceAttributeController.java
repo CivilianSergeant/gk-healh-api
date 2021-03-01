@@ -9,10 +9,12 @@ import technology.grameen.gk.health.api.entity.Service;
 import technology.grameen.gk.health.api.responses.AttributeCreationResponse;
 import technology.grameen.gk.health.api.responses.ExceptionResponse;
 import technology.grameen.gk.health.api.responses.IResponse;
+import technology.grameen.gk.health.api.responses.SimpleResponse;
 import technology.grameen.gk.health.api.services.HealthCenterService;
 import technology.grameen.gk.health.api.services.HealthServiceInterface;
 
 import java.util.List;
+
 
 @RestController
 @RequestMapping("/api/v1/service-attribute")
@@ -39,5 +41,12 @@ public class ServiceAttributeController {
     @GetMapping("/{serviceId}")
     public ResponseEntity<List<LabTestAttribute>> getServiceAttributes(@PathVariable("serviceId") Long serviceId){
         return new ResponseEntity<>(null,HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<IResponse> deleteAttribute(@PathVariable("id") Long id){
+        healthServiceInterface.deleteAttributeById(id);
+        return new ResponseEntity<>(new SimpleResponse(HttpStatus.OK.value(),"Attribute Deleted"),
+                    HttpStatus.OK);
     }
 }

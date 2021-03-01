@@ -84,4 +84,9 @@ public class HealthServiceImpl implements HealthServiceInterface {
         return service;
 
     }
+
+    @Override
+    public void deleteAttributeById(Long id) {
+        labTestAttributeRepository.deleteById(id);
+    }
 }
