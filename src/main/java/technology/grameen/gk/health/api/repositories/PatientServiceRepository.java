@@ -2,8 +2,8 @@ package technology.grameen.gk.health.api.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import technology.grameen.gk.health.api.entity.PatientService;
+import technology.grameen.gk.health.api.entity.PatientServiceDetail;
 
 @Repository
-public interface PatientServiceRepository extends JpaRepository<PatientService,Long> {
+public interface PatientServiceRepository extends JpaRepository<PatientServiceDetail,Long> {
 }

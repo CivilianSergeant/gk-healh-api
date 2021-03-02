@@ -20,7 +20,8 @@ public class ServiceCategory {
     private String name;
     private String alias;
     private String description;
-    private boolean isActive;
+    private Boolean isActive;
+    private Boolean isLabTest;
 
     @OneToMany(mappedBy = "serviceCategory")
     private Set<Service> services;
@@ -69,6 +70,14 @@ public class ServiceCategory {
 
     public void setActive(Boolean active) {
         isActive = active;
+    }
+
+    public Boolean getLabTest() {
+        return isLabTest;
+    }
+
+    public void setLabTest(Boolean labTest) {
+        isLabTest = labTest;
     }
 
     @JsonIgnore

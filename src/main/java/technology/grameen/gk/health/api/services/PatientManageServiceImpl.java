@@ -117,15 +117,15 @@ public class PatientManageServiceImpl implements PatientManageService {
                 invoiceRepository.save(patientInvoice);
 
                 if(patientInvoice.getId()>0){
-                    PatientService patientService = new PatientService();
-                    patientService.setServiceQty(1);
-                    patientService.setServiceAmount(service.getCurrentCost());
-                    patientService.setPayableAmount(service.getCurrentCost());
-                    patientService.setDiscountAmount(BigDecimal.valueOf(0));
-                    service.addPatientService(patientService);
-                    patientInvoice.addPatientService(patientService);
+                    PatientServiceDetail patientServiceDetail = new PatientServiceDetail();
+                    patientServiceDetail.setServiceQty(1);
+                    patientServiceDetail.setServiceAmount(service.getCurrentCost());
+                    patientServiceDetail.setPayableAmount(service.getCurrentCost());
+                    patientServiceDetail.setDiscountAmount(BigDecimal.valueOf(0));
+                    service.addPatientService(patientServiceDetail);
+                    patientInvoice.addPatientServiceDetail(patientServiceDetail);
 
-                    patientServiceRepository.save(patientService);
+                    patientServiceRepository.save(patientServiceDetail);
                 }
             }
         }
@@ -196,15 +196,15 @@ public class PatientManageServiceImpl implements PatientManageService {
                 invoiceRepository.save(patientInvoice);
 
                 if(patientInvoice.getId()>0){
-                    PatientService patientService = new PatientService();
-                    patientService.setServiceQty(1);
-                    patientService.setServiceAmount(service.getCurrentCost());
-                    patientService.setPayableAmount(service.getCurrentCost());
-                    patientService.setDiscountAmount(BigDecimal.valueOf(0));
-                    service.addPatientService(patientService);
-                    patientInvoice.addPatientService(patientService);
+                    PatientServiceDetail patientServiceDetail = new PatientServiceDetail();
+                    patientServiceDetail.setServiceQty(1);
+                    patientServiceDetail.setServiceAmount(service.getCurrentCost());
+                    patientServiceDetail.setPayableAmount(service.getCurrentCost());
+                    patientServiceDetail.setDiscountAmount(BigDecimal.valueOf(0));
+                    service.addPatientService(patientServiceDetail);
+                    patientInvoice.addPatientServiceDetail(patientServiceDetail);
 
-                    patientServiceRepository.save(patientService);
+                    patientServiceRepository.save(patientServiceDetail);
                 }
 
 

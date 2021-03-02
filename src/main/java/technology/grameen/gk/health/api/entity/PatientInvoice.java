@@ -30,7 +30,7 @@ public class PatientInvoice {
     private HealthCenter center;
 
     @OneToMany(mappedBy = "patientInvoice")
-    private Set<PatientService> patientServices;
+    private Set<PatientServiceDetail> patientServiceDetails;
 
     @OneToMany(mappedBy = "patientInvoice")
     private Set<LabTest> labTests;
@@ -89,18 +89,18 @@ public class PatientInvoice {
         this.center = center;
     }
 
-    public Set<PatientService> getPatientServices() {
-        return patientServices;
+    public Set<PatientServiceDetail> getPatientServiceDetails() {
+        return patientServiceDetails;
     }
 
-    public void addPatientService(PatientService patientService) {
+    public void addPatientServiceDetail(PatientServiceDetail patientServiceDetail) {
 
-        if(patientService != null){
-            if(this.patientServices == null){
-                this.patientServices = new HashSet<>();
+        if(patientServiceDetail != null){
+            if(this.patientServiceDetails == null){
+                this.patientServiceDetails = new HashSet<>();
             }
-            patientService.setPatientInvoice(this);
-            this.patientServices.add(patientService);
+            patientServiceDetail.setPatientInvoice(this);
+            this.patientServiceDetails.add(patientServiceDetail);
         }
     }
 

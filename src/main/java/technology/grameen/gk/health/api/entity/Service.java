@@ -2,7 +2,6 @@ package technology.grameen.gk.health.api.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.sun.istack.Nullable;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -25,7 +24,7 @@ public class Service {
     private ServiceCategory serviceCategory;
 
     @OneToMany(mappedBy = "service")
-    private Set<PatientService> patientServices;
+    private Set<PatientServiceDetail> patientServiceDetails;
 
     @OneToMany(mappedBy = "service")
     @OrderBy("displayOrder ASC")
@@ -51,6 +50,26 @@ public class Service {
 
     @UpdateTimestamp
     private LocalDateTime lastUpdatedAt;
+
+    public Service(Long serviceId, ServiceCategory serviceCategory,
+                   LabTestGroup labTestGroup, String name, String code,
+                   BigDecimal currentCost, BigDecimal currentGbCost,
+                   String description, Boolean isActive, Boolean isLabTest,
+                   LocalDateTime createdAt, LocalDateTime lastUpdatedAt) {
+
+        this.serviceId = serviceId;
+        this.serviceCategory = serviceCategory;
+        this.labTestGroup = labTestGroup;
+        this.name = name;
+        this.code = code;
+        this.currentCost = currentCost;
+        this.currentGbCost = currentGbCost;
+        this.description = description;
+        this.isActive = isActive;
+        this.isLabTest = isLabTest;
+        this.createdAt = createdAt;
+        this.lastUpdatedAt = lastUpdatedAt;
+    }
 
     public Long getServiceId() {
         return serviceId;
@@ -135,18 +154,18 @@ public class Service {
 
     @JsonBackReference
     @JsonIgnore
-    public Set<PatientService> getPatientServices() {
-        return patientServices;
+    public Set<PatientServiceDetail> getPatientServiceDetails() {
+        return patientServiceDetails;
     }
 
-    public void addPatientService(PatientService patientService) {
+    public void addPatientService(PatientServiceDetail patientServiceDetail) {
 
-        if(patientService != null){
-            if(this.patientServices == null){
-                this.patientServices = new HashSet<>();
+        if(patientServiceDetail != null){
+            if(this.patientServiceDetails == null){
+                this.patientServiceDetails = new HashSet<>();
             }
-            patientService.setService(this);
-            this.patientServices.add(patientService);
+            patientServiceDetail.setService(this);
+            this.patientServiceDetails.add(patientServiceDetail);
         }
     }
 
