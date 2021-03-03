@@ -19,7 +19,7 @@ public class LabTestAttribute {
     @JoinColumn(name = "service_id")
     private Service service;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "lab_test_unit_id",referencedColumnName = "id")
     private LabTestUnit labTestUnit;
 

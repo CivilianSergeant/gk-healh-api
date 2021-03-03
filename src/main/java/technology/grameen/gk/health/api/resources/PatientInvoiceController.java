@@ -1,5 +1,6 @@
 package technology.grameen.gk.health.api.resources;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,6 +13,6 @@ public class PatientInvoiceController {
 
     @PostMapping("/create")
     public ResponseEntity<IResponse> createInvoice(){
-
+        return new ResponseEntity<>(null, HttpStatus.OK);
     }
 }

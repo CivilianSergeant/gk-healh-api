@@ -49,7 +49,7 @@ public class HealthServiceImpl implements HealthServiceInterface {
         Service service = null;
         if(serviceRes.isPresent()){
             service = serviceRes.get();
-            service.getLabTestGroup();
+
         }
         return Optional.ofNullable(service);
     }

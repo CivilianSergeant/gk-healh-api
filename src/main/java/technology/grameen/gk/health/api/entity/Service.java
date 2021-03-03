@@ -19,22 +19,23 @@ public class Service {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long serviceId;
 
-    @ManyToOne
-    @JoinColumn(name = "serviceCategoryId",referencedColumnName = "id")
-    private ServiceCategory serviceCategory;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "service_category_id",referencedColumnName = "id")
+    private ServiceCategory serviceCategory = null;
 
     @OneToMany(mappedBy = "service")
     private Set<PatientServiceDetail> patientServiceDetails;
 
-    @OneToMany(mappedBy = "service")
+    @OneToMany(mappedBy = "service", cascade = CascadeType.ALL)
     @OrderBy("displayOrder ASC")
     private Set<LabTestAttribute> labTestAttributes;
 
     @OneToMany(mappedBy = "service")
     private Set<LabTestDetail> labTestDetails;
 
-    @ManyToOne(optional = true)
-    private LabTestGroup labTestGroup;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "lab_test_group_id",referencedColumnName = "id")
+    private LabTestGroup labTestGroup = null;
 
     private String name;
 
@@ -51,24 +52,28 @@ public class Service {
     @UpdateTimestamp
     private LocalDateTime lastUpdatedAt;
 
-    public Service(Long serviceId, ServiceCategory serviceCategory,
-                   LabTestGroup labTestGroup, String name, String code,
-                   BigDecimal currentCost, BigDecimal currentGbCost,
-                   String description, Boolean isActive, Boolean isLabTest,
-                   LocalDateTime createdAt, LocalDateTime lastUpdatedAt) {
+    public Service(){}
+
+    public Service(Long serviceId,
+                   ServiceCategory serviceCategory
+//                   LabTestGroup labTestGroup, String name, String code,
+//                   BigDecimal currentCost, BigDecimal currentGbCost,
+//                   String description, Boolean isActive, Boolean isLabTest,
+//                   LocalDateTime createdAt, LocalDateTime lastUpdatedAt
+    ) {
 
         this.serviceId = serviceId;
         this.serviceCategory = serviceCategory;
-        this.labTestGroup = labTestGroup;
-        this.name = name;
-        this.code = code;
-        this.currentCost = currentCost;
-        this.currentGbCost = currentGbCost;
-        this.description = description;
-        this.isActive = isActive;
-        this.isLabTest = isLabTest;
-        this.createdAt = createdAt;
-        this.lastUpdatedAt = lastUpdatedAt;
+//        this.labTestGroup = labTestGroup;
+//        this.name = name;
+//        this.code = code;
+//        this.currentCost = currentCost;
+//        this.currentGbCost = currentGbCost;
+//        this.description = description;
+//        this.isActive = isActive;
+//        this.isLabTest = isLabTest;
+//        this.createdAt = createdAt;
+//        this.lastUpdatedAt = lastUpdatedAt;
     }
 
     public Long getServiceId() {
