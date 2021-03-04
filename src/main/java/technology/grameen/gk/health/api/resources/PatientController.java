@@ -69,18 +69,18 @@ public class PatientController {
         return new ResponseEntity<>(new ExceptionResponse(422,"No Patient found"), HttpStatus.OK);
     }
 
-    @PostMapping(value = "/card-registration")
-    public ResponseEntity<IResponse> registerPatient(@RequestBody CardRegistration cardRegistration){
-        try {
-            Optional<Patient> patient = Optional.ofNullable(patientManageService.cardRegister(cardRegistration));
-            if(patient.isPresent()){
-                return new ResponseEntity<>(new PatientCreationResponse(HttpStatus.OK.value(),patient.get()), HttpStatus.OK);
-            }
-            return new ResponseEntity<>(new ExceptionResponse(HttpStatus.UNPROCESSABLE_ENTITY.value(),"No Patient found"), HttpStatus.OK);
-        }catch (Exception ex){
-            return new ResponseEntity<>(new ExceptionResponse(HttpStatus.UNPROCESSABLE_ENTITY.value(),
-                    ex.getMessage()),HttpStatus.UNPROCESSABLE_ENTITY);
-        }
-
-    }
+//    @PostMapping(value = "/card-registration")
+//    public ResponseEntity<IResponse> registerPatient(@RequestBody CardRegistration cardRegistration){
+//        try {
+//            Optional<Patient> patient = Optional.ofNullable(patientManageService.cardRegister(cardRegistration));
+//            if(patient.isPresent()){
+//                return new ResponseEntity<>(new PatientCreationResponse(HttpStatus.OK.value(),patient.get()), HttpStatus.OK);
+//            }
+//            return new ResponseEntity<>(new ExceptionResponse(HttpStatus.UNPROCESSABLE_ENTITY.value(),"No Patient found"), HttpStatus.OK);
+//        }catch (Exception ex){
+//            return new ResponseEntity<>(new ExceptionResponse(HttpStatus.UNPROCESSABLE_ENTITY.value(),
+//                    ex.getMessage()),HttpStatus.UNPROCESSABLE_ENTITY);
+//        }
+//
+//    }
 }

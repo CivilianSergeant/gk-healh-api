@@ -1,6 +1,8 @@
 package technology.grameen.gk.health.api.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -11,6 +13,29 @@ import java.util.Set;
 
 
 @Entity
+@NamedEntityGraph(name="pid",attributeNodes = {
+        @NamedAttributeNode(value = "center"),
+        @NamedAttributeNode(value = "createdBy"),
+        @NamedAttributeNode(value = "detail"),
+        @NamedAttributeNode(value = "registrations",subgraph = "members"),
+        @NamedAttributeNode(value = "prescriptions"),
+        @NamedAttributeNode(value = "patientInvoices",subgraph = "patientInvoices"),
+
+}, subgraphs = {
+    @NamedSubgraph(name = "patientInvoices",attributeNodes = {
+        @NamedAttributeNode(value = "patientServiceDetails",subgraph = "patientServiceDetails")
+    }),
+    @NamedSubgraph(name = "patientServiceDetails",attributeNodes = {
+            @NamedAttributeNode(value = "service",subgraph = "service")
+    }),
+    @NamedSubgraph(name = "members",attributeNodes = {
+        @NamedAttributeNode("members")
+    }),
+    @NamedSubgraph(name = "service",attributeNodes = {
+            @NamedAttributeNode(value = "serviceCategory"),
+            @NamedAttributeNode(value = "labTestGroup")
+    })
+})
 @Table(name = "patients")
 public class Patient {
 
@@ -227,10 +252,11 @@ public class Patient {
 
 
 
-    @JsonIgnore
+
     public Employee getCreatedBy() {
         return createdBy;
     }
+
 
     public void setCreatedBy(Employee createdBy) {
         this.createdBy = createdBy;

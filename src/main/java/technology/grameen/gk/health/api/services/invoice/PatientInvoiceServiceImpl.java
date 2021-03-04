@@ -1,0 +1,81 @@
+package technology.grameen.gk.health.api.services.invoice;
+
+import org.springframework.transaction.annotation.Transactional;
+import technology.grameen.gk.health.api.entity.*;
+import technology.grameen.gk.health.api.repositories.PatientInvoiceRepository;
+import technology.grameen.gk.health.api.repositories.PatientServiceRepository;
+import technology.grameen.gk.health.api.services.card_registration.CardRegistrationService;
+
+import java.util.Set;
+
+@org.springframework.stereotype.Service
+public class PatientInvoiceServiceImpl implements PatientInvoiceService {
+
+    private PatientInvoiceRepository invoiceRepository;
+    private PatientServiceRepository patientServiceRepository;
+    private CardRegistrationService cardRegistrationService;
+    private boolean patientNotFound = false;
+    private String patientNotFoundMessage = null;
+
+    PatientInvoiceServiceImpl(PatientInvoiceRepository invoiceRepository,
+                              PatientServiceRepository patientServiceRepository,
+                              CardRegistrationService cardRegistrationService){
+
+        this.invoiceRepository = invoiceRepository;
+        this.patientServiceRepository = patientServiceRepository;
+        this.cardRegistrationService = cardRegistrationService;
+    }
+
+    @Override
+    @Transactional
+    public void createInvoice(Patient patient) throws Exception {
+        this.patientNotFound = false;
+        PatientInvoice patientInvoice = patient.getPatientInvoices()
+                    .stream().filter(invoice-> invoice.getId()==null)
+                            .findAny().orElse(null);
+
+        patientInvoice.setInvoiceNumber(String.valueOf(Math.random()*100));
+
+        HealthCenter center = patient.getCenter();
+        Employee employee = patient.getCreatedBy();
+
+        center.addPatientInvoices(patientInvoice);
+        patient.addPatientInvoices(patientInvoice);
+
+        employee.addPatientInvoice(patientInvoice);
+
+        invoiceRepository.save(patientInvoice);
+
+        if(patientInvoice.getId()>0){
+
+            Set<PatientServiceDetail> patientServiceDetails = patientInvoice.getPatientServiceDetails();
+            patientServiceDetails.stream().forEach(patientServiceDetail->{
+
+                patientServiceDetail.setServiceQty(1);
+                Service service = patientServiceDetail.getService();
+                service.addPatientService(patientServiceDetail);
+                patientInvoice.addPatientServiceDetail(patientServiceDetail);
+                patientServiceRepository.save(patientServiceDetail);
+
+                if(patientServiceDetail.getService().getCode().contains("card") ||
+                        patientServiceDetail.getService().getCode().contains("card registration") ){
+
+                    try {
+                        cardRegistrationService.register(patient);
+                    } catch (Exception e) {
+                        this.patientNotFound = true;
+                        this.patientNotFoundMessage = e.getMessage();
+                        return;
+                    }
+                }
+            });
+
+            if(this.patientNotFound){
+                throw new Exception(this.patientNotFoundMessage);
+            }
+
+        }
+    }
+
+
+}

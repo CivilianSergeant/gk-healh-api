@@ -56,17 +56,17 @@ public class PatientManageServiceImpl implements PatientManageService {
     @Transactional
     public Patient addPatient(PatientRequest req) throws Exception {
 
-        Optional<technology.grameen.gk.health.api.entity.Service> findService = serviceRepository.findByCode("103");
-
-        technology.grameen.gk.health.api.entity.Service service = null;
-
-        if(findService.isPresent()){
-            service = findService.get();
-        }
-
-        if(service ==null){
-            throw new Exception("Card Registration Service Not found with code 103");
-        }
+//        Optional<technology.grameen.gk.health.api.entity.Service> findService = serviceRepository.findByCode("103");
+//
+//        technology.grameen.gk.health.api.entity.Service service = null;
+//
+//        if(findService.isPresent()){
+//            service = findService.get();
+//        }
+//
+//        if(service ==null){
+//            throw new Exception("Card Registration Service Not found with code 103");
+//        }
 
         Patient patient = getPatient(req);
         HealthCenter center = patient.getCenter();
@@ -83,52 +83,6 @@ public class PatientManageServiceImpl implements PatientManageService {
             detailRepository.save(detail);
         }
 
-
-        if(req.getCardRegistration() != null){
-            CardRegistration cardRegistration = req.getCardRegistration();
-            cardRegistration.setCardNumber(getCardNumber(center));
-            cardRegistration.setStartDate(getRegistrationStartDate());
-            cardRegistration.setExpiredDate(getRegistrationExpireDate());
-            cardRegistration.setTotalServiceTaken(0);
-            patient.addRegistration(cardRegistration);
-            cardRegistrationRepository.save(cardRegistration);
-
-            if(cardRegistration.getId()>0){
-                cardRegistration.getMembers()
-                        .stream()
-                        .map(cardMember -> {
-                            cardMember.setCardRegistration(cardRegistration);
-
-                            return cardMember;
-                        }).collect(Collectors.toSet());
-                cardMemberRepository.saveAll(cardRegistration.getMembers());
-
-                PatientInvoice patientInvoice = new PatientInvoice();
-                center.addPatientInvoices(patientInvoice);
-                patient.addPatientInvoices(patientInvoice);
-
-                patientInvoice.setCreatedBy(patient.getCreatedBy());
-                patientInvoice.setInvoiceNumber(String.valueOf(Math.random()*100));
-                patientInvoice.setServiceAmount(service.getCurrentCost());
-                patientInvoice.setPayableAmount(service.getCurrentCost());
-                patientInvoice.setDiscountAmount(BigDecimal.valueOf(0));
-                patientInvoice.setPaidAmount(BigDecimal.valueOf(0));
-
-                invoiceRepository.save(patientInvoice);
-
-                if(patientInvoice.getId()>0){
-                    PatientServiceDetail patientServiceDetail = new PatientServiceDetail();
-                    patientServiceDetail.setServiceQty(1);
-                    patientServiceDetail.setServiceAmount(service.getCurrentCost());
-                    patientServiceDetail.setPayableAmount(service.getCurrentCost());
-                    patientServiceDetail.setDiscountAmount(BigDecimal.valueOf(0));
-                    service.addPatientService(patientServiceDetail);
-                    patientInvoice.addPatientServiceDetail(patientServiceDetail);
-
-                    patientServiceRepository.save(patientServiceDetail);
-                }
-            }
-        }
         return patient;
     }
 
@@ -145,72 +99,6 @@ public class PatientManageServiceImpl implements PatientManageService {
     @Override
     public Optional<Patient> getPatientByPId(String pid){
         return this.patientRepository.findByPid(pid);
-    }
-
-    @Override
-    public Patient cardRegister(CardRegistration cardRegistration) throws Exception {
-
-        Optional<technology.grameen.gk.health.api.entity.Service> findService = serviceRepository.findByCode("103");
-
-        technology.grameen.gk.health.api.entity.Service service = null;
-
-        if(findService.isPresent()){
-            service = findService.get();
-        }
-
-        if(service ==null){
-            throw new Exception("Card Registration Service Not found with code 103");
-        }
-
-        Optional<Patient> findPatient = patientRepository.findById(cardRegistration.getPatient().getId());
-        Patient patient = null;
-
-        if(findPatient.isPresent()==false){
-            throw new Exception("Patient Not found");
-        }
-
-        if(findPatient.isPresent()){
-            patient = findPatient.get();
-            HealthCenter center = patient.getCenter();
-            cardRegistration.setCardNumber(getCardNumber(center));
-            cardRegistration.setStartDate(getRegistrationStartDate());
-            cardRegistration.setExpiredDate(getRegistrationExpireDate());
-            cardRegistration.setTotalServiceTaken(0);
-            patient.addRegistration(cardRegistration);
-            cardRegistration.setActive(true);
-            cardRegistrationRepository.save(cardRegistration);
-
-            if(cardRegistration.getId()>0){
-
-                PatientInvoice patientInvoice = new PatientInvoice();
-                center.addPatientInvoices(patientInvoice);
-                patient.addPatientInvoices(patientInvoice);
-
-                patientInvoice.setCreatedBy(patient.getCreatedBy());
-                patientInvoice.setInvoiceNumber(String.valueOf(Math.random()*100));
-                patientInvoice.setServiceAmount(service.getCurrentCost());
-                patientInvoice.setPayableAmount(service.getCurrentCost());
-                patientInvoice.setDiscountAmount(BigDecimal.valueOf(0));
-                patientInvoice.setPaidAmount(BigDecimal.valueOf(0));
-
-                invoiceRepository.save(patientInvoice);
-
-                if(patientInvoice.getId()>0){
-                    PatientServiceDetail patientServiceDetail = new PatientServiceDetail();
-                    patientServiceDetail.setServiceQty(1);
-                    patientServiceDetail.setServiceAmount(service.getCurrentCost());
-                    patientServiceDetail.setPayableAmount(service.getCurrentCost());
-                    patientServiceDetail.setDiscountAmount(BigDecimal.valueOf(0));
-                    service.addPatientService(patientServiceDetail);
-                    patientInvoice.addPatientServiceDetail(patientServiceDetail);
-
-                    patientServiceRepository.save(patientServiceDetail);
-                }
-
-
-            }
-        }
-        return patient;
     }
 
     Patient getPatient(PatientRequest req) throws Exception {
@@ -244,26 +132,14 @@ public class PatientManageServiceImpl implements PatientManageService {
                 (month+1)) + ((maxId<10)? "0"+maxId : maxId);
     }
 
-    String getCardNumber(HealthCenter center){
-        Calendar calendar = Calendar.getInstance();
-        int year = (calendar.get(Calendar.YEAR));
-        int month = (calendar.get(Calendar.MONTH));
-        int maxId = ((patientRepository.getMaxCardRegId() !=null)? (patientRepository.getMaxCardRegId()+1): 1);
-        return center.getCenterCode()+"-"+ year + (((month+1)<10)? "0"+(month+1) :
-                (month+1)) + ((maxId<10)? "0"+maxId : maxId);
+    @Override
+    public Integer getMaxCardRegId() {
+        return ((patientRepository.getMaxCardRegId() !=null)? (patientRepository.getMaxCardRegId()+1): 1);
     }
 
-    LocalDateTime getRegistrationStartDate(){
-
-        return LocalDateTime.now();
+    @Override
+    public Patient getReference(Long id) {
+         Patient patient = patientRepository.getOne(id);
+         return patient;
     }
-
-    LocalDateTime getRegistrationExpireDate(){
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.MONTH,12);
-        ZoneId zoneId = calendar.getTimeZone().toZoneId();
-        return LocalDateTime.ofInstant(calendar.toInstant(),zoneId);
-    }
-
-
 }

@@ -19,5 +19,9 @@ public interface PatientManageService {
 
    Optional<Patient> getPatientByPId(String id);
 
-   Patient cardRegister(CardRegistration cardRegistration) throws Exception;
+//   Boolean cardRegister(CardRegistration cardRegistration) throws Exception;
+
+   Integer getMaxCardRegId();
+
+   Patient  getReference(Long id);
 }
