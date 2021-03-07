@@ -24,7 +24,8 @@ public class Employee {
     private String contactNumber;
     private String email;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonBackReference
     private HealthCenter center;
 
     @OneToMany(mappedBy = "createdBy")

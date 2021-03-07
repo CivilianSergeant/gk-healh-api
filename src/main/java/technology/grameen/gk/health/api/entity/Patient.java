@@ -17,7 +17,7 @@ import java.util.Set;
         @NamedAttributeNode(value = "center"),
         @NamedAttributeNode(value = "createdBy"),
         @NamedAttributeNode(value = "detail"),
-        @NamedAttributeNode(value = "registrations",subgraph = "members"),
+        @NamedAttributeNode(value = "registration",subgraph = "members"),
         @NamedAttributeNode(value = "prescriptions"),
         @NamedAttributeNode(value = "patientInvoices",subgraph = "patientInvoices"),
 
@@ -60,8 +60,9 @@ public class Patient {
     @OneToOne(mappedBy = "patient")
     private PatientDetail detail;
 
-    @OneToMany(mappedBy = "patient")
-    private Set<CardRegistration> registrations;
+    @OneToOne(mappedBy = "patient")
+
+    private CardRegistration registration;
 
     @OneToMany(mappedBy = "prescriptionPatient")
     private Set<Prescription> prescriptions;
@@ -212,18 +213,23 @@ public class Patient {
     }
 
 
-    public Set<CardRegistration> getRegistrations() {
-        return registrations;
+    public CardRegistration getRegistration() {
+        return registration;
     }
 
     public void addRegistration(CardRegistration registration) {
         if(registration != null){
-            if(this.registrations == null){
-                this.registrations = new HashSet<>();
+//            if(this.registrations == null){if(this.registrations == null){
+//                this.registrations = new HashSet<>();
+//            }
+            if(this.registration == null) {
+                this.registration = registration;
             }
             registration.setPatient(this);
-            this.registrations.add(registration);
+//            this.registrations.add(registration);
         }
+
+
 
     }
 

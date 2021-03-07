@@ -28,15 +28,18 @@ public class CardRegistrationServiceImpl  implements  CardRegistrationService{
         this.cardRegistrationRepository = cardRegistrationRepository;
     }
 
+    @Override
+    public CardRegistration getNewCardRegistrationRequest(Patient patient) {
+        return (patient.getRegistration().getId()==null)? patient.getRegistration() : null;
+    }
 
     @Override
     @Transactional
     public Boolean register(Patient patient) throws Exception{
 
-        CardRegistration cardRegistration = patient.getRegistrations().stream()
-                .filter(_cardRegistration -> _cardRegistration.getId() == null)
-                .findAny()
-                .orElse(null);
+        CardRegistration cardRegistration = patient.getRegistration();//getNewCardRegistrationRequest(patient);
+
+        // find patient's expired cardRegistration for renew
 
         if(cardRegistration != null) {
             Patient _patient = patientService.getReference(patient.getId());

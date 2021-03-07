@@ -1,11 +1,15 @@
 package technology.grameen.gk.health.api.services.invoice;
 
 import org.springframework.transaction.annotation.Transactional;
+import technology.grameen.gk.health.api.dto.PatientInvoiceAutoComplete;
+import technology.grameen.gk.health.api.dto.PatientInvoiceDetail;
 import technology.grameen.gk.health.api.entity.*;
 import technology.grameen.gk.health.api.repositories.PatientInvoiceRepository;
 import technology.grameen.gk.health.api.repositories.PatientServiceRepository;
 import technology.grameen.gk.health.api.services.card_registration.CardRegistrationService;
 
+import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @org.springframework.stereotype.Service
@@ -27,6 +31,16 @@ public class PatientInvoiceServiceImpl implements PatientInvoiceService {
     }
 
     @Override
+    public Optional<PatientInvoiceDetail> getInvoiceById(Long id) {
+        return invoiceRepository.findByInvoiceId(id);
+    }
+
+    @Override
+    public List<PatientInvoiceAutoComplete> getInvoiceByNumber(String number) {
+        return invoiceRepository.findByInvoiceNumberStartingWith(number);
+    }
+
+    @Override
     @Transactional
     public void createInvoice(Patient patient) throws Exception {
         this.patientNotFound = false;
@@ -34,7 +48,9 @@ public class PatientInvoiceServiceImpl implements PatientInvoiceService {
                     .stream().filter(invoice-> invoice.getId()==null)
                             .findAny().orElse(null);
 
-        patientInvoice.setInvoiceNumber(String.valueOf(Math.random()*100));
+        int maxInvoiceId = (invoiceRepository.getMaxInvoiceId()!=null)? invoiceRepository.getMaxInvoiceId()+1 : 1;
+        String invoiceId = "INV-"+patient.getPid()+"-"+((maxInvoiceId<9)? "0"+maxInvoiceId : maxInvoiceId);
+        patientInvoice.setInvoiceNumber(invoiceId);
 
         HealthCenter center = patient.getCenter();
         Employee employee = patient.getCreatedBy();

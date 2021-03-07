@@ -1,10 +1,10 @@
 package technology.grameen.gk.health.api.responses;
 
-public class EntityResponse implements IResponse {
+public class EntityResponse<T> implements IResponse {
     private int status;
-    private Object object;
+    private T object;
 
-    public EntityResponse(int status, Object object) {
+    public EntityResponse(int status, T object) {
         this.status = status;
         this.object = object;
     }
@@ -21,7 +21,7 @@ public class EntityResponse implements IResponse {
         return object;
     }
 
-    public void setObject(Object object) {
+    public void setObject(T object) {
         this.object = object;
     }
 }
