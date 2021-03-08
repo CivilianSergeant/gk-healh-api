@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import technology.grameen.gk.health.api.dto.PatientInvoiceDetail;
 import technology.grameen.gk.health.api.entity.Patient;
 import technology.grameen.gk.health.api.dto.PatientInvoiceAutoComplete;
+import technology.grameen.gk.health.api.responses.EntityCollectionResponse;
 import technology.grameen.gk.health.api.responses.EntityResponse;
 import technology.grameen.gk.health.api.responses.IResponse;
 import technology.grameen.gk.health.api.services.invoice.PatientInvoiceService;
@@ -22,8 +23,10 @@ public class PatientInvoiceController {
     private PatientInvoiceService patientInvoiceService;
 
     @GetMapping("/invoice-numbers/{invoiceNumber}")
-    public ResponseEntity<List<PatientInvoiceAutoComplete>> getByInvoiceNumber(@PathVariable("invoiceNumber") String invoiceNumber){
-        return new ResponseEntity<>(patientInvoiceService.getInvoiceByNumber(invoiceNumber),HttpStatus.OK);
+    public ResponseEntity<IResponse> getByInvoiceNumber(@PathVariable("invoiceNumber") String invoiceNumber){
+        List<PatientInvoiceAutoComplete> invoiceNumbers = patientInvoiceService.getInvoiceByNumber(invoiceNumber);
+        return new ResponseEntity<>(new EntityCollectionResponse<>(HttpStatus.OK.value(),
+                invoiceNumbers),HttpStatus.OK);
     }
 
     @GetMapping("/by-id/{id}")

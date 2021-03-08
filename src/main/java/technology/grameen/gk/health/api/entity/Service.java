@@ -12,10 +12,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@NamedEntityGraph(name = "select-row-def",
-attributeNodes = @NamedAttributeNode(value = "labTestAttributes",subgraph = "labTestAttributes"),
-subgraphs = @NamedSubgraph(name = "labTestAttributes",attributeNodes = @NamedAttributeNode("labTestUnit")))
-@Table(name = "services")
 public class Service {
 
     @Id
@@ -31,7 +27,6 @@ public class Service {
 
     @OneToMany(mappedBy = "service", cascade = CascadeType.ALL)
     @OrderBy("displayOrder ASC")
-    @JsonBackReference(value = "labTestAttributes")
     private Set<LabTestAttribute> labTestAttributes = new HashSet<>();
 
     @OneToMany(mappedBy = "service")
@@ -144,7 +139,7 @@ public class Service {
         isActive = active;
     }
 
-    public Boolean isLabTest() {
+    public Boolean getLabTest() {
         return isLabTest;
     }
 

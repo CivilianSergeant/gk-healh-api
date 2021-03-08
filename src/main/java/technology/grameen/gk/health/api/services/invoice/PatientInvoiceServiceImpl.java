@@ -37,7 +37,7 @@ public class PatientInvoiceServiceImpl implements PatientInvoiceService {
 
     @Override
     public List<PatientInvoiceAutoComplete> getInvoiceByNumber(String number) {
-        return invoiceRepository.findByInvoiceNumberStartingWith(number);
+        return invoiceRepository.findByInvoiceNumberStartingWithIgnoreCase(number);
     }
 
     @Override
