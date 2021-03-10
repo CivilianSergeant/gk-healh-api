@@ -61,7 +61,7 @@ public class HealthServiceImpl implements HealthServiceInterface {
     }
 
     @Override
-    public List<Service> getLabServices() {
+    public List<ServiceListItem> getLabServices() {
         return serviceRepository.findByIsLabTestEquals(true);
     }
 

@@ -50,8 +50,8 @@ public class ServiceController {
     }
 
     @GetMapping("/lab-services")
-    public ResponseEntity<List<Service>> labServices(){
-        List<Service> services = healthServiceInterface.getLabServices();
+    public ResponseEntity<List<ServiceListItem>> labServices(){
+        List<ServiceListItem> services = healthServiceInterface.getLabServices();
         return new ResponseEntity<>(services,HttpStatus.OK);
     }
 

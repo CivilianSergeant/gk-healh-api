@@ -61,7 +61,6 @@ public class Patient {
     private PatientDetail detail;
 
     @OneToOne(mappedBy = "patient")
-
     private CardRegistration registration;
 
     @OneToMany(mappedBy = "prescriptionPatient")

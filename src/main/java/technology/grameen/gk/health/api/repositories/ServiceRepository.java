@@ -33,5 +33,5 @@ public interface ServiceRepository extends JpaRepository<Service,Long> {
 
     @Query("SELECT s FROM Service s JOIN FETCH s.serviceCategory sc" +
             " JOIN FETCH s.labTestGroup ltg WHERE s.isLabTest = :s")
-    List<Service> findByIsLabTestEquals(@Param("s") Boolean bool);
+    List<ServiceListItem> findByIsLabTestEquals(@Param("s") Boolean bool);
 }

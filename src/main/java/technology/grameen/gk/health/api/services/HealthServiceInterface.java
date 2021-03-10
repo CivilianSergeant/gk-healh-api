@@ -16,7 +16,7 @@ public interface HealthServiceInterface {
 
     public List<ServiceListItem> getAll();
 
-    public List<Service> getLabServices();
+    public List<ServiceListItem> getLabServices();
 
     void deleteAttributeById(Long id);
 }
