@@ -5,6 +5,7 @@ import org.springframework.transaction.annotation.Transactional;
 import technology.grameen.gk.health.api.entity.CardRegistration;
 import technology.grameen.gk.health.api.entity.HealthCenter;
 import technology.grameen.gk.health.api.entity.Patient;
+import technology.grameen.gk.health.api.repositories.CardMemberRepository;
 import technology.grameen.gk.health.api.repositories.CardRegistrationRepository;
 import technology.grameen.gk.health.api.repositories.PatientInvoiceRepository;
 import technology.grameen.gk.health.api.repositories.PatientRepository;
@@ -14,18 +15,22 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CardRegistrationServiceImpl  implements  CardRegistrationService{
 
     PatientManageService patientService;
     CardRegistrationRepository cardRegistrationRepository;
+    CardMemberRepository cardMemberRepository;
 
     CardRegistrationServiceImpl(PatientManageService patientService,
-                                CardRegistrationRepository cardRegistrationRepository){
+                                CardRegistrationRepository cardRegistrationRepository,
+                                CardMemberRepository cardMemberRepository){
 
         this.patientService = patientService;
         this.cardRegistrationRepository = cardRegistrationRepository;
+        this.cardMemberRepository = cardMemberRepository;
     }
 
     @Override
@@ -60,6 +65,14 @@ public class CardRegistrationServiceImpl  implements  CardRegistrationService{
             cardRegistrationRepository.save(cardRegistration);
 
             if (cardRegistration.getId() > 0) {
+                cardRegistration.getMembers()
+                        .stream()
+                        .map(cardMember -> {
+                            cardMember.setCardRegistration(cardRegistration);
+
+                            return cardMember;
+                        }).collect(Collectors.toSet());
+                cardMemberRepository.saveAll(cardRegistration.getMembers());
                 return true;
             }
 
