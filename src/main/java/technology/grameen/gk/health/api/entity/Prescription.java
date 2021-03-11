@@ -34,11 +34,14 @@ public class Prescription {
     private LocalDateTime visitDate;
     private LocalDateTime nextVisitDate;
 
-    private String complain;
+    private String observations;
     private String symptoms;
 
     @OneToMany(mappedBy = "prescription")
     private Set<RecommendedTest> recommendedTests;
+
+    @OneToMany(mappedBy = "prescription")
+    private Set<RecommendedMedicine> recommendedMedicines;
 
     private Boolean isNew;
     private String advice;
@@ -104,14 +107,6 @@ public class Prescription {
 
     public void setNextVisitDate(LocalDateTime nextVisitDate) {
         this.nextVisitDate = nextVisitDate;
-    }
-
-    public String getComplain() {
-        return complain;
-    }
-
-    public void setComplain(String complain) {
-        this.complain = complain;
     }
 
     public String getSymptoms() {

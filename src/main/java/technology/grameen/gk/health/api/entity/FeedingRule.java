@@ -14,4 +14,27 @@ public class FeedingRule {
 
     private String feedingTime;
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getRule() {
+        return rule;
+    }
+
+    public void setRule(String rule) {
+        this.rule = rule;
+    }
+
+    public String getFeedingTime() {
+        return feedingTime;
+    }
+
+    public void setFeedingTime(String feedingTime) {
+        this.feedingTime = feedingTime;
+    }
 }

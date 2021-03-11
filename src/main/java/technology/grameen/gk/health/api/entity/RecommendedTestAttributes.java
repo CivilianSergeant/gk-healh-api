@@ -11,7 +11,7 @@ public class RecommendedTestAttributes {
     private Long id;
 
     @ManyToOne
-    private LabTestAttribute attribute;
+    private LabTestAttribute labTestAttribute;
 
     @ManyToOne
     private RecommendedTest recommendedTest;

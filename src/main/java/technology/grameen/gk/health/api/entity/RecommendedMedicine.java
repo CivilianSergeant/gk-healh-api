@@ -1,11 +1,10 @@
 package technology.grameen.gk.health.api.entity;
 
 import javax.persistence.*;
-import java.util.Set;
 
 @Entity
-@Table(name = "recommended_tests")
-public class RecommendedTest {
+@Table(name = "recommended_medicines")
+public class RecommendedMedicine {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,8 +14,11 @@ public class RecommendedTest {
     private Prescription prescription;
 
     @ManyToOne
-    private Service service;
+    private Medicine medicine;
 
-    @OneToMany(mappedBy = "recommendedTest")
-    private Set<RecommendedTestAttributes> attributes;
+    private Integer duration;
+
+    private String durationUnit;
+
+    private Integer rule;
 }
