@@ -1,8 +1,8 @@
 package technology.grameen.gk.health.api.services.invoice;
 
-import technology.grameen.gk.health.api.dto.PatientInvoiceDetail;
+import technology.grameen.gk.health.api.projection.PatientInvoiceDetail;
 import technology.grameen.gk.health.api.entity.Patient;
-import technology.grameen.gk.health.api.dto.PatientInvoiceAutoComplete;
+import technology.grameen.gk.health.api.projection.PatientInvoiceAutoComplete;
 
 import java.util.List;
 import java.util.Optional;

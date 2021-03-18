@@ -51,7 +51,7 @@ public class Patient {
     private String gender;
     private String maritalStatus;
     private String mobileNumber;
-    private LocalDateTime dateOfBirth;
+    private String age;
 
     @ManyToOne
     @JoinColumn(columnDefinition = "center_id",referencedColumnName = "id")
@@ -67,6 +67,7 @@ public class Patient {
     private Set<Prescription> prescriptions;
 
     @OneToMany(mappedBy = "patient")
+    @OrderBy("id DESC")
     private Set<PatientInvoice> patientInvoices;
 
     @OneToMany(mappedBy = "patient")
@@ -92,14 +93,14 @@ public class Patient {
     }
 
     public Patient(Long id, String pid, String fullName, String gender, String maritalStatus,
-                   LocalDateTime dateOfBirth, HealthCenter center, String guardianName,
+                   String age, HealthCenter center, String guardianName,
                    LocalDateTime createdAt, LocalDateTime lastUpdatedAt) {
         this.id = id;
         this.pid = pid;
         this.fullName = fullName;
         this.gender = gender;
         this.maritalStatus = maritalStatus;
-        this.dateOfBirth = dateOfBirth;
+        this.age = age;
         this.center = center;
         this.guardianName = guardianName;
         this.createdAt = createdAt;
@@ -186,12 +187,12 @@ public class Patient {
         this.mobileNumber = mobileNumber;
     }
 
-    public LocalDateTime getDateOfBirth() {
-        return dateOfBirth;
+    public String getAge() {
+        return age;
     }
 
-    public void setDateOfBirth(LocalDateTime dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
+    public void setAge(String age) {
+        this.age = age;
     }
 
 
@@ -240,6 +241,7 @@ public class Patient {
     public void setPrescriptions(Set<Prescription> prescriptions) {
         this.prescriptions = prescriptions;
     }
+
 
     public Set<PatientInvoice> getPatientInvoices() {
         return patientInvoices;

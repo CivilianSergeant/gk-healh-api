@@ -9,21 +9,21 @@ public class PatientListItem {
     private String fullName;
     private String gender;
     private String maritalStatus;
-    private LocalDateTime dateOfBirth;
+    private String age;
     private String center;
     private String guardianName;
     private LocalDateTime createdAt;
     private LocalDateTime lastUpdatedAt;
 
     public PatientListItem(Long id, String pid, String fullName, String gender, String maritalStatus,
-                           LocalDateTime dateOfBirth, String center, String guardianName,
+                           String age, String center, String guardianName,
                            LocalDateTime createdAt, LocalDateTime lastUpdatedAt) {
         this.id = id;
         this.pid = pid;
         this.fullName = fullName;
         this.gender = gender;
         this.maritalStatus = maritalStatus;
-        this.dateOfBirth = dateOfBirth;
+        this.age = age;
         this.center = center;
         this.guardianName = guardianName;
         this.createdAt = createdAt;
@@ -70,12 +70,12 @@ public class PatientListItem {
         this.maritalStatus = maritalStatus;
     }
 
-    public LocalDateTime getDateOfBirth() {
-        return dateOfBirth;
+    public String getDateOfBirth() {
+        return age;
     }
 
-    public void setDateOfBirth(LocalDateTime dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
+    public void setDateOfBirth(String age) {
+        this.age = age;
     }
 
     public String getCenter() {

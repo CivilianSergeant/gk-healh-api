@@ -18,7 +18,7 @@ public interface PatientRepository extends JpaRepository<Patient,Long> {
 
     @Query(value = "SELECT new technology.grameen.gk.health.api.responses.PatientListItem (p.id, p.pid, p.fullName, " +
             "p.gender, p.maritalStatus," +
-            "p.dateOfBirth, c.name,p.guardianName," +
+            "p.age, c.name,p.guardianName," +
             "p.createdAt, p.lastUpdatedAt) FROM Patient p LEFT JOIN p.center c",
             countQuery = "SELECT count(p) FROM Patient p")
     Page<Patient> findAll(Pageable pageable);

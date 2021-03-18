@@ -46,6 +46,10 @@ public class Prescription {
     private Boolean isNew;
     private String advice;
 
+    private Short medicineDisplayType;
+    private Short testDisplayType;
+
+
     @CreationTimestamp
     private LocalDateTime createdAt;
 

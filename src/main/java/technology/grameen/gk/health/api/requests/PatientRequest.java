@@ -25,7 +25,7 @@ public class PatientRequest {
     private String gender;
     private String maritalStatus;
     private String mobileNumber;
-    private LocalDateTime dateOfBirth;
+    private String age;
 
     private HealthCenter center;
 
@@ -116,14 +116,14 @@ public class PatientRequest {
         this.mobileNumber = mobileNumber;
     }
 
-    public LocalDateTime getDateOfBirth() {
-        return dateOfBirth;
+    public String getAge() {
+        return age;
     }
 
-    public void setDateOfBirth(String dateOfBirth) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        LocalDateTime dateTime = LocalDateTime.parse(dateOfBirth, formatter);
-        this.dateOfBirth = dateTime;
+    public void setAge(String age) {
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+//        LocalDateTime dateTime = LocalDateTime.parse(dateOfBirth, formatter);
+        this.age = age;
     }
 
     public HealthCenter getCenter() {

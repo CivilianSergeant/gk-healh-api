@@ -1,7 +1,7 @@
 package technology.grameen.gk.health.api.services;
 
 import org.springframework.transaction.annotation.Transactional;
-import technology.grameen.gk.health.api.dto.ServiceListItem;
+import technology.grameen.gk.health.api.projection.ServiceListItem;
 import technology.grameen.gk.health.api.entity.LabTestGroup;
 import technology.grameen.gk.health.api.entity.LabTestUnit;
 import technology.grameen.gk.health.api.entity.Service;

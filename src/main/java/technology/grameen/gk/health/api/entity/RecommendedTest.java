@@ -17,6 +17,5 @@ public class RecommendedTest {
     @ManyToOne
     private Service service;
 
-    @OneToMany(mappedBy = "recommendedTest")
-    private Set<RecommendedTestAttributes> attributes;
+
 }

@@ -4,9 +4,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import technology.grameen.gk.health.api.dto.PatientInvoiceDetail;
+import technology.grameen.gk.health.api.projection.PatientInvoiceDetail;
 import technology.grameen.gk.health.api.entity.PatientInvoice;
-import technology.grameen.gk.health.api.dto.PatientInvoiceAutoComplete;
+import technology.grameen.gk.health.api.projection.PatientInvoiceAutoComplete;
 
 import java.util.List;
 import java.util.Optional;

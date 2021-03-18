@@ -1,8 +1,8 @@
 package technology.grameen.gk.health.api.services.invoice;
 
 import org.springframework.transaction.annotation.Transactional;
-import technology.grameen.gk.health.api.dto.PatientInvoiceAutoComplete;
-import technology.grameen.gk.health.api.dto.PatientInvoiceDetail;
+import technology.grameen.gk.health.api.projection.PatientInvoiceAutoComplete;
+import technology.grameen.gk.health.api.projection.PatientInvoiceDetail;
 import technology.grameen.gk.health.api.entity.*;
 import technology.grameen.gk.health.api.repositories.PatientInvoiceRepository;
 import technology.grameen.gk.health.api.repositories.PatientServiceRepository;

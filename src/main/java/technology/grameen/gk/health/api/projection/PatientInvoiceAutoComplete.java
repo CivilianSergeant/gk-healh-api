@@ -1,4 +1,4 @@
-package technology.grameen.gk.health.api.dto;
+package technology.grameen.gk.health.api.projection;
 
 public interface PatientInvoiceAutoComplete {
 

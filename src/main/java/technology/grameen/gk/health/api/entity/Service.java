@@ -25,7 +25,7 @@ public class Service {
     @OneToMany(mappedBy = "service")
     private Set<PatientServiceDetail> patientServiceDetails;
 
-    @OneToMany(mappedBy = "service", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "service", cascade = CascadeType.REMOVE)
     @OrderBy("displayOrder ASC")
     private Set<LabTestAttribute> labTestAttributes = new HashSet<>();
 

@@ -107,8 +107,15 @@ public class PatientManageServiceImpl implements PatientManageService {
         if(center.isPresent() == false){
             throw new Exception("Center not found");
         }
+        patient.setId(req.getId());
         patient.setCreatedBy(req.getCreatedBy());
-        patient.setPid(getPid(center.get()));
+
+        if(patient.getId()==null) {
+            patient.setPid(getPid(center.get()));
+        }else{
+            patient.setPid(req.getPid());
+        }
+
         patient.setCenter(center.get());
         patient.setFullName(req.getFullName());
         patient.setGuardianName(req.getGuardianName());
@@ -116,7 +123,7 @@ public class PatientManageServiceImpl implements PatientManageService {
         patient.setMobileNumber(req.getMobileNumber());
         patient.setMaritalStatus(req.getMaritalStatus());
         patient.setGender(req.getGender());
-        patient.setDateOfBirth(req.getDateOfBirth());
+        patient.setAge(req.getAge());
         patient.setApiVillageId(req.getApiVillageId());
         patient.setVillage(req.getVillage());
         patient.setDetail(req.getDetail());

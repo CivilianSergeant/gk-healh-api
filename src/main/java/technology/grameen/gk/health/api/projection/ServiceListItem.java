@@ -1,4 +1,4 @@
-package technology.grameen.gk.health.api.dto;
+package technology.grameen.gk.health.api.projection;
 
 import technology.grameen.gk.health.api.entity.LabTestGroup;
 

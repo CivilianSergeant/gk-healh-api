@@ -1,6 +1,6 @@
 package technology.grameen.gk.health.api.services;
 
-import technology.grameen.gk.health.api.dto.ServiceListItem;
+import technology.grameen.gk.health.api.projection.ServiceListItem;
 import technology.grameen.gk.health.api.entity.Service;
 
 import java.util.List;
