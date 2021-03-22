@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import technology.grameen.gk.health.api.entity.Patient;
+import technology.grameen.gk.health.api.projection.PatientNumberAutoComplete;
 import technology.grameen.gk.health.api.responses.PatientListItem;
 import javax.persistence.NamedAttributeNode;
 import java.util.List;
@@ -31,5 +32,7 @@ public interface PatientRepository extends JpaRepository<Patient,Long> {
 
     @EntityGraph(value = "pid")
     Optional<Patient> findByPid(String id);
+
+    List<PatientNumberAutoComplete> findByPidStartingWithIgnoreCase(String number);
 
 }

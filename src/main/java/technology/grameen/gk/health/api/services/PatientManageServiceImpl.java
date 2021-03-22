@@ -5,6 +5,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import technology.grameen.gk.health.api.entity.*;
+import technology.grameen.gk.health.api.projection.PatientNumberAutoComplete;
 import technology.grameen.gk.health.api.repositories.*;
 import technology.grameen.gk.health.api.requests.PatientRequest;
 
@@ -12,6 +13,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -148,5 +150,10 @@ public class PatientManageServiceImpl implements PatientManageService {
     public Patient getReference(Long id) {
          Patient patient = patientRepository.getOne(id);
          return patient;
+    }
+
+    @Override
+    public List<PatientNumberAutoComplete> getPatientIds(String pid) {
+        return patientRepository.findByPidStartingWithIgnoreCase(pid);
     }
 }

@@ -9,7 +9,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import technology.grameen.gk.health.api.entity.CardRegistration;
 import technology.grameen.gk.health.api.entity.Patient;
+import technology.grameen.gk.health.api.projection.PatientNumberAutoComplete;
 import technology.grameen.gk.health.api.requests.PatientRequest;
+import technology.grameen.gk.health.api.responses.EntityCollectionResponse;
 import technology.grameen.gk.health.api.responses.ExceptionResponse;
 import technology.grameen.gk.health.api.responses.IResponse;
 import technology.grameen.gk.health.api.responses.PatientCreationResponse;
@@ -58,6 +60,13 @@ public class PatientController {
                     ex.getMessage()),HttpStatus.UNPROCESSABLE_ENTITY);
         }
 
+    }
+
+    @GetMapping("/patient-ids/{patientNumber}")
+    public ResponseEntity<IResponse> getByPatientNumber(@PathVariable("patientNumber") String pid){
+        List<PatientNumberAutoComplete> pids = patientManageService.getPatientIds(pid);
+        return new ResponseEntity<>(new EntityCollectionResponse<>(HttpStatus.OK.value(),
+                pids),HttpStatus.OK);
     }
 
     @GetMapping(value = "/by-pid/{pid}")
