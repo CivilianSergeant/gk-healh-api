@@ -23,6 +23,10 @@ public class CardMember {
     private String nationalId;
     private String occupation;
     private String relationWithPatient;
+    private String mobileNumber;
+
+    @OneToOne
+    private Patient patient;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
@@ -129,5 +133,21 @@ public class CardMember {
 
     public void setLastUpdatedAt(LocalDateTime lastUpdatedAt) {
         this.lastUpdatedAt = lastUpdatedAt;
+    }
+
+    public Patient getPatient() {
+        return patient;
+    }
+
+    public void setPatient(Patient patient) {
+        this.patient = patient;
+    }
+
+    public String getMobileNumber() {
+        return mobileNumber;
+    }
+
+    public void setMobileNumber(String mobileNumber) {
+        this.mobileNumber = mobileNumber;
     }
 }

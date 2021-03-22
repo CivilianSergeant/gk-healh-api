@@ -25,7 +25,7 @@ public class PatientRequest {
     private String gender;
     private String maritalStatus;
     private String mobileNumber;
-    private String age;
+    private Integer age;
 
     private HealthCenter center;
 
@@ -34,6 +34,15 @@ public class PatientRequest {
     private Employee createdBy;
 
     private CardRegistration cardRegistration;
+
+    public PatientRequest(){}
+
+    public PatientRequest(CardMember cardMember){
+        this.fullName = cardMember.getFullName();
+        this.age = cardMember.getAge();
+        this.gender = cardMember.getGender();
+        this.mobileNumber = cardMember.getMobileNumber();
+    }
 
 
     public Long getId() {
@@ -116,11 +125,11 @@ public class PatientRequest {
         this.mobileNumber = mobileNumber;
     }
 
-    public String getAge() {
+    public Integer getAge() {
         return age;
     }
 
-    public void setAge(String age) {
+    public void setAge(Integer age) {
 //        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 //        LocalDateTime dateTime = LocalDateTime.parse(dateOfBirth, formatter);
         this.age = age;
