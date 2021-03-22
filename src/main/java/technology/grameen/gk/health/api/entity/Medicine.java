@@ -12,11 +12,51 @@ public class Medicine {
 
     private String name;
 
+    private Boolean isActive;
+
     @ManyToOne
     private MedicineBrand medicineBrand;
 
     @ManyToOne
     private MedicineGroup medicineGroup;
 
+    public Long getId() {
+        return id;
+    }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public MedicineBrand getMedicineBrand() {
+        return medicineBrand;
+    }
+
+    public void setMedicineBrand(MedicineBrand medicineBrand) {
+        this.medicineBrand = medicineBrand;
+    }
+
+    public MedicineGroup getMedicineGroup() {
+        return medicineGroup;
+    }
+
+    public void setMedicineGroup(MedicineGroup medicineGroup) {
+        this.medicineGroup = medicineGroup;
+    }
+
+    public Boolean getActive() {
+        return isActive;
+    }
+
+    public void setActive(Boolean active) {
+        isActive = active;
+    }
 }
