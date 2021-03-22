@@ -5,12 +5,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import technology.grameen.gk.health.api.entity.ServiceCategory;
+import technology.grameen.gk.health.api.responses.EntityResponse;
 import technology.grameen.gk.health.api.responses.ExceptionResponse;
+import technology.grameen.gk.health.api.responses.IResponse;
 import technology.grameen.gk.health.api.responses.ResponseEnum;
 import technology.grameen.gk.health.api.services.ServiceCategoryService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Optional;
 
 
 @RestController
@@ -30,8 +33,14 @@ public class ServiceCategoryController {
 
     @PostMapping(value = "/add")
     public ResponseEntity<Object> addCategory(@RequestBody ServiceCategory req){
-        ServiceCategory center = serviceCategoryService.addCategory(req);
-        return new ResponseEntity<>(center, HttpStatus.OK);
+        ServiceCategory serviceCategory = serviceCategoryService.addCategory(req);
+        return new ResponseEntity<>(serviceCategory, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<IResponse> geteCategoryById(@PathVariable("id") Long id){
+        Optional <ServiceCategory> serviceCategory = serviceCategoryService.findById(id);
+        return new ResponseEntity<>(new EntityResponse<>(HttpStatus.OK.value(),serviceCategory), HttpStatus.OK);
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)

@@ -3,10 +3,13 @@ package technology.grameen.gk.health.api.services;
 import technology.grameen.gk.health.api.entity.ServiceCategory;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ServiceCategoryService {
 
-    public ServiceCategory addCategory(ServiceCategory category);
+     ServiceCategory addCategory(ServiceCategory category);
 
-    public List<ServiceCategory> getCategories();
+     List<ServiceCategory> getCategories();
+
+     Optional<ServiceCategory> findById(Long id);
 }
