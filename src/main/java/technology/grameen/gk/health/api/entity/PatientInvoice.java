@@ -46,6 +46,8 @@ public class PatientInvoice {
 
     private BigDecimal paidAmount;
 
+    private BigDecimal dueAmount;
+
     @ManyToOne
     @JoinColumn(name = "created_by",referencedColumnName = "id")
     private Employee createdBy;
@@ -135,6 +137,14 @@ public class PatientInvoice {
 
     public void setPaidAmount(BigDecimal paidAmount) {
         this.paidAmount = paidAmount;
+    }
+
+    public BigDecimal getDueAmount() {
+        return dueAmount;
+    }
+
+    public void setDueAmount(BigDecimal dueAmount) {
+        this.dueAmount = dueAmount;
     }
 
     @JsonBackReference
