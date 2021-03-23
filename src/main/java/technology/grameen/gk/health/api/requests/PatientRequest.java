@@ -37,11 +37,13 @@ public class PatientRequest {
 
     public PatientRequest(){}
 
-    public PatientRequest(CardMember cardMember){
+    public PatientRequest(Patient cardMember){
         this.fullName = cardMember.getFullName();
-        this.age = cardMember.getAge();
+        this.age = Integer.parseInt(cardMember.getAge());
         this.gender = cardMember.getGender();
         this.mobileNumber = cardMember.getMobileNumber();
+        this.center = cardMember.getCenter();
+        this.createdBy = cardMember.getCreatedBy();
     }
 
 

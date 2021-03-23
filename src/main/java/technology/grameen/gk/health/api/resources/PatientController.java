@@ -8,8 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import technology.grameen.gk.health.api.entity.CardMember;
-import technology.grameen.gk.health.api.entity.CardRegistration;
 import technology.grameen.gk.health.api.entity.Patient;
+import technology.grameen.gk.health.api.projection.PatientSearchResult;
 import technology.grameen.gk.health.api.projection.PatientNumberAutoComplete;
 import technology.grameen.gk.health.api.requests.PatientRequest;
 import technology.grameen.gk.health.api.responses.*;
@@ -67,7 +67,7 @@ public class PatientController {
     public ResponseEntity<IResponse>addPatientFromMember(@RequestBody CardMember cardMember){
         try {
 
-            Patient newPatient = patientManageService.addPatient(new PatientRequest(cardMember));
+            Patient newPatient = patientManageService.addPatient(new PatientRequest(cardMember.getPatient()));
             cardMemberService.updateMember(cardMember);
             return new ResponseEntity<>(new EntityResponse<>(HttpStatus.OK.value(),cardMember), HttpStatus.OK);
         }catch (Exception ex){
@@ -86,7 +86,7 @@ public class PatientController {
 
     @GetMapping(value = "/by-pid/{pid}")
     public ResponseEntity<IResponse> getPatientByPID(@PathVariable("pid") String pid){
-        Optional<Patient> patient = patientManageService.getPatientByPId(pid);
+        Optional<PatientSearchResult> patient = patientManageService.getPatientByPId(pid);
         if(patient.isPresent()){
             return new ResponseEntity<>(new PatientCreationResponse(HttpStatus.OK.value(),patient.get()), HttpStatus.OK);
         }

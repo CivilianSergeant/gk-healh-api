@@ -2,8 +2,8 @@ package technology.grameen.gk.health.api.services;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import technology.grameen.gk.health.api.entity.CardRegistration;
 import technology.grameen.gk.health.api.entity.Patient;
+import technology.grameen.gk.health.api.projection.PatientSearchResult;
 import technology.grameen.gk.health.api.projection.PatientNumberAutoComplete;
 import technology.grameen.gk.health.api.requests.PatientRequest;
 
@@ -18,7 +18,7 @@ public interface PatientManageService {
 
    Optional<Patient> getPatientById(Long id);
 
-   Optional<Patient> getPatientByPId(String id);
+   Optional<PatientSearchResult> getPatientByPId(String id);
 
 //   Boolean cardRegister(CardRegistration cardRegistration) throws Exception;
 

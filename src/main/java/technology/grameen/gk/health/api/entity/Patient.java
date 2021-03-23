@@ -13,29 +13,6 @@ import java.util.Set;
 
 
 @Entity
-@NamedEntityGraph(name="pid",attributeNodes = {
-        @NamedAttributeNode(value = "center"),
-        @NamedAttributeNode(value = "createdBy"),
-        @NamedAttributeNode(value = "detail"),
-        @NamedAttributeNode(value = "registration",subgraph = "members"),
-        @NamedAttributeNode(value = "prescriptions"),
-        @NamedAttributeNode(value = "patientInvoices",subgraph = "patientInvoices"),
-
-}, subgraphs = {
-    @NamedSubgraph(name = "patientInvoices",attributeNodes = {
-        @NamedAttributeNode(value = "patientServiceDetails",subgraph = "patientServiceDetails")
-    }),
-    @NamedSubgraph(name = "patientServiceDetails",attributeNodes = {
-            @NamedAttributeNode(value = "service",subgraph = "service")
-    }),
-    @NamedSubgraph(name = "members",attributeNodes = {
-        @NamedAttributeNode("members")
-    }),
-    @NamedSubgraph(name = "service",attributeNodes = {
-            @NamedAttributeNode(value = "serviceCategory"),
-            @NamedAttributeNode(value = "labTestGroup")
-    })
-})
 @Table(name = "patients")
 public class Patient {
 

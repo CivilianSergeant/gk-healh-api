@@ -5,7 +5,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import technology.grameen.gk.health.api.entity.*;
+import technology.grameen.gk.health.api.projection.PatientInvoiceDetail;
 import technology.grameen.gk.health.api.projection.PatientNumberAutoComplete;
+import technology.grameen.gk.health.api.projection.PatientSearchResult;
 import technology.grameen.gk.health.api.repositories.*;
 import technology.grameen.gk.health.api.requests.PatientRequest;
 
@@ -99,7 +101,7 @@ public class PatientManageServiceImpl implements PatientManageService {
     }
 
     @Override
-    public Optional<Patient> getPatientByPId(String pid){
+    public Optional<PatientSearchResult> getPatientByPId(String pid){
         return this.patientRepository.findByPid(pid);
     }
 
