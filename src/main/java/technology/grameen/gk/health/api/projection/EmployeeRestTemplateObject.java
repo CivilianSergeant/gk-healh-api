@@ -1,28 +1,30 @@
 package technology.grameen.gk.health.api.projection;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.util.List;
 
-@JsonIgnoreProperties
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class EmployeeRestTemplateObject {
-    private List<Employee> employees;
+    private List<Employee> Employees;
 
-    private EmployeeSyncResponseObject response;
+    private EmployeeSyncResponseObject Response;
 
     public List<Employee> getEmployees() {
-        return employees;
+        return Employees;
     }
 
-    public void setEmployees(List<Employee> employees) {
-        this.employees = employees;
+    public void setEmployees(List<Employee> Employees) {
+        this.Employees = Employees;
     }
 
     public EmployeeSyncResponseObject getResponse() {
-        return response;
+        return Response;
     }
 
-    public void setResponse(EmployeeSyncResponseObject response) {
-        this.response = response;
+    public void setResponse(EmployeeSyncResponseObject Response) {
+        this.Response = Response;
     }
 }
