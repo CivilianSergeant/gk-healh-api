@@ -14,6 +14,21 @@ public class Employee {
     private String Email;
     private Long OfficeId;
 
+
+    public Employee(){}
+
+    public Employee(Long totalCount, Long employeeId, String employeeCode, String employeeName, String employeeNameBng, String designationName, String contactNo, String email, Long officeId) {
+        TotalCount = totalCount;
+        EmployeeId = employeeId;
+        EmployeeCode = employeeCode;
+        EmployeeName = employeeName;
+        EmployeeNameBng = employeeNameBng;
+        DesignationName = designationName;
+        ContactNo = contactNo;
+        Email = email;
+        OfficeId = officeId;
+    }
+
     public Long getTotalCount() {
         return TotalCount;
     }

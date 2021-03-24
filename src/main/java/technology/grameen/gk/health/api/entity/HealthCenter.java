@@ -21,6 +21,7 @@ public class HealthCenter {
     private String name;
     private String centerCode;
     private String address;
+    private Boolean isActive;
 
     @OneToMany(mappedBy = "center")
     private Set<Employee> employees;
@@ -152,5 +153,13 @@ public class HealthCenter {
 
     public void setLastUpdatedAt(LocalDateTime lastUpdatedAt) {
         this.lastUpdatedAt = lastUpdatedAt;
+    }
+
+    public Boolean getActive() {
+        return isActive;
+    }
+
+    public void setActive(Boolean active) {
+        isActive = active;
     }
 }

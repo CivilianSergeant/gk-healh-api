@@ -14,6 +14,16 @@ public class EmployeeSyncResponseObject {
 
     private String ReturnMessage;
 
+    public EmployeeSyncResponseObject(){}
+
+    public EmployeeSyncResponseObject(String message, Boolean isSuccess, Boolean continueProcess, String returnCode, String returnMessage) {
+        Message = message;
+        IsSuccess = isSuccess;
+        ContinueProcess = continueProcess;
+        ReturnCode = returnCode;
+        ReturnMessage = returnMessage;
+    }
+
     public String getMessage() {
         return Message;
     }

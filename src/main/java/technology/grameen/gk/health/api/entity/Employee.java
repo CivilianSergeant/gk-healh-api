@@ -23,6 +23,7 @@ public class Employee {
     private String designation;
     private String contactNumber;
     private String email;
+    private Boolean isActive;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonBackReference
@@ -164,5 +165,13 @@ public class Employee {
 
     public void setLastUpdatedAt(LocalDateTime lastUpdatedAt) {
         this.lastUpdatedAt = lastUpdatedAt;
+    }
+
+    public Boolean getActive() {
+        return isActive;
+    }
+
+    public void setActive(Boolean active) {
+        isActive = active;
     }
 }

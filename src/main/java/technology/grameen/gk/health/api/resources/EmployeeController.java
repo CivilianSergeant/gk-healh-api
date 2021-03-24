@@ -40,8 +40,21 @@ public class EmployeeController {
     }
 
     @RequestMapping("/add")
-    public ResponseEntity<Employee> addEmployee(@RequestBody Employee req){
-        return new ResponseEntity<>(employeeService.addEmployee(req),HttpStatus.OK);
+    public ResponseEntity<IResponse> addEmployee(@RequestBody Employee req,
+                                                @RequestHeader("Authorization") String authorization){
+        if(authorization.isEmpty()){
+            return new ResponseEntity<>(new ExceptionResponse(HttpStatus.UNAUTHORIZED.value(), "Token not exist"),
+                    HttpStatus.UNAUTHORIZED);
+        }
+
+        return new ResponseEntity<>(new EntityResponse<>(HttpStatus.OK.value(),
+                    employeeService.addEmployee(req)),HttpStatus.OK);
+    }
+
+    @GetMapping("/api-id/{apiEmployeeId}")
+    public ResponseEntity<IResponse> getEmployeeByApiEmployeeId(@PathVariable("apiEmployeeId") Long apiEmployeeId){
+        return new ResponseEntity<>(new EntityResponse(HttpStatus.OK.value(),
+                employeeService.getEmployeeByApiEmployeeId(apiEmployeeId)),HttpStatus.OK);
     }
 
     @GetMapping("/employees")
@@ -92,8 +105,8 @@ public class EmployeeController {
             String url = "http://training.ghrmplus.com/api/EmployeeInfo/GetEmployeesByFilter";
             String jsonRequest = mapper.writeValueAsString(new EmployeeSyncRequestForAll());
             HttpEntity<String> requestBody = new HttpEntity<String>(jsonRequest,httpHeaders);
-            String result = restTemplate.patchForObject(url,requestBody,String.class);
-            EmployeeRestTemplateObject employees = mapper.readValue(result,EmployeeRestTemplateObject.class);
+            String result = restTemplate.postForObject(url,requestBody,String.class);
+            Map<String,Object> employees = mapper.readValue(result,Map.class);
             return new ResponseEntity<>(new EntityResponse<>(200,employees),HttpStatus.OK);
         } catch (JsonProcessingException e) {
             e.printStackTrace();

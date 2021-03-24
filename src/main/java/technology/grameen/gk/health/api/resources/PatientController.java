@@ -68,6 +68,7 @@ public class PatientController {
         try {
 
             Patient newPatient = patientManageService.addPatient(new PatientRequest(cardMember.getPatient()));
+            cardMember.setPatient(newPatient);
             cardMemberService.updateMember(cardMember);
             return new ResponseEntity<>(new EntityResponse<>(HttpStatus.OK.value(),cardMember), HttpStatus.OK);
         }catch (Exception ex){

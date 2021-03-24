@@ -12,4 +12,6 @@ public interface EmployeeRepository extends JpaRepository<Employee,Long> {
 
     @Query("Select e from Employee e JOIN FETCH e.center c ")
     public List<Employee> findAll();
+
+    Employee findByApiEmployeeId(Long id);
 }

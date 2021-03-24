@@ -50,6 +50,8 @@ public class Patient {
     @OneToMany(mappedBy = "patient")
     private Set<LabTest> labTests;
 
+    @OneToOne(mappedBy = "patient")
+    private CardMember cardMember;
 
     @ManyToOne
     @JoinColumn(columnDefinition = "created_by",referencedColumnName = "id")

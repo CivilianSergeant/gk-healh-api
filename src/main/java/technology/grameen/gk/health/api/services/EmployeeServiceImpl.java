@@ -32,4 +32,9 @@ public class EmployeeServiceImpl implements EmployeeService {
     public List<Employee> getAll() {
         return employeeRepository.findAll();
     }
+
+    @Override
+    public Employee getEmployeeByApiEmployeeId(Long id) {
+        return employeeRepository.findByApiEmployeeId(id);
+    }
 }

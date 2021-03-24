@@ -6,11 +6,17 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-@JsonInclude(JsonInclude.Include.NON_NULL)
 public class EmployeeRestTemplateObject {
     private List<Employee> Employees;
 
     private EmployeeSyncResponseObject Response;
+
+    public EmployeeRestTemplateObject(){}
+
+    public EmployeeRestTemplateObject(List<Employee> employees, EmployeeSyncResponseObject response) {
+        Employees = employees;
+        Response = response;
+    }
 
     public List<Employee> getEmployees() {
         return Employees;
