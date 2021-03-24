@@ -6,6 +6,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
 @Table(name = "prescriptions")
@@ -15,9 +16,11 @@ public class Prescription {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
     @ManyToOne
     private Patient prescriptionPatient;
+
+    @OneToOne
+    private PatientInvoice patientInvoice;
 
     @ManyToOne
     @JoinColumn(name = "doctor_id",referencedColumnName = "id")
@@ -31,11 +34,21 @@ public class Prescription {
     private LocalDateTime visitDate;
     private LocalDateTime nextVisitDate;
 
-    private String complain;
+    private String observations;
     private String symptoms;
-    private String diagnosis;
+
+    @OneToMany(mappedBy = "prescription")
+    private Set<RecommendedTest> recommendedTests;
+
+    @OneToMany(mappedBy = "prescription")
+    private Set<RecommendedMedicine> recommendedMedicines;
+
     private Boolean isNew;
     private String advice;
+
+    private Short medicineDisplayType;
+    private Short testDisplayType;
+
 
     @CreationTimestamp
     private LocalDateTime createdAt;
@@ -100,28 +113,12 @@ public class Prescription {
         this.nextVisitDate = nextVisitDate;
     }
 
-    public String getComplain() {
-        return complain;
-    }
-
-    public void setComplain(String complain) {
-        this.complain = complain;
-    }
-
     public String getSymptoms() {
         return symptoms;
     }
 
     public void setSymptoms(String symptoms) {
         this.symptoms = symptoms;
-    }
-
-    public String getDiagnosis() {
-        return diagnosis;
-    }
-
-    public void setDiagnosis(String diagnosis) {
-        this.diagnosis = diagnosis;
     }
 
     public Boolean getNew() {

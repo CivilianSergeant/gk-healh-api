@@ -1,6 +1,8 @@
 package technology.grameen.gk.health.api.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -26,7 +28,7 @@ public class Patient {
     private String gender;
     private String maritalStatus;
     private String mobileNumber;
-    private LocalDateTime dateOfBirth;
+    private String age;
 
     @ManyToOne
     @JoinColumn(columnDefinition = "center_id",referencedColumnName = "id")
@@ -35,13 +37,14 @@ public class Patient {
     @OneToOne(mappedBy = "patient")
     private PatientDetail detail;
 
-    @OneToMany(mappedBy = "patient")
-    private Set<CardRegistration> registrations;
+    @OneToOne(mappedBy = "patient")
+    private CardRegistration registration;
 
     @OneToMany(mappedBy = "prescriptionPatient")
     private Set<Prescription> prescriptions;
 
     @OneToMany(mappedBy = "patient")
+    @OrderBy("id DESC")
     private Set<PatientInvoice> patientInvoices;
 
     @OneToMany(mappedBy = "patient")
@@ -67,14 +70,14 @@ public class Patient {
     }
 
     public Patient(Long id, String pid, String fullName, String gender, String maritalStatus,
-                   LocalDateTime dateOfBirth, HealthCenter center, String guardianName,
+                   String age, HealthCenter center, String guardianName,
                    LocalDateTime createdAt, LocalDateTime lastUpdatedAt) {
         this.id = id;
         this.pid = pid;
         this.fullName = fullName;
         this.gender = gender;
         this.maritalStatus = maritalStatus;
-        this.dateOfBirth = dateOfBirth;
+        this.age = age;
         this.center = center;
         this.guardianName = guardianName;
         this.createdAt = createdAt;
@@ -161,12 +164,12 @@ public class Patient {
         this.mobileNumber = mobileNumber;
     }
 
-    public LocalDateTime getDateOfBirth() {
-        return dateOfBirth;
+    public String getAge() {
+        return age;
     }
 
-    public void setDateOfBirth(LocalDateTime dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
+    public void setAge(String age) {
+        this.age = age;
     }
 
 
@@ -187,18 +190,23 @@ public class Patient {
     }
 
 
-    public Set<CardRegistration> getRegistrations() {
-        return registrations;
+    public CardRegistration getRegistration() {
+        return registration;
     }
 
     public void addRegistration(CardRegistration registration) {
         if(registration != null){
-            if(this.registrations == null){
-                this.registrations = new HashSet<>();
+//            if(this.registrations == null){if(this.registrations == null){
+//                this.registrations = new HashSet<>();
+//            }
+            if(this.registration == null) {
+                this.registration = registration;
             }
             registration.setPatient(this);
-            this.registrations.add(registration);
+//            this.registrations.add(registration);
         }
+
+
 
     }
 
@@ -210,6 +218,7 @@ public class Patient {
     public void setPrescriptions(Set<Prescription> prescriptions) {
         this.prescriptions = prescriptions;
     }
+
 
     public Set<PatientInvoice> getPatientInvoices() {
         return patientInvoices;
@@ -227,10 +236,11 @@ public class Patient {
 
 
 
-    @JsonIgnore
+
     public Employee getCreatedBy() {
         return createdBy;
     }
+
 
     public void setCreatedBy(Employee createdBy) {
         this.createdBy = createdBy;

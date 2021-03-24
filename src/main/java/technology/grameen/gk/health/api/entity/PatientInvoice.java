@@ -2,8 +2,10 @@ package technology.grameen.gk.health.api.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.jpa.repository.EntityGraph;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -21,7 +23,8 @@ public class PatientInvoice {
 
     private String invoiceNumber;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonBackReference
     @JoinColumn(name = "patient_id", referencedColumnName = "id")
     private Patient patient;
 
@@ -42,6 +45,8 @@ public class PatientInvoice {
     private BigDecimal payableAmount;
 
     private BigDecimal paidAmount;
+
+    private BigDecimal dueAmount;
 
     @ManyToOne
     @JoinColumn(name = "created_by",referencedColumnName = "id")
@@ -69,8 +74,7 @@ public class PatientInvoice {
         this.invoiceNumber = invoiceNumber;
     }
 
-    @JsonBackReference
-    @JsonIgnore
+
     public Patient getPatient() {
         return patient;
     }
@@ -79,8 +83,7 @@ public class PatientInvoice {
         this.patient = patient;
     }
 
-    @JsonBackReference
-    @JsonIgnore
+
     public HealthCenter getCenter() {
         return center;
     }
@@ -134,6 +137,14 @@ public class PatientInvoice {
 
     public void setPaidAmount(BigDecimal paidAmount) {
         this.paidAmount = paidAmount;
+    }
+
+    public BigDecimal getDueAmount() {
+        return dueAmount;
+    }
+
+    public void setDueAmount(BigDecimal dueAmount) {
+        this.dueAmount = dueAmount;
     }
 
     @JsonBackReference

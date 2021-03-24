@@ -24,13 +24,16 @@ public class Employee {
     private String contactNumber;
     private String email;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonBackReference
     private HealthCenter center;
 
     @OneToMany(mappedBy = "createdBy")
+    @JsonBackReference(value = "patients")
     private Set<Patient> patients;
 
     @OneToMany(mappedBy = "createdBy")
+    @JsonBackReference(value = "patientInvoices")
     private Set<PatientInvoice> patientInvoices;
 
     @OneToMany(mappedBy = "createdBy")
@@ -95,6 +98,7 @@ public class Employee {
         this.email = email;
     }
 
+
     public HealthCenter getCenter() {
         return center;
     }
@@ -103,10 +107,11 @@ public class Employee {
         this.center = center;
     }
 
-    @JsonBackReference
+
     public Set<Patient> getPatients() {
         return patients;
     }
+
 
     public void addPatient(Patient patient) {
         if(patient != null){
@@ -116,6 +121,23 @@ public class Employee {
             patient.setCreatedBy(this);
             this.patients.add(patient);
         }
+    }
+
+
+    public Set<PatientInvoice> getPatientInvoices() {
+        return patientInvoices;
+    }
+
+
+    public void addPatientInvoice(PatientInvoice patientInvoice) {
+        if(patientInvoice != null){
+            if(this.patientInvoices == null){
+                this.patientInvoices = new HashSet<>();
+            }
+            patientInvoice.setCreatedBy(this);
+            this.patientInvoices.add(patientInvoice);
+        }
+
     }
 
     @JsonBackReference

@@ -1,6 +1,7 @@
 package technology.grameen.gk.health.api.services;
 
 import org.springframework.transaction.annotation.Transactional;
+import technology.grameen.gk.health.api.projection.ServiceListItem;
 import technology.grameen.gk.health.api.entity.LabTestGroup;
 import technology.grameen.gk.health.api.entity.LabTestUnit;
 import technology.grameen.gk.health.api.entity.Service;
@@ -55,8 +56,13 @@ public class HealthServiceImpl implements HealthServiceInterface {
     }
 
     @Override
-    public List<Service> getAll() {
-        return serviceRepository.findAll();
+    public List<ServiceListItem> getAll() {
+        return serviceRepository.findAllServices();
+    }
+
+    @Override
+    public List<ServiceListItem> getLabServices() {
+        return serviceRepository.findByIsLabTestEquals(true);
     }
 
     @Override
