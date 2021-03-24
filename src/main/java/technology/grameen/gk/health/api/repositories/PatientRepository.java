@@ -2,15 +2,14 @@ package technology.grameen.gk.health.api.repositories;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import technology.grameen.gk.health.api.entity.Patient;
+import technology.grameen.gk.health.api.projection.PatientSearchResult;
 import technology.grameen.gk.health.api.projection.PatientNumberAutoComplete;
-import technology.grameen.gk.health.api.responses.PatientListItem;
-import javax.persistence.NamedAttributeNode;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -30,8 +29,8 @@ public interface PatientRepository extends JpaRepository<Patient,Long> {
     @Query(value = "SELECT Max(r.id) FROM Patient p JOIN p.registration r")
     Integer getMaxCardRegId();
 
-    @EntityGraph(value = "pid")
-    Optional<Patient> findByPid(String id);
+    @Query(value = "SELECT p FROM Patient p LEFT JOIN FETCH p.registration r LEFT JOIN FETCH p.patientInvoices pi WHERE p.pid = :number")
+    Optional<PatientSearchResult> findByPid(@Param("number") String id);
 
     List<PatientNumberAutoComplete> findByPidStartingWithIgnoreCase(String number);
 
