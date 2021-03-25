@@ -37,6 +37,24 @@ public interface PatientSearchResult {
                 LocalDateTime getCreatedAt();
         }
 
+        interface Patient{
+                String getFullName();
+                String getPid();
+        }
+
+        interface CardMemberCardRegistration{
+                String getCardNumber();
+                Patient getPatient();
+        }
+
+        interface CardMember{
+                Long getId();
+                CardMemberCardRegistration getCardRegistration();
+
+        }
+
+
+
         Long getId();
         String getPid();
         String getFullName();
@@ -47,5 +65,6 @@ public interface PatientSearchResult {
         String getAge();
         CardRegistration getRegistration();
         Set<PatientInvoice> getPatientInvoices();
+        CardMember getCardMember();
 
 }
