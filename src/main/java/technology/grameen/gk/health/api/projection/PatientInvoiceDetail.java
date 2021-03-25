@@ -3,12 +3,15 @@ package technology.grameen.gk.health.api.projection;
 import technology.grameen.gk.health.api.entity.CardRegistration;
 import technology.grameen.gk.health.api.entity.PatientServiceDetail;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Set;
 
 public interface PatientInvoiceDetail {
 
+    Long getId();
     String getInvoiceNumber();
+    BigDecimal getPaidAmount();
 
     interface Patient{
 

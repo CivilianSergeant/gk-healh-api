@@ -6,6 +6,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -34,8 +35,16 @@ public class Prescription {
     private LocalDateTime visitDate;
     private LocalDateTime nextVisitDate;
 
-    private String observations;
     private String symptoms;
+
+    @OneToOne(mappedBy = "prescription")
+    private FamilyHistory familyHistory;
+
+    @OneToOne(mappedBy = "prescription")
+    private PersonalHistory personalHistory;
+
+    @OneToOne(mappedBy = "prescription")
+    private GeneralExamination generalExamination;
 
     @OneToMany(mappedBy = "prescription")
     private Set<RecommendedTest> recommendedTests;
@@ -46,8 +55,8 @@ public class Prescription {
     private Boolean isNew;
     private String advice;
 
-    private Short medicineDisplayType;
-    private Short testDisplayType;
+    @Column(length = 1000)
+    private String filePath;
 
 
     @CreationTimestamp
@@ -151,5 +160,73 @@ public class Prescription {
 
     public void setLastUpdatedAt(LocalDateTime lastUpdatedAt) {
         this.lastUpdatedAt = lastUpdatedAt;
+    }
+
+    public PatientInvoice getPatientInvoice() {
+        return patientInvoice;
+    }
+
+    public void setPatientInvoice(PatientInvoice patientInvoice) {
+        this.patientInvoice = patientInvoice;
+    }
+
+    public FamilyHistory getFamilyHistory() {
+        return familyHistory;
+    }
+
+    public void setFamilyHistory(FamilyHistory familyHistory) {
+        this.familyHistory = familyHistory;
+    }
+
+    public PersonalHistory getPersonalHistory() {
+        return personalHistory;
+    }
+
+    public void setPersonalHistory(PersonalHistory personalHistory) {
+        this.personalHistory = personalHistory;
+    }
+
+    public GeneralExamination getGeneralExamination() {
+        return generalExamination;
+    }
+
+    public void setGeneralExamination(GeneralExamination generalExamination) {
+        this.generalExamination = generalExamination;
+    }
+
+    public Set<RecommendedTest> getRecommendedTests() {
+        return recommendedTests;
+    }
+
+    public void addRecommendedTest(RecommendedTest recommendedTest) {
+        if(recommendedTest != null){
+            if(this.recommendedTests == null){
+                this.recommendedTests = new HashSet<>();
+            }
+            recommendedTest.setPrescription(this);
+            this.recommendedTests.add(recommendedTest);
+        }
+    }
+
+    public Set<RecommendedMedicine> getRecommendedMedicines() {
+        return recommendedMedicines;
+    }
+
+    public void addRecommendedMedicine(RecommendedMedicine recommendedMedicine) {
+        if(recommendedMedicine != null){
+            if(this.recommendedMedicines == null){
+                this.recommendedMedicines = new HashSet<>();
+            }
+            this.recommendedMedicines.add(recommendedMedicine);
+        }
+
+    }
+
+    public String getFilePath() {
+        return filePath;
+    }
+
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
     }
 }

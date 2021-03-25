@@ -135,8 +135,15 @@ public class HealthCenter {
         return prescriptions;
     }
 
-    public void setPrescriptions(Set<Prescription> prescriptions) {
-        this.prescriptions = prescriptions;
+    public void addPrescriptions(Prescription prescription) {
+        if(prescription != null){
+            if(this.prescriptions == null){
+                this.prescriptions = new HashSet<>();
+            }
+            prescription.setCenter(this);
+            this.prescriptions.add(prescription);
+        }
+
     }
 
     public LocalDateTime getCreatedAt() {
