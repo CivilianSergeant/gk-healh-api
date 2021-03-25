@@ -17,6 +17,8 @@ public class ServiceCategory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @OrderBy("ServiceCategory.name desc")
     private String name;
     private String alias;
     private String description;
