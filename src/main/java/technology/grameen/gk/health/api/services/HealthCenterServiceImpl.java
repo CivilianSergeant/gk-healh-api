@@ -36,4 +36,9 @@ public class HealthCenterServiceImpl implements HealthCenterService {
     public Optional<HealthCenter> findById(Long id) {
         return healthCenterRepository.findById(id);
     }
+
+    @Override
+    public Optional<HealthCenter> getCenterByApiCenterId(Long apiCenterId) {
+        return healthCenterRepository.findByApiOfficeId(apiCenterId);
+    }
 }

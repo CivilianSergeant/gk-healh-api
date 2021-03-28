@@ -12,4 +12,6 @@ public interface HealthCenterService {
     List<HealthCenter> getCenters();
 
     Optional<HealthCenter> findById(Long id);
+
+    Optional<HealthCenter> getCenterByApiCenterId(Long apiCenterId);
 }

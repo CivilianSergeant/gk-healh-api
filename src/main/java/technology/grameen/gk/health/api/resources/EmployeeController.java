@@ -9,10 +9,12 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import technology.grameen.gk.health.api.entity.Employee;
+import technology.grameen.gk.health.api.entity.HealthCenter;
 import technology.grameen.gk.health.api.projection.EmployeeRestTemplateObject;
 import technology.grameen.gk.health.api.requests.EmployeeSyncRequestForAll;
 import technology.grameen.gk.health.api.responses.*;
 import technology.grameen.gk.health.api.services.EmployeeService;
+import technology.grameen.gk.health.api.services.HealthCenterService;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -29,9 +31,11 @@ import java.util.*;
 public class EmployeeController {
 
     EmployeeService employeeService;
+    HealthCenterService centerService;
 
-    public EmployeeController(EmployeeService employeeService){
+    public EmployeeController(EmployeeService employeeService,HealthCenterService centerService){
         this.employeeService = employeeService;
+        this.centerService = centerService;
     }
 
     @RequestMapping("")
@@ -45,6 +49,13 @@ public class EmployeeController {
         if(authorization.isEmpty()){
             return new ResponseEntity<>(new ExceptionResponse(HttpStatus.UNAUTHORIZED.value(), "Token not exist"),
                     HttpStatus.UNAUTHORIZED);
+        }
+        Optional<HealthCenter> center = centerService.findById(req.getCenter().getId());
+
+        if(!center.isPresent()){
+            return new ResponseEntity<>(new ExceptionResponse(HttpStatus.UNPROCESSABLE_ENTITY.value(),
+                    "Sorry! Center/Office not found"),
+                    HttpStatus.UNPROCESSABLE_ENTITY);
         }
 
         return new ResponseEntity<>(new EntityResponse<>(HttpStatus.OK.value(),

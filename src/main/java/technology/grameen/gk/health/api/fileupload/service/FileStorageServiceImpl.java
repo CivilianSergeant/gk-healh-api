@@ -6,12 +6,16 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import technology.grameen.gk.health.api.fileupload.exception.FileStorageException;
 import technology.grameen.gk.health.api.fileupload.property.FileStorageProperties;
+import technology.grameen.gk.health.api.fileupload.response.UploadResponse;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.time.Instant;
+import java.util.UUID;
 
 @Service
 public class FileStorageServiceImpl implements FileStorageService {
@@ -31,8 +35,10 @@ public class FileStorageServiceImpl implements FileStorageService {
     }
 
     @Override
-    public String storeFile(MultipartFile file) {
-        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+    public UploadResponse storeFile(MultipartFile file) {
+        String originalName = file.getOriginalFilename();
+        UUID uuid = UUID.nameUUIDFromBytes((String.valueOf(Instant.now().getEpochSecond())+originalName).getBytes());
+        String fileName = uuid.toString()+'.'+originalName.substring(originalName.lastIndexOf('.')+1);
 
         try {
             if(fileName.contains("..")){
@@ -40,9 +46,10 @@ public class FileStorageServiceImpl implements FileStorageService {
             }
 
             Path targetLocation = this.fileStorageLocation.resolve(fileName);
-            Files.copy(file.getInputStream(),targetLocation, StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(file.getInputStream(),targetLocation);
 
-            return fileName;
+
+            return new UploadResponse(fileName,file.getContentType(),file.getSize());
         }catch (IOException ex){
             throw new FileStorageException("Could not store file "+ fileName + ". Please try again.",ex);
         }
