@@ -1,8 +1,8 @@
 package technology.grameen.gk.health.api.projection;
 
-import technology.grameen.gk.health.api.entity.RecommendedMedicine;
-import technology.grameen.gk.health.api.entity.RecommendedTest;
+import technology.grameen.gk.health.api.entity.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface PrescriptionDetail {
@@ -18,9 +18,36 @@ public interface PrescriptionDetail {
         String getFullName();
     }
 
+    interface Service{
+        Long getServiceId();
+        String getName();
+    }
+
+    interface RecommendedTest{
+        Long getId();
+        Service getService();
+    }
+
+    interface RecommendedMedicine{
+        Long getId();
+        Medicine getMedicine();
+        Integer getDuration();
+        String getDurationUnit();
+        Integer getRule();
+    }
+
     Center getCenter();
     Doctor getDoctor();
     String getpNumber();
     List<RecommendedMedicine> getRecommendedMedicines();
     List<RecommendedTest> getRecommendedTests();
+    String getSymptoms();
+    LocalDateTime getVisitDate();
+    Boolean getNew();
+    String getAdvice();
+    LocalDateTime getCreatedAt();
+    String getFilePath();
+    GeneralExamination getGeneralExamination();
+    FamilyHistory getFamilyHistory();
+    PersonalHistory getPersonalHistory();
 }
