@@ -44,6 +44,7 @@ public class Service {
     private String description;
     private Boolean isActive;
     private Boolean isLabTest;
+    private Boolean isPrescription;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
@@ -203,5 +204,13 @@ public class Service {
 
     public void setLastUpdatedAt(LocalDateTime lastUpdatedAt) {
         this.lastUpdatedAt = lastUpdatedAt;
+    }
+
+    public Boolean getPrescription() {
+        return isPrescription;
+    }
+
+    public void setPrescription(Boolean prescription) {
+        isPrescription = prescription;
     }
 }
