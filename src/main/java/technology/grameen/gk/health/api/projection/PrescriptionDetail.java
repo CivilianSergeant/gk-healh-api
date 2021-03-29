@@ -36,6 +36,16 @@ public interface PrescriptionDetail {
         Integer getRule();
     }
 
+    interface Patient{
+        Long getId();
+        String getFullName();
+    }
+
+    interface Invoice{
+        Long getId();
+        String getInvoiceNumber();
+    }
+
     Center getCenter();
     Doctor getDoctor();
     String getpNumber();
@@ -50,4 +60,6 @@ public interface PrescriptionDetail {
     GeneralExamination getGeneralExamination();
     FamilyHistory getFamilyHistory();
     PersonalHistory getPersonalHistory();
+    Patient getPrescriptionPatient();
+    Invoice getPatientInvoice();
 }
