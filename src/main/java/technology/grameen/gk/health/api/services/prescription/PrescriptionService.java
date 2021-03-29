@@ -1,5 +1,7 @@
 package technology.grameen.gk.health.api.services.prescription;
 
+import technology.grameen.gk.health.api.entity.Patient;
+import technology.grameen.gk.health.api.entity.PatientInvoice;
 import technology.grameen.gk.health.api.entity.Prescription;
 import technology.grameen.gk.health.api.projection.PrescriptionDetail;
 import technology.grameen.gk.health.api.projection.PrescriptionListItem;
@@ -14,4 +16,6 @@ public interface PrescriptionService {
     List<PrescriptionListItem> getPrescriptions();
 
     Optional<PrescriptionDetail> getPrescriptionById(Long id);
+
+    Optional<PrescriptionDetail> getPrescriptionByPatientAndInvoice(Patient patient, PatientInvoice invoice);
 }
