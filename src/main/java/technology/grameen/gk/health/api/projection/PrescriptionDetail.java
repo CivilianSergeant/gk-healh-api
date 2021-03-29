@@ -36,9 +36,16 @@ public interface PrescriptionDetail {
         Integer getRule();
     }
 
+    interface CardRegistration{
+        Long getId();
+        Boolean getGB();
+    }
     interface Patient{
         Long getId();
         String getFullName();
+        String getAge();
+        String getGender();
+        CardRegistration getRegistration();
     }
 
     interface Invoice{
