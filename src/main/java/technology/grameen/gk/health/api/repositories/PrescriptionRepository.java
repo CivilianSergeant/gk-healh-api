@@ -4,6 +4,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import technology.grameen.gk.health.api.entity.Patient;
+import technology.grameen.gk.health.api.entity.PatientInvoice;
 import technology.grameen.gk.health.api.entity.Prescription;
 import technology.grameen.gk.health.api.projection.PrescriptionDetail;
 import technology.grameen.gk.health.api.projection.PrescriptionListItem;
@@ -24,6 +26,8 @@ public interface PrescriptionRepository extends JpaRepository<Prescription,Long>
 
     @Query(value = "SELECT p from Prescription p WHERE p.id=:id")
     Optional<PrescriptionDetail> findByPatientId(@Param("id") Long id);
+
+    Optional<PrescriptionDetail> findByPrescriptionPatientAndPatientInvoice(Patient patient, PatientInvoice invoice);
 
 
 }

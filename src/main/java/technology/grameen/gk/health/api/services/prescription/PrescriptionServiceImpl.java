@@ -95,4 +95,9 @@ public class PrescriptionServiceImpl implements PrescriptionService {
     public Optional<PrescriptionDetail> getPrescriptionById(Long id) {
         return prescriptionRepository.findByPatientId(id);
     }
+
+    @Override
+    public Optional<PrescriptionDetail> getPrescriptionByPatientAndInvoice(Patient patientId, PatientInvoice invoiceId) {
+        return prescriptionRepository.findByPrescriptionPatientAndPatientInvoice(patientId, invoiceId);
+    }
 }

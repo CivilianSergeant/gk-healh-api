@@ -12,6 +12,7 @@ public interface PatientInvoiceDetail {
     Long getId();
     String getInvoiceNumber();
     BigDecimal getPaidAmount();
+    BigDecimal getPayableAmount();
 
     interface Patient{
 
