@@ -26,7 +26,8 @@ public class LabTestServiceImpl implements LabTestService {
     public LabTest saveLabTest(LabTest labTest) {
 
         Set<LabTestDetail> details = labTest.getDetails();
-
+        technology.grameen.gk.health.api.entity.Service service = labTest.getService();
+        service.addLabTest(labTest);
         LabTest labTest1 = labTestRepository.save(labTest);
         if(labTest1.getId() > 0){
             details.stream().map( d->{

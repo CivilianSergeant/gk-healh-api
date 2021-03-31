@@ -31,6 +31,10 @@ public class LabTest {
     @JoinColumn(name = "lab_test_group_id", referencedColumnName = "id")
     private LabTestGroup labTestGroup;
 
+    @ManyToOne
+    @JoinColumn(name = "service_id")
+    private Service service;
+
     @OneToMany(mappedBy = "labTest")
     private Set<LabTestDetail> details;
 
@@ -142,5 +146,13 @@ public class LabTest {
 
     public void setLastUpdatedAt(LocalDateTime lastUpdatedAt) {
         this.lastUpdatedAt = lastUpdatedAt;
+    }
+
+    public Service getService() {
+        return service;
+    }
+
+    public void setService(Service service) {
+        this.service = service;
     }
 }
