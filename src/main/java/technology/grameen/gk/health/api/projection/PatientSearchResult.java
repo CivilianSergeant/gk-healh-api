@@ -12,7 +12,8 @@ public interface PatientSearchResult {
         interface Service{
                 Long getServiceId();
                 String getName();
-
+                Boolean getLabTest();
+                Boolean getPrescription();
         }
 
         interface PatientServiceDetail{
