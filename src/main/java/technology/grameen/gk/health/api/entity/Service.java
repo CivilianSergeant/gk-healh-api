@@ -29,6 +29,8 @@ public class Service {
     @OrderBy("displayOrder ASC")
     private Set<LabTestAttribute> labTestAttributes = new HashSet<>();
 
+    @OneToMany(mappedBy = "service")
+    private Set<LabTest> labTests;
 
     @ManyToOne
     @JoinColumn(name = "lab_test_group_id",referencedColumnName = "id")
@@ -155,7 +157,7 @@ public class Service {
         this.labTestGroup = labTestGroup;
     }
 
-    @JsonBackReference
+    @JsonBackReference("patient-service-details")
     @JsonIgnore
     public Set<PatientServiceDetail> getPatientServiceDetails() {
         return patientServiceDetails;
@@ -210,5 +212,20 @@ public class Service {
 
     public void setPrescription(Boolean prescription) {
         isPrescription = prescription;
+    }
+
+    @JsonBackReference("lab-test")
+    public Set<LabTest> getLabTests() {
+        return labTests;
+    }
+
+    public void addLabTest(LabTest labTest) {
+        if(labTest != null) {
+            if (this.labTests == null) {
+                this.labTests = new HashSet<>();
+            }
+            labTest.setService(this);
+            this.labTests.add(labTest);
+        }
     }
 }
