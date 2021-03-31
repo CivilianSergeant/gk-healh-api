@@ -34,4 +34,12 @@ public class LabReportController {
 
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<IResponse> getLabTestReportById(@PathVariable("id") Long id){
+
+        return  new ResponseEntity<>(new EntityResponse<>(HttpStatus.OK.value(),
+                labTestService.getLabTestReportById(id)),HttpStatus.OK);
+
+    }
+
 }

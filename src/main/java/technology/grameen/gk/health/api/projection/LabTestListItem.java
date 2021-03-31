@@ -9,6 +9,7 @@ public interface LabTestListItem {
     String getPid();
     String getInvoiceNumber();
     LocalDate getCreatedAt();
+    String getServiceName();
 
 
 }
