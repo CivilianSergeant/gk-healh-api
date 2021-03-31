@@ -28,6 +28,7 @@ public interface PatientSearchResult {
         }
 
         interface PatientInvoice{
+                Long getId();
                 String getInvoiceNumber();
                 Set<PatientServiceDetail> getPatientServiceDetails();
                 BigDecimal getServiceAmount();
