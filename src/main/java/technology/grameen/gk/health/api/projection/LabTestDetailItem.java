@@ -1,7 +1,5 @@
 package technology.grameen.gk.health.api.projection;
 
-import technology.grameen.gk.health.api.entity.LabTestUnit;
-
 import java.time.LocalDateTime;
 import java.util.Set;
 
@@ -19,6 +17,11 @@ public interface LabTestDetailItem {
         String getInvoiceNumber();
         LocalDateTime getCreatedAt();
 
+    }
+
+    interface LabTestUnit{
+        Long getId();
+        String getName();
     }
 
     interface LabTestAttribute{
