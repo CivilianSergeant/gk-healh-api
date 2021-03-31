@@ -4,8 +4,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import technology.grameen.gk.health.api.entity.LabTest;
 import technology.grameen.gk.health.api.entity.LabTestDetail;
+import technology.grameen.gk.health.api.projection.LabTestListItem;
 import technology.grameen.gk.health.api.repositories.LabTestRepository;
 
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -36,5 +38,10 @@ public class LabTestServiceImpl implements LabTestService {
             resultService.saveAll(details);
         }
         return labTest1;
+    }
+
+    @Override
+    public List<LabTestListItem> getLabTestReports() {
+        return labTestRepository.getLabTests();
     }
 }

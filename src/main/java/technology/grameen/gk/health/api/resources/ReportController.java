@@ -2,9 +2,8 @@ package technology.grameen.gk.health.api.resources;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import technology.grameen.gk.health.api.requests.ServiceRecordSearch;
 import technology.grameen.gk.health.api.responses.EntityCollectionResponse;
 import technology.grameen.gk.health.api.responses.EntityResponse;
 import technology.grameen.gk.health.api.responses.IResponse;
@@ -22,5 +21,12 @@ public class ReportController {
     public ResponseEntity<IResponse> getServiceRecords(){
         return  new ResponseEntity<>(new EntityCollectionResponse<>(HttpStatus.OK.value(),
                 reportService.getPatientInvoiceSummery()),HttpStatus.OK);
+    }
+
+    @PostMapping("/service-records")
+    public ResponseEntity<IResponse> getServiceRecords(@RequestBody ServiceRecordSearch serviceRecordSearch){
+        return  new ResponseEntity<>(new EntityCollectionResponse<>(HttpStatus.OK.value(),
+                reportService.getPatientInvoiceSummery(serviceRecordSearch.getFromDate(),
+                        serviceRecordSearch.getToDate())),HttpStatus.OK);
     }
 }

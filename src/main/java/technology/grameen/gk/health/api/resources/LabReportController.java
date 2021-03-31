@@ -2,11 +2,9 @@ package technology.grameen.gk.health.api.resources;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import technology.grameen.gk.health.api.entity.LabTest;
+import technology.grameen.gk.health.api.responses.EntityCollectionResponse;
 import technology.grameen.gk.health.api.responses.EntityResponse;
 import technology.grameen.gk.health.api.responses.IResponse;
 import technology.grameen.gk.health.api.services.labtest.LabTestService;
@@ -27,4 +25,13 @@ public class LabReportController {
         return new ResponseEntity<>(new EntityResponse<>(HttpStatus.OK.value(),
                 labTest1), HttpStatus.OK);
     }
+
+    @GetMapping("")
+    public ResponseEntity<IResponse> getLabTestReports(){
+
+        return  new ResponseEntity<>(new EntityCollectionResponse<>(HttpStatus.OK.value(),
+                labTestService.getLabTestReports()),HttpStatus.OK);
+
+    }
+
 }
