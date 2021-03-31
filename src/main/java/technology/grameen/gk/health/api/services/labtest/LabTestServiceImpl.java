@@ -1,0 +1,40 @@
+package technology.grameen.gk.health.api.services.labtest;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import technology.grameen.gk.health.api.entity.LabTest;
+import technology.grameen.gk.health.api.entity.LabTestDetail;
+import technology.grameen.gk.health.api.repositories.LabTestRepository;
+
+import java.util.Set;
+import java.util.stream.Collectors;
+
+@Service
+public class LabTestServiceImpl implements LabTestService {
+
+    private LabTestRepository labTestRepository;
+    private LabTestResultService resultService;
+
+    LabTestServiceImpl(LabTestRepository labTestRepository,
+                       LabTestResultService resultService){
+        this.labTestRepository = labTestRepository;
+        this.resultService = resultService;
+    }
+
+    @Override
+    @Transactional
+    public LabTest saveLabTest(LabTest labTest) {
+
+        Set<LabTestDetail> details = labTest.getDetails();
+
+        LabTest labTest1 = labTestRepository.save(labTest);
+        if(labTest1.getId() > 0){
+            details.stream().map( d->{
+                d.setLabTest(labTest1);
+                return d;
+            }).collect(Collectors.toSet());
+            resultService.saveAll(details);
+        }
+        return labTest1;
+    }
+}

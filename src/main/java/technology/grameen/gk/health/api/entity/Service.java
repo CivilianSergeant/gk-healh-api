@@ -29,8 +29,6 @@ public class Service {
     @OrderBy("displayOrder ASC")
     private Set<LabTestAttribute> labTestAttributes = new HashSet<>();
 
-    @OneToMany(mappedBy = "service")
-    private Set<LabTestDetail> labTestDetails;
 
     @ManyToOne
     @JoinColumn(name = "lab_test_group_id",referencedColumnName = "id")

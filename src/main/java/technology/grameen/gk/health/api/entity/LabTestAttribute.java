@@ -33,6 +33,9 @@ public class LabTestAttribute {
 
     private Boolean isGroup;
 
+    @OneToOne(mappedBy = "labTestAttribute")
+    private LabTestDetail labTestDetail;
+
     public Long getId() {
         return id;
     }

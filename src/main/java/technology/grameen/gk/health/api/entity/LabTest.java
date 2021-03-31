@@ -48,4 +48,99 @@ public class LabTest {
     @UpdateTimestamp
     private LocalDateTime lastUpdatedAt;
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Patient getPatient() {
+        return patient;
+    }
+
+    public void setPatient(Patient patient) {
+        this.patient = patient;
+    }
+
+    public PatientInvoice getPatientInvoice() {
+        return patientInvoice;
+    }
+
+    public void setPatientInvoice(PatientInvoice patientInvoice) {
+        this.patientInvoice = patientInvoice;
+    }
+
+    public Specimen getSpecimen() {
+        return specimen;
+    }
+
+    public void setSpecimen(Specimen specimen) {
+        this.specimen = specimen;
+    }
+
+    public LabTestGroup getLabTestGroup() {
+        return labTestGroup;
+    }
+
+    public void setLabTestGroup(LabTestGroup labTestGroup) {
+        this.labTestGroup = labTestGroup;
+    }
+
+    public Set<LabTestDetail> getDetails() {
+        return details;
+    }
+
+    public void setDetails(Set<LabTestDetail> details) {
+        this.details = details;
+    }
+
+    public LocalDateTime getTestDate() {
+        return testDate;
+    }
+
+    public void setTestDate(LocalDateTime testDate) {
+        this.testDate = testDate;
+    }
+
+    public LocalDateTime getReceivedDate() {
+        return receivedDate;
+    }
+
+    public void setReceivedDate(LocalDateTime receivedDate) {
+        this.receivedDate = receivedDate;
+    }
+
+    public LocalDateTime getPrintDate() {
+        return printDate;
+    }
+
+    public void setPrintDate(LocalDateTime printDate) {
+        this.printDate = printDate;
+    }
+
+    public Employee getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(Employee createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getLastUpdatedAt() {
+        return lastUpdatedAt;
+    }
+
+    public void setLastUpdatedAt(LocalDateTime lastUpdatedAt) {
+        this.lastUpdatedAt = lastUpdatedAt;
+    }
 }
