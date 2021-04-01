@@ -9,6 +9,8 @@ public interface LabTestDetailItem {
         Long getId();
         String getFullName();
         String getPid();
+        String getAge();
+        String getGender();
     }
 
     interface PatientInvoice{
