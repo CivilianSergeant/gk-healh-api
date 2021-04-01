@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface PatientInvoiceService {
 
-    void createInvoice(Patient patient) throws Exception;
+    Boolean createInvoice(Patient patient) throws Exception;
 
     Optional<PatientInvoiceDetail> getInvoiceById(Long id);
 

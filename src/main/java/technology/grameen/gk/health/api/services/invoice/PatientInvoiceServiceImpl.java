@@ -42,7 +42,7 @@ public class PatientInvoiceServiceImpl implements PatientInvoiceService {
 
     @Override
     @Transactional
-    public void createInvoice(Patient patient) throws Exception {
+    public Boolean createInvoice(Patient patient) throws Exception {
         this.patientNotFound = false;
         PatientInvoice patientInvoice = patient.getPatientInvoices()
                     .stream().filter(invoice-> invoice.getId()==null)
@@ -91,6 +91,8 @@ public class PatientInvoiceServiceImpl implements PatientInvoiceService {
             }
 
         }
+
+        return true;
     }
 
 
