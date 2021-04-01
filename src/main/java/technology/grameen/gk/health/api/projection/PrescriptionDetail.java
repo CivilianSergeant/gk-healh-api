@@ -40,12 +40,18 @@ public interface PrescriptionDetail {
         Long getId();
         Boolean getGB();
     }
+    interface CardMember{
+        Long getId();
+       CardRegistration getCardRegistration();
+
+    }
     interface Patient{
         Long getId();
         String getFullName();
         String getAge();
         String getGender();
         CardRegistration getRegistration();
+        CardMember getCardMember();
     }
 
     interface Invoice{

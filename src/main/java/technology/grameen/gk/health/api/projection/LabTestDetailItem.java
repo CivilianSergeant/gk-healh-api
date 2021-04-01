@@ -5,12 +5,25 @@ import java.util.Set;
 
 public interface LabTestDetailItem {
 
+    interface CardRegistration{
+        Long getId();
+        Boolean getGB();
+    }
+
+    interface CardMember{
+        Long getId();
+        CardRegistration getCardRegistration();
+
+    }
+
     interface Patient{
         Long getId();
         String getFullName();
         String getPid();
         String getAge();
         String getGender();
+        CardRegistration getRegistration();
+        CardMember getCardMember();
     }
 
     interface PatientInvoice{
