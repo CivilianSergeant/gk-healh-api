@@ -1,7 +1,5 @@
 package technology.grameen.gk.health.api.projection;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
-
 public class EmployeeSyncResponseObject {
 
     private String Message;

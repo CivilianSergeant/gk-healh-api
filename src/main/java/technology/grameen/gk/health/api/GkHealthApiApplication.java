@@ -1,5 +1,6 @@
 package technology.grameen.gk.health.api;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -13,11 +14,15 @@ public class GkHealthApiApplication {
 		SpringApplication.run(GkHealthApiApplication.class, args);
 	}
 
+
+
 	@Bean
 	public WebMvcConfigurer corsConfigurer() {
+
 		return new WebMvcConfigurer() {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
+
 				registry.addMapping("/api/v1/**")
 						.allowedMethods("OPTIONS","GET","POST","PUT","DELETE")
 						.allowedOrigins("http://localhost:8081");

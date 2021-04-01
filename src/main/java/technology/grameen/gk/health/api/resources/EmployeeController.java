@@ -64,8 +64,7 @@ public class EmployeeController {
 
     @GetMapping("/api-id/{apiEmployeeId}")
     public ResponseEntity<IResponse> getEmployeeByApiEmployeeId(@PathVariable("apiEmployeeId") Long apiEmployeeId){
-        return new ResponseEntity<>(new EntityResponse(HttpStatus.OK.value(),
-                employeeService.getEmployeeByApiEmployeeId(apiEmployeeId)),HttpStatus.OK);
+        return new ResponseEntity<>(employeeService.getEmployeeByApiEmployeeId(apiEmployeeId),HttpStatus.OK);
     }
 
     @GetMapping("/employees")

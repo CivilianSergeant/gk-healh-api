@@ -1,7 +1,7 @@
 package technology.grameen.gk.health.api.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.sun.org.apache.xpath.internal.operations.Bool;
+
 
 import javax.persistence.*;
 

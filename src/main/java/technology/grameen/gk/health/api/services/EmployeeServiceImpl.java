@@ -1,10 +1,14 @@
 package technology.grameen.gk.health.api.services;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import technology.grameen.gk.health.api.entity.Employee;
 import technology.grameen.gk.health.api.entity.HealthCenter;
 import technology.grameen.gk.health.api.repositories.EmployeeRepository;
+import technology.grameen.gk.health.api.responses.EntityResponse;
+import technology.grameen.gk.health.api.responses.IResponse;
+import technology.grameen.gk.health.api.responses.SimpleResponse;
 
 import java.util.List;
 import java.util.Optional;
@@ -35,7 +39,11 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public Optional<Employee> getEmployeeByApiEmployeeId(Long id) {
-        return employeeRepository.findByApiEmployeeId(id);
+    public IResponse getEmployeeByApiEmployeeId(Long id) {
+        Integer count = employeeRepository.getCount(id);
+        if(count>1){
+            return new SimpleResponse(HttpStatus.OK.value(), "Sorry! There are several records found with same Api id");
+        }
+        return new EntityResponse<>(HttpStatus.OK.value(),employeeRepository.findByApiEmployeeId(id));
     }
 }

@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin("${client-url}")
 @RestController
 @RequestMapping("/api/v1/service")
 public class ServiceController {
