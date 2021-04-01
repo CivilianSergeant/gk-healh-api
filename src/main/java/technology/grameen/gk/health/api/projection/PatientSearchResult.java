@@ -44,15 +44,27 @@ public interface PatientSearchResult {
                 String getPid();
         }
 
-        interface CardMemberCardRegistration{
+        interface CardRegistration{
+                Long getId();
+                Boolean getActive();
                 String getCardNumber();
                 Patient getPatient();
                 Boolean getGB();
+                Set<CardMember> getMembers();
+        }
+
+        interface CardMemberCardRegistration{
+                Long getId();
+                Boolean getGB();
+                Patient getPatient();
+                String getCardNumber();
         }
 
         interface CardMember{
                 Long getId();
+                String getFullName();
                 CardMemberCardRegistration getCardRegistration();
+                Patient getPatient();
 
         }
 
