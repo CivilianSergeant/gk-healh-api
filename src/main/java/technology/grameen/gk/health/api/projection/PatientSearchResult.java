@@ -47,6 +47,7 @@ public interface PatientSearchResult {
         interface CardMemberCardRegistration{
                 String getCardNumber();
                 Patient getPatient();
+                Boolean getGB();
         }
 
         interface CardMember{

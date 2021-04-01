@@ -7,9 +7,11 @@ import org.springframework.web.bind.annotation.*;
 import technology.grameen.gk.health.api.projection.PatientInvoiceDetail;
 import technology.grameen.gk.health.api.entity.Patient;
 import technology.grameen.gk.health.api.projection.PatientInvoiceAutoComplete;
+import technology.grameen.gk.health.api.projection.PatientSearchResult;
 import technology.grameen.gk.health.api.responses.EntityCollectionResponse;
 import technology.grameen.gk.health.api.responses.EntityResponse;
 import technology.grameen.gk.health.api.responses.IResponse;
+import technology.grameen.gk.health.api.services.PatientManageService;
 import technology.grameen.gk.health.api.services.invoice.PatientInvoiceService;
 
 import java.util.List;
@@ -21,6 +23,9 @@ public class PatientInvoiceController {
 
     @Autowired
     private PatientInvoiceService patientInvoiceService;
+
+    @Autowired
+    private PatientManageService patientManageService;
 
     @GetMapping("/invoice-numbers/{invoiceNumber}")
     public ResponseEntity<IResponse> getByInvoiceNumber(@PathVariable("invoiceNumber") String invoiceNumber){
@@ -37,8 +42,12 @@ public class PatientInvoiceController {
     @PostMapping("/create")
     public ResponseEntity<IResponse> createInvoice(@RequestBody Patient patient){
         try {
-            patientInvoiceService.createInvoice(patient);
-            return new ResponseEntity<>(new EntityResponse<Patient>(HttpStatus.OK.value(),patient), HttpStatus.OK);
+            Optional<PatientSearchResult> patient1 = null;
+            Boolean created = patientInvoiceService.createInvoice(patient);
+            if(created){
+                patient1 = patientManageService.getPatientByPId(patient.getPid());
+            }
+            return new ResponseEntity<>(new EntityResponse<PatientSearchResult>(HttpStatus.OK.value(),patient1.get()), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
         }
