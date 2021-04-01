@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import technology.grameen.gk.health.api.entity.Employee;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface EmployeeService {
 
@@ -11,5 +12,5 @@ public interface EmployeeService {
 
     List<Employee> getAll();
 
-    Employee getEmployeeByApiEmployeeId(Long id);
+    Optional<Employee> getEmployeeByApiEmployeeId(Long id);
 }

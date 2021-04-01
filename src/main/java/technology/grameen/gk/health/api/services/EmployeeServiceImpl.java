@@ -7,6 +7,7 @@ import technology.grameen.gk.health.api.entity.HealthCenter;
 import technology.grameen.gk.health.api.repositories.EmployeeRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
@@ -34,7 +35,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public Employee getEmployeeByApiEmployeeId(Long id) {
+    public Optional<Employee> getEmployeeByApiEmployeeId(Long id) {
         return employeeRepository.findByApiEmployeeId(id);
     }
 }
