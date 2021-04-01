@@ -12,11 +12,9 @@ public interface LabTestDetailItem {
     }
 
     interface PatientInvoice{
-
         Long getId();
         String getInvoiceNumber();
         LocalDateTime getCreatedAt();
-
     }
 
     interface LabTestUnit{
@@ -27,7 +25,6 @@ public interface LabTestDetailItem {
     interface LabTestAttribute{
         Long getId();
         LabTestUnit getLabTestUnit();
-
         String getAttributeName();
         String getAverageRange();
         String getMaleRange();
@@ -39,11 +36,9 @@ public interface LabTestDetailItem {
     }
 
     interface LabTestReportDetail{
-
         Long getId();
         LabTestAttribute getLabTestAttribute();
         String getResult();
-
     }
 
     interface  Specimen{
