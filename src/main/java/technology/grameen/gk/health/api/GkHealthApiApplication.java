@@ -19,13 +19,16 @@ public class GkHealthApiApplication {
 	@Bean
 	public WebMvcConfigurer corsConfigurer() {
 
+		String liveUrl="http://103.26.136.30";
+		String devUrl="http://localhost:8081";
+
 		return new WebMvcConfigurer() {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
 
 				registry.addMapping("/api/v1/**")
 						.allowedMethods("OPTIONS","GET","POST","PUT","DELETE")
-						.allowedOrigins("http://localhost:8081");
+						.allowedOrigins(devUrl);
 			}
 		};
 	}
