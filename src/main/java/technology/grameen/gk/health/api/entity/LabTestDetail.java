@@ -16,7 +16,7 @@ public class LabTestDetail {
     @JoinColumn(name = "lab_test_id",referencedColumnName = "id")
     private LabTest labTest;
 
-    @OneToOne
+    @ManyToOne
     private LabTestAttribute labTestAttribute;
 
     private String result;

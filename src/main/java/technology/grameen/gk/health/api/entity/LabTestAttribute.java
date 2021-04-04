@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.math.BigInteger;
+import java.util.Set;
 
 @Entity
 @Table(name = "lab_test_attributes")
@@ -33,8 +34,8 @@ public class LabTestAttribute {
 
     private Boolean isGroup;
 
-    @OneToOne(mappedBy = "labTestAttribute")
-    private LabTestDetail labTestDetail;
+    @OneToMany
+    private Set<LabTestDetail> labTestDetails;
 
     public Long getId() {
         return id;
@@ -125,5 +126,18 @@ public class LabTestAttribute {
 
     public void setLabTestUnit(LabTestUnit labTestUnit) {
         this.labTestUnit = labTestUnit;
+    }
+
+    public Set<LabTestDetail> getLabTestDetail() {
+        return labTestDetails;
+    }
+
+    public void addLabTestDetail(LabTestDetail labTestDetail) {
+        if(labTestDetail != null){
+            if(this.labTestDetails == null){
+                labTestDetail.setLabTestAttribute(this);
+                this.labTestDetails.add(labTestDetail);
+            }
+        }
     }
 }
