@@ -19,6 +19,8 @@ public class RecommendedTest {
     @ManyToOne
     private Service service;
 
+    private  String remarks;
+
     public Long getId() {
         return id;
     }
@@ -42,5 +44,13 @@ public class RecommendedTest {
 
     public void setService(Service service) {
         this.service = service;
+    }
+
+    public String getRemarks() {
+        return remarks;
+    }
+
+    public void setRemarks(String remarks) {
+        this.remarks = remarks;
     }
 }

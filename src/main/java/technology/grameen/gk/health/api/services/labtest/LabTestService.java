@@ -1,7 +1,6 @@
 package technology.grameen.gk.health.api.services.labtest;
 
-import technology.grameen.gk.health.api.entity.LabTest;
-import technology.grameen.gk.health.api.entity.LabTestDetail;
+import technology.grameen.gk.health.api.entity.*;
 import technology.grameen.gk.health.api.projection.LabTestDetailItem;
 import technology.grameen.gk.health.api.projection.LabTestListItem;
 
@@ -15,4 +14,8 @@ public interface LabTestService {
     List<LabTestListItem> getLabTestReports();
 
     Optional<LabTestDetailItem> getLabTestReportById(Long id);
+
+    Optional<LabTestDetailItem> getLabTestReportByPatientInvoiceService(Patient patient,
+                                                                 PatientInvoice patientInvoice,
+                                                                 Service service);
 }

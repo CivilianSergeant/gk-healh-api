@@ -5,6 +5,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import technology.grameen.gk.health.api.entity.LabTest;
+import technology.grameen.gk.health.api.entity.Patient;
+import technology.grameen.gk.health.api.entity.PatientInvoice;
+import technology.grameen.gk.health.api.entity.Service;
 import technology.grameen.gk.health.api.projection.LabTestDetailItem;
 import technology.grameen.gk.health.api.projection.LabTestListItem;
 
@@ -24,5 +27,9 @@ public interface LabTestRepository extends JpaRepository<LabTest,Long> {
 
     @Query("Select l from LabTest l where l.id = :id")
     Optional<LabTestDetailItem> findByLabTest(@Param("id") Long id);
+
+    Optional<LabTestDetailItem> findByPatientAndPatientInvoiceAndService(Patient patient,
+                                                                         PatientInvoice patientInvoice,
+                                                                         Service service);
 
 }
