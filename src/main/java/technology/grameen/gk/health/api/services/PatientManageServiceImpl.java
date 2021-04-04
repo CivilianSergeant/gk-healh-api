@@ -156,6 +156,6 @@ public class PatientManageServiceImpl implements PatientManageService {
 
     @Override
     public List<PatientNumberAutoComplete> getPatientIds(String pid) {
-        return patientRepository.findByPidStartingWithIgnoreCase(pid);
+        return patientRepository.findByPidContaining(pid);
     }
 }

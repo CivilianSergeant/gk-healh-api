@@ -31,6 +31,6 @@ public interface PatientInvoiceRepository extends JpaRepository<PatientInvoice,L
             " JOIN FETCH p.createdBy createdBy where pi.id = :number")
     Optional<PatientInvoiceDetail> findByInvoiceId(@Param("number") Long number);
 
-    List<PatientInvoiceAutoComplete> findByInvoiceNumberStartingWithIgnoreCase(String number);
+    List<PatientInvoiceAutoComplete> findByInvoiceNumberContaining(String number);
 
 }
