@@ -9,6 +9,8 @@ public interface HealthCenterService {
 
     HealthCenter addCenter(HealthCenter center);
 
+    HealthCenter updateCenter(HealthCenter center);
+
     List<HealthCenter> getCenters();
 
     Optional<HealthCenter> findById(Long id);

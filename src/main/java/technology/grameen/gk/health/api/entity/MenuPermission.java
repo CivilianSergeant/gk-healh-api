@@ -1,5 +1,7 @@
 package technology.grameen.gk.health.api.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 
 @Entity
@@ -12,6 +14,42 @@ public class MenuPermission {
 
     private String role;
 
+    private Boolean read;
+    private Boolean write;
+
+    @JsonBackReference
     @ManyToOne
     private Menu menu;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public Boolean getRead() {
+        return read;
+    }
+
+    public void setRead(Boolean read) {
+        this.read = read;
+    }
+
+    public Boolean getWrite() {
+        return write;
+    }
+
+    public void setWrite(Boolean write) {
+        this.write = write;
+    }
 }
