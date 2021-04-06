@@ -22,6 +22,11 @@ public class HealthCenter {
     private String centerCode;
     private String address;
     private Boolean isActive;
+    private String firstLevel;
+    private String secondLevel;
+    private String thirdLevel;
+    private String fourthLevel;
+    private String fifthLevel;
 
     @OneToMany(mappedBy = "center")
     private Set<Employee> employees;

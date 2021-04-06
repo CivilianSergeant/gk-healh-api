@@ -91,4 +91,8 @@ public class Menu {
     public void setChildren(Set<Menu> children) {
         this.children = children;
     }
+
+    public Set<MenuPermission> getPermissions(){
+        return this.permissions;
+    }
 }

@@ -47,4 +47,23 @@ public class HealthCenterController {
         HealthCenter center = healthCenterService.addCenter(req);
         return new ResponseEntity<>(new EntityResponse<>(HttpStatus.OK.value(),center), HttpStatus.OK);
     }
+
+    @PutMapping(value = "/add")
+    public ResponseEntity<IResponse> updateCenter(@RequestBody HealthCenter req){
+        if(req.getId()==null){
+            return new ResponseEntity<>(new ExceptionResponse(HttpStatus.UNPROCESSABLE_ENTITY.value(),
+                    "Center/Office id required to update"),HttpStatus.UNPROCESSABLE_ENTITY);
+        }
+//        if(req.getName().isEmpty()){
+//            return new ResponseEntity<>(new ExceptionResponse(HttpStatus.UNPROCESSABLE_ENTITY.value(),
+//                    "Center/Office Name Required"),HttpStatus.UNPROCESSABLE_ENTITY);
+//        }
+//        if(req.getCenterCode().isEmpty()){
+//            return new ResponseEntity<>(new ExceptionResponse(HttpStatus.UNPROCESSABLE_ENTITY.value(),
+//                    "Center/Office Code Required"),HttpStatus.UNPROCESSABLE_ENTITY);
+//        }
+
+        HealthCenter center = healthCenterService.addCenter(req);
+        return new ResponseEntity<>(new EntityResponse<>(HttpStatus.OK.value(),center), HttpStatus.OK);
+    }
 }
