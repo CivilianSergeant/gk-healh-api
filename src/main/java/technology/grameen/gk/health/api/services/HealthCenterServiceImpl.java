@@ -28,6 +28,23 @@ public class HealthCenterServiceImpl implements HealthCenterService {
     }
 
     @Override
+    public HealthCenter updateCenter(HealthCenter req) {
+        HealthCenter center = healthCenterRepository.findById(req.getId()).get();
+        if(center==null){
+            throw new RuntimeException("Center not found");
+        }
+        center.setCenterCode(req.getCenterCode());
+        center.setName(req.getName());
+        center.setFirstLevel(req.getFirstLevel());
+        center.setSecondLevel(req.getSecondLevel());
+        center.setThirdLevel(req.getThirdLevel());
+        center.setFourthLevel(req.getFourthLevel());
+        center.setFifthLevel(req.getFifthLevel());
+        healthCenterRepository.save(center);
+        return center;
+    }
+
+    @Override
     public List<HealthCenter> getCenters() {
         return healthCenterRepository.findAll();
     }

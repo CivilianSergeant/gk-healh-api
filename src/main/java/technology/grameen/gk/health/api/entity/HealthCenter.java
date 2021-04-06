@@ -174,4 +174,44 @@ public class HealthCenter {
     public void setActive(Boolean active) {
         isActive = active;
     }
+
+    public String getFirstLevel() {
+        return firstLevel;
+    }
+
+    public void setFirstLevel(String firstLevel) {
+        this.firstLevel = firstLevel;
+    }
+
+    public String getSecondLevel() {
+        return secondLevel;
+    }
+
+    public void setSecondLevel(String secondLevel) {
+        this.secondLevel = secondLevel;
+    }
+
+    public String getThirdLevel() {
+        return thirdLevel;
+    }
+
+    public void setThirdLevel(String thirdLevel) {
+        this.thirdLevel = thirdLevel;
+    }
+
+    public String getFourthLevel() {
+        return fourthLevel;
+    }
+
+    public void setFourthLevel(String fourthLevel) {
+        this.fourthLevel = fourthLevel;
+    }
+
+    public String getFifthLevel() {
+        return fifthLevel;
+    }
+
+    public void setFifthLevel(String fifthLevel) {
+        this.fifthLevel = fifthLevel;
+    }
 }

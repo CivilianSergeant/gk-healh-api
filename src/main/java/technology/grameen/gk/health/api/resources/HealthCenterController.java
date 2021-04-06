@@ -62,8 +62,13 @@ public class HealthCenterController {
 //            return new ResponseEntity<>(new ExceptionResponse(HttpStatus.UNPROCESSABLE_ENTITY.value(),
 //                    "Center/Office Code Required"),HttpStatus.UNPROCESSABLE_ENTITY);
 //        }
-
-        HealthCenter center = healthCenterService.addCenter(req);
+        HealthCenter center = null;
+        try {
+            center = healthCenterService.updateCenter(req);
+        }catch (RuntimeException ex){
+            return new ResponseEntity<>(new ExceptionResponse(HttpStatus.UNPROCESSABLE_ENTITY.value(), ex.getMessage()),
+                    HttpStatus.UNPROCESSABLE_ENTITY);
+        }
         return new ResponseEntity<>(new EntityResponse<>(HttpStatus.OK.value(),center), HttpStatus.OK);
     }
 }
