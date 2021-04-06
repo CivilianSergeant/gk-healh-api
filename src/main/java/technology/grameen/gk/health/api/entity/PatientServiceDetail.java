@@ -36,6 +36,8 @@ public class PatientServiceDetail {
 
     private BigDecimal payableAmount;
 
+    private Boolean isReportGenerated;
+
     @CreationTimestamp
     private LocalDateTime createdAt;
 
@@ -125,5 +127,13 @@ public class PatientServiceDetail {
 
     public void setLastUpdatedAt(LocalDateTime lastUpdatedAt) {
         this.lastUpdatedAt = lastUpdatedAt;
+    }
+
+    public Boolean getReportGenerated() {
+        return isReportGenerated;
+    }
+
+    public void setReportGenerated(Boolean reportGenerated) {
+        isReportGenerated = reportGenerated;
     }
 }

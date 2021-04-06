@@ -22,7 +22,7 @@ public interface LabTestRepository extends JpaRepository<LabTest,Long> {
     @Query(value = "SELECT lt.id, p.FULL_NAME AS fullName , p.PID as pid , pi2.INVOICE_NUMBER AS invoiceNumber, se.NAME AS serviceName," +
             " lt.CREATED_AT AS createdAt FROM  LAB_TESTS lt INNER JOIN PATIENTS p ON p.id = lt.PATIENT_ID \n" +
             "INNER JOIN PATIENT_INVOICES pi2 ON pi2.id = lt.PATIENT_INVOICE_ID " +
-            "INNER JOIN SERVICE se ON se.SERVICE_ID = lt.SERVICE_ID", nativeQuery=true)
+            "INNER JOIN SERVICE se ON se.SERVICE_ID = lt.SERVICE_ID ORDER BY lt.id DESC", nativeQuery=true)
     List<LabTestListItem> getLabTests();
 
     @Query("Select l from LabTest l where l.id = :id")

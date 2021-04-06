@@ -68,6 +68,7 @@ public class PatientInvoiceServiceImpl implements PatientInvoiceService {
             patientServiceDetails.stream().forEach(patientServiceDetail->{
 
                 patientServiceDetail.setServiceQty(1);
+                patientServiceDetail.setReportGenerated(false);
                 Service service = patientServiceDetail.getService();
                 service.addPatientService(patientServiceDetail);
                 patientInvoice.addPatientServiceDetail(patientServiceDetail);
@@ -95,5 +96,14 @@ public class PatientInvoiceServiceImpl implements PatientInvoiceService {
         return true;
     }
 
+    @Override
+    public Optional<PatientServiceDetail> getPatientServiceDetailByInvoiceAndService(
+                            PatientInvoice patientInvoice, Service service) {
+        return patientServiceRepository.findByPatientInvoiceAndService(patientInvoice,service);
+    }
 
+    @Override
+    public PatientServiceDetail updatePatientServiceDetail(PatientServiceDetail patientServiceDetail) {
+        return patientServiceRepository.save(patientServiceDetail);
+    }
 }

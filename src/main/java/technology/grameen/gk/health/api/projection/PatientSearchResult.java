@@ -25,6 +25,7 @@ public interface PatientSearchResult {
                 BigDecimal getDiscountAmount();
                 BigDecimal getPayableAmount();
                 LocalDateTime getCreatedAt();
+                Boolean getReportGenerated();
         }
 
         interface PatientInvoice{

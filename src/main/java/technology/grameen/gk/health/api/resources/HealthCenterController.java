@@ -54,14 +54,14 @@ public class HealthCenterController {
             return new ResponseEntity<>(new ExceptionResponse(HttpStatus.UNPROCESSABLE_ENTITY.value(),
                     "Center/Office id required to update"),HttpStatus.UNPROCESSABLE_ENTITY);
         }
-//        if(req.getName().isEmpty()){
-//            return new ResponseEntity<>(new ExceptionResponse(HttpStatus.UNPROCESSABLE_ENTITY.value(),
-//                    "Center/Office Name Required"),HttpStatus.UNPROCESSABLE_ENTITY);
-//        }
-//        if(req.getCenterCode().isEmpty()){
-//            return new ResponseEntity<>(new ExceptionResponse(HttpStatus.UNPROCESSABLE_ENTITY.value(),
-//                    "Center/Office Code Required"),HttpStatus.UNPROCESSABLE_ENTITY);
-//        }
+        if(req.getName().isEmpty()){
+            return new ResponseEntity<>(new ExceptionResponse(HttpStatus.UNPROCESSABLE_ENTITY.value(),
+                    "Center/Office Name Required"),HttpStatus.UNPROCESSABLE_ENTITY);
+        }
+        if(req.getCenterCode().isEmpty()){
+            return new ResponseEntity<>(new ExceptionResponse(HttpStatus.UNPROCESSABLE_ENTITY.value(),
+                    "Center/Office Code Required"),HttpStatus.UNPROCESSABLE_ENTITY);
+        }
         HealthCenter center = null;
         try {
             center = healthCenterService.updateCenter(req);
