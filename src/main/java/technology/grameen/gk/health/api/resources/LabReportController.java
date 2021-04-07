@@ -10,6 +10,7 @@ import technology.grameen.gk.health.api.entity.Service;
 import technology.grameen.gk.health.api.responses.EntityCollectionResponse;
 import technology.grameen.gk.health.api.responses.EntityResponse;
 import technology.grameen.gk.health.api.responses.IResponse;
+import technology.grameen.gk.health.api.responses.SimpleResponse;
 import technology.grameen.gk.health.api.services.labtest.LabTestService;
 
 @RestController
@@ -27,6 +28,13 @@ public class LabReportController {
         LabTest labTest1 = labTestService.saveLabTest(labTest);
         return new ResponseEntity<>(new EntityResponse<>(HttpStatus.OK.value(),
                 labTest1), HttpStatus.OK);
+    }
+
+    @PutMapping("/add")
+    public ResponseEntity<IResponse> updateLabReport(@RequestBody LabTest labTest){
+        labTestService.saveLabTest(labTest);
+        return new ResponseEntity<>(new SimpleResponse(HttpStatus.OK.value(),
+                "Successfully updated"), HttpStatus.OK);
     }
 
     @GetMapping("")
