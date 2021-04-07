@@ -128,9 +128,9 @@ public class LabTestAttribute {
         this.labTestUnit = labTestUnit;
     }
 
-    public Set<LabTestDetail> getLabTestDetail() {
-        return labTestDetails;
-    }
+//    public Set<LabTestDetail> getLabTestDetail() {
+//        return labTestDetails;
+//    }
 
     public void addLabTestDetail(LabTestDetail labTestDetail) {
         if(labTestDetail != null){
