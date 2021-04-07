@@ -34,7 +34,7 @@ public class LabTestAttribute {
 
     private Boolean isGroup;
 
-    @OneToMany
+    @OneToMany(mappedBy = "labTestAttribute")
     private Set<LabTestDetail> labTestDetails;
 
     public Long getId() {
