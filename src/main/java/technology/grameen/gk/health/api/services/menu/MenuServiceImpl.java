@@ -17,7 +17,7 @@ public class MenuServiceImpl implements  MenuService{
 
     @Override
     public List<Menu> getAvailableMenus() {
-        return menuRepository.findAll();
+        return menuRepository.findAllOrderByDisplayOrderAsc();
     }
 
     @Override

@@ -33,7 +33,8 @@ public class HttpClientImpl implements HttpClient {
 
     @Override
     public AdminAcessToken getAdminAccessToken() {
-
+        httpHeaders = new HttpHeaders();
+        restTemplate = new RestTemplate();
         httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 
         AdminAcessToken response = null;

@@ -12,11 +12,12 @@ public class Menu {
     private Long id;
 
     private String name;
+    private String routeName;
     private String route;
     private Boolean isSelected;
     private Boolean isVisible;
     private String icon;
-
+    
     private Integer displayOrder;
 
     @ManyToOne
@@ -42,6 +43,14 @@ public class Menu {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getRouteName() {
+        return routeName;
+    }
+
+    public void setRouteName(String routeName) {
+        this.routeName = routeName;
     }
 
     public String getRoute() {
@@ -92,7 +101,19 @@ public class Menu {
         this.children = children;
     }
 
-    public Set<MenuPermission> getPermissions(){
-        return this.permissions;
+    public Integer getDisplayOrder() {
+        return displayOrder;
+    }
+
+    public void setDisplayOrder(Integer displayOrder) {
+        this.displayOrder = displayOrder;
+    }
+
+    public Set<MenuPermission> getPermissions() {
+        return permissions;
+    }
+
+    public void setPermissions(Set<MenuPermission> permissions) {
+        this.permissions = permissions;
     }
 }
