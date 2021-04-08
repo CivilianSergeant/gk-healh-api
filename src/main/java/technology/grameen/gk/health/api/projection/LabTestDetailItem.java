@@ -1,5 +1,6 @@
 package technology.grameen.gk.health.api.projection;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Set;
 
@@ -79,5 +80,7 @@ public interface LabTestDetailItem {
      Service getService();
      Set<LabTestReportDetail> getDetails();
      LocalDateTime getCreatedAt();
+     LocalDate getDeliveryDate();
+     String getStatus();
 
 }

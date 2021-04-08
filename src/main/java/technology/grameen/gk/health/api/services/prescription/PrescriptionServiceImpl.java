@@ -41,7 +41,6 @@ public class PrescriptionServiceImpl implements PrescriptionService {
     @Override
     @Transactional
     public Prescription savePrescription(Prescription prescription) {
-
         Prescription newPrescription = prescriptionRepository.save(prescription);
         newPrescription.setpNumber(getPrescriptionNumber(prescription.getCenter()));
         FamilyHistory familyHistory = prescription.getFamilyHistory();

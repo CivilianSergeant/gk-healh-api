@@ -10,6 +10,7 @@ public interface LabTestListItem {
     String getInvoiceNumber();
     LocalDate getCreatedAt();
     String getServiceName();
+    String getStatus();
 
 
 }
