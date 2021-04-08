@@ -16,7 +16,7 @@ public interface PatientManageService {
 
    Page<Patient> getPatients(Pageable pageable);
 
-   Optional<Patient> getPatientById(Long id);
+   Optional<PatientSearchResult> getPatientById(Long id);
 
    Optional<PatientSearchResult> getPatientByPId(String id);
 

@@ -96,8 +96,8 @@ public class PatientManageServiceImpl implements PatientManageService {
     }
 
     @Override
-    public Optional<Patient> getPatientById(Long id) {
-        return this.patientRepository.findById(id);
+    public Optional<PatientSearchResult> getPatientById(Long id) {
+        return this.patientRepository.findPatientById(id);
     }
 
     @Override

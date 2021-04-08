@@ -34,7 +34,7 @@ public class PatientController {
 
 
     @RequestMapping(value = "/{id}")
-    public ResponseEntity<Optional<Patient>> findById(@PathVariable("id") Long id){
+    public ResponseEntity<Optional<PatientSearchResult>> findById(@PathVariable("id") Long id){
 
         return new ResponseEntity<>(patientManageService.getPatientById(id), HttpStatus.OK);
     }
