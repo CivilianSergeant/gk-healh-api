@@ -58,4 +58,9 @@ public class HealthCenterServiceImpl implements HealthCenterService {
     public Optional<HealthCenter> getCenterByApiCenterId(Long apiCenterId) {
         return healthCenterRepository.findByApiOfficeId(apiCenterId);
     }
+
+    @Override
+    public List<HealthCenter> getCentersByKeyword(String keyword) {
+        return healthCenterRepository.findByNameContainingIgnoreCase(keyword);
+    }
 }

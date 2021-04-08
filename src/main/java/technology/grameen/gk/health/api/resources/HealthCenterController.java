@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import technology.grameen.gk.health.api.entity.HealthCenter;
+import technology.grameen.gk.health.api.responses.EntityCollectionResponse;
 import technology.grameen.gk.health.api.responses.EntityResponse;
 import technology.grameen.gk.health.api.responses.ExceptionResponse;
 import technology.grameen.gk.health.api.responses.IResponse;
@@ -70,5 +71,11 @@ public class HealthCenterController {
                     HttpStatus.UNPROCESSABLE_ENTITY);
         }
         return new ResponseEntity<>(new EntityResponse<>(HttpStatus.OK.value(),center), HttpStatus.OK);
+    }
+
+    @GetMapping("/by-keyword/{keyword}")
+    public ResponseEntity<IResponse> getCentersByKeyword(@PathVariable("keyword") String keyword){
+        return new ResponseEntity<>(new EntityCollectionResponse<>(HttpStatus.OK.value(),
+                healthCenterService.getCentersByKeyword(keyword)),HttpStatus.OK);
     }
 }

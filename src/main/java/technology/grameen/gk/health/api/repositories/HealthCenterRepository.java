@@ -17,4 +17,6 @@ public interface HealthCenterRepository extends JpaRepository<HealthCenter,Long>
     List<HealthCenter> findAll();
 
     Optional<HealthCenter> findByApiOfficeId(Long apiCenterId);
+
+    List<HealthCenter> findByNameContainingIgnoreCase(String keyword);
 }

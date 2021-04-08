@@ -16,4 +16,6 @@ public interface HealthCenterService {
     Optional<HealthCenter> findById(Long id);
 
     Optional<HealthCenter> getCenterByApiCenterId(Long apiCenterId);
+
+    List<HealthCenter> getCentersByKeyword(String keyword);
 }
