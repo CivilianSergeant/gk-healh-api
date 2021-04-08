@@ -22,11 +22,14 @@ public class HealthCenter {
     private String centerCode;
     private String address;
     private Boolean isActive;
+    private Integer officeLevel;
     private String firstLevel;
     private String secondLevel;
     private String thirdLevel;
     private String fourthLevel;
     private String fifthLevel;
+
+    private Integer officeTypeId;
 
     @OneToMany(mappedBy = "center")
     private Set<Employee> employees;
@@ -175,6 +178,14 @@ public class HealthCenter {
         isActive = active;
     }
 
+    public Integer getOfficeLevel() {
+        return officeLevel;
+    }
+
+    public void setOfficeLevel(Integer officeLevel) {
+        this.officeLevel = officeLevel;
+    }
+
     public String getFirstLevel() {
         return firstLevel;
     }
@@ -213,5 +224,13 @@ public class HealthCenter {
 
     public void setFifthLevel(String fifthLevel) {
         this.fifthLevel = fifthLevel;
+    }
+
+    public Integer getOfficeTypeId() {
+        return officeTypeId;
+    }
+
+    public void setOfficeTypeId(Integer officeTypeId) {
+        this.officeTypeId = officeTypeId;
     }
 }
