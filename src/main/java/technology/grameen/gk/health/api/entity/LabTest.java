@@ -43,6 +43,7 @@ public class LabTest {
     private LocalDateTime receivedDate;
     private LocalDateTime printDate;
     private LocalDate deliveryDate;
+
     private String status;
 
     @ManyToOne
