@@ -24,6 +24,7 @@ public class Employee {
     private String contactNumber;
     private String email;
     private Boolean isActive;
+    private String employeeCode;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonBackReference
@@ -173,5 +174,13 @@ public class Employee {
 
     public void setActive(Boolean active) {
         isActive = active;
+    }
+
+    public String getEmployeeCode() {
+        return employeeCode;
+    }
+
+    public void setEmployeeCode(String employeeCode) {
+        this.employeeCode = employeeCode;
     }
 }
