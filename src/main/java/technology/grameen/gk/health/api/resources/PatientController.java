@@ -12,6 +12,7 @@ import technology.grameen.gk.health.api.entity.Patient;
 import technology.grameen.gk.health.api.projection.PatientSearchResult;
 import technology.grameen.gk.health.api.projection.PatientNumberAutoComplete;
 import technology.grameen.gk.health.api.requests.PatientRequest;
+import technology.grameen.gk.health.api.requests.PatientSearch;
 import technology.grameen.gk.health.api.responses.*;
 import technology.grameen.gk.health.api.services.PatientManageService;
 import technology.grameen.gk.health.api.services.card_registration.CardMemberService;
@@ -39,17 +40,17 @@ public class PatientController {
         return new ResponseEntity<>(patientManageService.getPatientById(id), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "")
-    public ResponseEntity<Page<Patient>> list(@Param("page") Integer page,@Param("size") Integer size){
-        if(page==null){
-            page=0;
-        }
-        if(size==null){
-            size=20;
-        }
-        Pageable pageable = PageRequest.of(page,size);
-        return new ResponseEntity<>(patientManageService.getPatients(pageable), HttpStatus.OK);
-    }
+//    @RequestMapping(value = "")
+//    public ResponseEntity<Page<PatientListItem>> list(@Param("page") Integer page,@Param("size") Integer size){
+//        if(page==null){
+//            page=0;
+//        }
+//        if(size==null){
+//            size=20;
+//        }
+//        Pageable pageable = PageRequest.of(page,size);
+//        return new ResponseEntity<>(patientManageService.getPatients(pageable), HttpStatus.OK);
+//    }
 
     @PostMapping(value = "/add")
     public ResponseEntity<IResponse>addPatient(@RequestBody PatientRequest patient){
@@ -94,18 +95,17 @@ public class PatientController {
         return new ResponseEntity<>(new ExceptionResponse(422,"No Patient found"), HttpStatus.OK);
     }
 
-//    @PostMapping(value = "/card-registration")
-//    public ResponseEntity<IResponse> registerPatient(@RequestBody CardRegistration cardRegistration){
-//        try {
-//            Optional<Patient> patient = Optional.ofNullable(patientManageService.cardRegister(cardRegistration));
-//            if(patient.isPresent()){
-//                return new ResponseEntity<>(new PatientCreationResponse(HttpStatus.OK.value(),patient.get()), HttpStatus.OK);
-//            }
-//            return new ResponseEntity<>(new ExceptionResponse(HttpStatus.UNPROCESSABLE_ENTITY.value(),"No Patient found"), HttpStatus.OK);
-//        }catch (Exception ex){
-//            return new ResponseEntity<>(new ExceptionResponse(HttpStatus.UNPROCESSABLE_ENTITY.value(),
-//                    ex.getMessage()),HttpStatus.UNPROCESSABLE_ENTITY);
-//        }
-//
-//    }
+    @GetMapping("")
+    public ResponseEntity<IResponse> getPatientsBySearch(@RequestParam Optional<Long> centerId,
+                                                         @RequestParam Optional<String> field,
+                                                         @RequestParam Optional<String> value,
+                                                         @RequestParam Optional<Integer> page,
+                                                         @RequestParam Optional<Integer> size){
+
+        Pageable pageable = PageRequest.of(page.orElse(0),size.orElse(5));
+        return new ResponseEntity<>(new EntityResponse(HttpStatus.OK.value(),
+                patientManageService.getPatientsBySearch(centerId.orElse(null),
+                                field.orElse(null), value.orElse(null), pageable)),
+                                    HttpStatus.OK);
+    }
 }

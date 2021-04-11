@@ -6,6 +6,8 @@ import technology.grameen.gk.health.api.entity.Patient;
 import technology.grameen.gk.health.api.projection.PatientSearchResult;
 import technology.grameen.gk.health.api.projection.PatientNumberAutoComplete;
 import technology.grameen.gk.health.api.requests.PatientRequest;
+import technology.grameen.gk.health.api.requests.PatientSearch;
+import technology.grameen.gk.health.api.responses.PatientListItem;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,7 +16,7 @@ public interface PatientManageService {
 
    Patient addPatient(PatientRequest patient) throws Exception;
 
-   Page<Patient> getPatients(Pageable pageable);
+   Page<PatientListItem> getPatients(Pageable pageable);
 
    Optional<PatientSearchResult> getPatientById(Long id);
 
@@ -27,4 +29,7 @@ public interface PatientManageService {
    Patient  getReference(Long id);
 
    List<PatientNumberAutoComplete> getPatientIds(String pid);
+
+
+   Page<PatientListItem> getPatientsBySearch(Long centerId, String field, String value, Pageable pageable);
 }
