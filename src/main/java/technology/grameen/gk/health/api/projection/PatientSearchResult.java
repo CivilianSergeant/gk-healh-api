@@ -1,6 +1,7 @@
 package technology.grameen.gk.health.api.projection;
 
 import technology.grameen.gk.health.api.entity.CardRegistration;
+import technology.grameen.gk.health.api.entity.HealthCenter;
 import technology.grameen.gk.health.api.entity.PatientInvoice;
 
 import java.math.BigDecimal;
@@ -38,6 +39,7 @@ public interface PatientSearchResult {
                 BigDecimal getPaidAmount();
                 BigDecimal getDueAmount();
                 LocalDateTime getCreatedAt();
+                HealthCenter getCenter();
         }
 
         interface Patient{

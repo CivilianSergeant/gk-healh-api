@@ -10,6 +10,8 @@ import technology.grameen.gk.health.api.projection.PatientNumberAutoComplete;
 import technology.grameen.gk.health.api.projection.PatientSearchResult;
 import technology.grameen.gk.health.api.repositories.*;
 import technology.grameen.gk.health.api.requests.PatientRequest;
+import technology.grameen.gk.health.api.requests.PatientSearch;
+import technology.grameen.gk.health.api.responses.PatientListItem;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -91,13 +93,13 @@ public class PatientManageServiceImpl implements PatientManageService {
     }
 
     @Override
-    public Page<Patient> getPatients(Pageable pageable) {
-        return patientRepository.findAll(pageable);
+    public Page<PatientListItem> getPatients(Pageable pageable) {
+        return patientRepository.findAllPatients(pageable);
     }
 
     @Override
-    public Optional<Patient> getPatientById(Long id) {
-        return this.patientRepository.findById(id);
+    public Optional<PatientSearchResult> getPatientById(Long id) {
+        return this.patientRepository.findPatientById(id);
     }
 
     @Override
@@ -157,5 +159,29 @@ public class PatientManageServiceImpl implements PatientManageService {
     @Override
     public List<PatientNumberAutoComplete> getPatientIds(String pid) {
         return patientRepository.findByPidContainingIgnoreCase(pid);
+    }
+
+    @Override
+    public Page<PatientListItem> getPatientsBySearch(Long centerId, String field, String value, Pageable pageable) {
+
+        if(centerId != null && field != null && value != null){
+
+            if(field.equalsIgnoreCase("fullName")){
+                return patientRepository.findByCenterAndfullName(centerId,value,pageable);
+            }
+            if(field.equalsIgnoreCase("mobileNumber")){
+                return patientRepository.findByCenterAndMobileNo(centerId,value,pageable);
+            }
+            if(field.equalsIgnoreCase("pid")){
+                return patientRepository.findByCenterAndPid(centerId,value,pageable);
+            }
+        }
+
+        if(centerId!=null && (field == null || value==null)) {
+            return patientRepository.findByCenter(centerId, pageable);
+        }
+
+        return patientRepository.findAllPatients(pageable);
+
     }
 }
