@@ -104,7 +104,23 @@ public class PatientManageServiceImpl implements PatientManageService {
 
     @Override
     public Optional<PatientSearchResult> getPatientByPId(String pid){
-        return this.patientRepository.findByPid(pid);
+        Optional<PatientSearchResult> patientSearchResultOptional = this.patientRepository.findByPid(pid);
+
+        PatientSearchResult patientSearchResult = null;
+        if(patientSearchResultOptional.isPresent()){
+            patientSearchResult = patientSearchResultOptional.get();
+
+            PatientSearchResult.CardRegistration  cardRegistration = patientSearchResult.getRegistration();
+
+            // Check is Registration expired
+            LocalDateTime expiredDate = cardRegistration.getExpiredDate();
+            LocalDateTime currentTime = LocalDateTime.now();
+            if(currentTime.isAfter(expiredDate)){
+                patientSearchResult.getRegistration().setActive(false);
+            }
+        }
+
+        return Optional.ofNullable(patientSearchResult);
     }
 
     Patient getPatient(PatientRequest req) throws Exception {

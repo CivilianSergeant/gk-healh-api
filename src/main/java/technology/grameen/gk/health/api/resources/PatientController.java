@@ -89,6 +89,7 @@ public class PatientController {
     @GetMapping(value = "/by-pid/{pid}")
     public ResponseEntity<IResponse> getPatientByPID(@PathVariable("pid") String pid){
         Optional<PatientSearchResult> patient = patientManageService.getPatientByPId(pid);
+
         if(patient.isPresent()){
             return new ResponseEntity<>(new PatientCreationResponse(HttpStatus.OK.value(),patient.get()), HttpStatus.OK);
         }

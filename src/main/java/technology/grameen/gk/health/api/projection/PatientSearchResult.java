@@ -53,7 +53,12 @@ public interface PatientSearchResult {
                 String getCardNumber();
                 Patient getPatient();
                 Boolean getGB();
+                Integer getValidityDuration();
                 Set<CardMember> getMembers();
+                Integer getTotalServiceTaken();
+                LocalDateTime getStartDate();
+                LocalDateTime getExpiredDate();
+                void setActive(Boolean active);
         }
 
         interface CardMemberCardRegistration{
@@ -61,6 +66,11 @@ public interface PatientSearchResult {
                 Boolean getGB();
                 Patient getPatient();
                 String getCardNumber();
+                Integer getValidityDuration();
+                Integer getTotalServiceTaken();
+                Boolean getActive();
+                LocalDateTime getStartDate();
+                LocalDateTime getExpiredDate();
         }
 
         interface CardMember{
@@ -82,6 +92,7 @@ public interface PatientSearchResult {
         String getMobileNumber();
         String getAge();
         CardRegistration getRegistration();
+        void addRegistration(CardRegistration cardRegistration);
         Set<PatientInvoice> getPatientInvoices();
         CardMember getCardMember();
 
