@@ -8,6 +8,9 @@ import technology.grameen.gk.health.api.projection.PatientInvoiceDetail;
 import technology.grameen.gk.health.api.entity.PatientInvoice;
 import technology.grameen.gk.health.api.projection.PatientInvoiceAutoComplete;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,4 +36,16 @@ public interface PatientInvoiceRepository extends JpaRepository<PatientInvoice,L
 
     List<PatientInvoiceAutoComplete> findByInvoiceNumberContaining(String number);
 
+    @Query(value = "SELECT SUM (PAID_AMOUNT) FROM patient_invoices " +
+            "WHERE CREATED_AT BETWEEN TO_DATE(:fromDate,'YYYY-MM-DD HH24:MI:SS') " +
+            "AND TO_DATE(:toDate,'YYYY-MM-DD HH24:MI:SS')",nativeQuery = true)
+    Optional<BigDecimal> getTotalAmount(@Param("fromDate") String fromDate, @Param("toDate") String  toDate);
+
+    @Query(value ="SELECT SUM (PAID_AMOUNT) FROM patient_invoices " +
+            "WHERE CREATED_AT BETWEEN TO_DATE(:fromDate,'YYYY-MM-DD HH24:MI:SS') " +
+            "AND TO_DATE(:toDate,'YYYY-MM-DD HH24:MI:SS') " +
+            "AND HEALTH_CENTER_ID IN :centerIds",nativeQuery = true)
+    Optional<BigDecimal> getTotalAmountByCenterIds(@Param("centerIds") List<Long> centerIds,
+                                         @Param("fromDate") String fromDate,
+                                         @Param("toDate") String toDate);
 }

@@ -63,4 +63,19 @@ public class HealthCenterServiceImpl implements HealthCenterService {
     public List<HealthCenter> getCentersByKeyword(String keyword) {
         return healthCenterRepository.findByNameContainingIgnoreCase(keyword);
     }
+
+    @Override
+    public List<HealthCenter> getCentersByThirdLevel(String thirdLevel) {
+        return healthCenterRepository.findByThirdLevel(thirdLevel);
+    }
+
+    @Override
+    public List<HealthCenter> getCentersByOfficeTypeId(Integer officeTypeId) {
+        return healthCenterRepository.findByOfficeTypeId(officeTypeId);
+    }
+
+    @Override
+    public List<HealthCenter> getCentersByOfficeLevel(Integer officeLevel) {
+        return healthCenterRepository.findByOfficeLevel(officeLevel);
+    }
 }

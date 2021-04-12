@@ -18,4 +18,10 @@ public interface HealthCenterService {
     Optional<HealthCenter> getCenterByApiCenterId(Long apiCenterId);
 
     List<HealthCenter> getCentersByKeyword(String keyword);
+
+    List<HealthCenter> getCentersByOfficeTypeId(Integer officeTypeId);
+
+    List<HealthCenter> getCentersByOfficeLevel(Integer officeLevel);
+
+    List<HealthCenter> getCentersByThirdLevel(String thirdLevel);
 }

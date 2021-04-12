@@ -81,4 +81,51 @@ public interface PatientRepository extends JpaRepository<Patient,Long> {
 
     List<PatientNumberAutoComplete> findByPidContainingIgnoreCase(String number);
 
+
+    @Query(value = "SELECT count(*) FROM patients WHERE " +
+            "CREATED_AT BETWEEN TO_DATE(:fromDate,'YYYY-MM-DD HH24:MI:SS') " +
+            "AND TO_DATE(:toDate,'YYYY-MM-DD HH24:MI:SS') " +
+            "AND CENTER_ID IN :centerIds",nativeQuery = true)
+    Integer getAllPatientStatsByCenters(@Param("centerIds") List<Long> centerIds, String fromDate, String toDate);
+
+    @Query(value = "SELECT count(*) FROM patients " +
+            "WHERE CREATED_AT BETWEEN TO_DATE(:fromDate,'YYYY-MM-DD HH24:MI:SS') " +
+            "AND TO_DATE(:toDate,'YYYY-MM-DD HH24:MI:SS')",nativeQuery = true)
+    Integer getAllPatientStats(@Param("fromDate") String fromDate, @Param("toDate") String toDate);
+
+    @Query(value = "SELECT COUNT(*) FROM PATIENTS p " +
+            "JOIN PATIENT_REGISTRATIONS pr ON pr.PATIENT_ID  = p.ID " +
+            "WHERE pr.ISGB = 0 " +
+            "AND p.CREATED_AT BETWEEN TO_DATE(:fromDate,'YYYY-MM-DD HH24:MI:SS') " +
+            "AND TO_DATE(:toDate,'YYYY-MM-DD HH24:MI:SS') " +
+            "AND p.CENTER_ID IN :centerIds",nativeQuery = true)
+    Integer getAllNonGbPatientStatsByCenters(@Param("centerIds") List<Long> centerIds,
+                                             @Param("fromDate") String fromDate,
+                                             @Param("toDate") String toDate);
+
+    @Query(value = "SELECT COUNT(*) FROM PATIENTS p " +
+            "JOIN PATIENT_REGISTRATIONS pr ON pr.PATIENT_ID  = p.ID " +
+            "WHERE pr.ISGB = 1 " +
+            "AND p.CREATED_AT BETWEEN TO_DATE(:fromDate,'YYYY-MM-DD HH24:MI:SS') " +
+            "AND TO_DATE(:toDate,'YYYY-MM-DD HH24:MI:SS') " +
+            "AND p.CENTER_ID IN :centerIds",nativeQuery = true)
+    Integer getAllGbPatientStatsByCenters(@Param("centerIds") List<Long> centerIds,
+                                          @Param("fromDate") String fromDate,
+                                          @Param("toDate") String toDate);
+
+
+    @Query(value = "SELECT COUNT(*) FROM PATIENTS p " +
+            "JOIN PATIENT_REGISTRATIONS pr ON pr.PATIENT_ID  = p.ID " +
+            "WHERE pr.ISGB = 0 " +
+            "AND p.CREATED_AT BETWEEN TO_DATE(:fromDate,'YYYY-MM-DD HH24:MI:SS') " +
+            "AND TO_DATE(:toDate,'YYYY-MM-DD HH24:MI:SS')",nativeQuery = true)
+    Integer getAllNonGbPatientStats(@Param("fromDate") String fromDate, @Param("toDate") String toDate);
+
+    @Query(value = "SELECT COUNT(*) FROM PATIENTS p " +
+            "JOIN PATIENT_REGISTRATIONS pr ON pr.PATIENT_ID  = p.ID " +
+            "WHERE pr.ISGB = 1 " +
+            "AND p.CREATED_AT BETWEEN TO_DATE(:fromDate,'YYYY-MM-DD HH24:MI:SS') " +
+            "AND TO_DATE(:toDate,'YYYY-MM-DD HH24:MI:SS')",nativeQuery = true)
+    Integer getAllGbPatientStats(@Param("fromDate") String fromDate, @Param("toDate") String toDate);
+
 }

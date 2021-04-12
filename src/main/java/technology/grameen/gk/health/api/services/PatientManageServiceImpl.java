@@ -14,8 +14,10 @@ import technology.grameen.gk.health.api.requests.PatientSearch;
 import technology.grameen.gk.health.api.responses.PatientListItem;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
@@ -191,5 +193,83 @@ public class PatientManageServiceImpl implements PatientManageService {
 
         return patientRepository.findAllPatients(pageable);
 
+    }
+
+    @Override
+    public Integer getAllPatientCount(HealthCenter center, String fromDate, String toDate) {
+        Integer officeTypeId = center.getOfficeTypeId();
+        if(officeTypeId==1 || officeTypeId==4){
+            return patientRepository.getAllPatientStats(fromDate,toDate);
+        }
+        List<Long> centerIds = new ArrayList<>();
+        if(officeTypeId==5){
+            centerIds = getCenterIds(center);
+            return patientRepository.getAllPatientStatsByCenters(centerIds, fromDate, toDate);
+        }
+
+        centerIds.add(center.getId());
+        return patientRepository.getAllPatientStatsByCenters(centerIds, fromDate, toDate);
+
+    }
+
+    private List<Long> getCenterIds(HealthCenter center){
+        List<HealthCenter> centers = null;
+        List<Long> centerIds = new ArrayList<>();
+        String centerCode = center.getCenterCode();
+        centers = centerService.getCentersByThirdLevel(centerCode);
+        centers.stream().forEach( _center->{
+            centerIds.add(_center.getId());
+
+        });
+
+        return centerIds;
+    }
+
+    @Override
+    public Integer getGbPatientCount(HealthCenter center, String fromDate, String toDate) {
+        Integer officeTypeId = center.getOfficeTypeId();
+        if(officeTypeId==1 || officeTypeId==4){
+            return patientRepository.getAllGbPatientStats(fromDate,toDate);
+        }
+        List<Long> centerIds = new ArrayList<>();
+        if(officeTypeId==5){
+            centerIds = getCenterIds(center);
+            return patientRepository.getAllGbPatientStatsByCenters(centerIds, fromDate, toDate);
+        }
+
+        centerIds.add(center.getId());
+        return patientRepository.getAllGbPatientStatsByCenters(centerIds, fromDate, toDate);
+    }
+
+    @Override
+    public Integer getNonGbPatientCount(HealthCenter center, String fromDate, String toDate) {
+        Integer officeTypeId = center.getOfficeTypeId();
+        if(officeTypeId==1 || officeTypeId==4){
+            return patientRepository.getAllNonGbPatientStats(fromDate, toDate);
+        }
+        List<Long> centerIds = new ArrayList<>();
+        if(officeTypeId==5){
+            centerIds = getCenterIds(center);
+            return patientRepository.getAllNonGbPatientStatsByCenters(centerIds,fromDate,toDate);
+        }
+
+        centerIds.add(center.getId());
+        return patientRepository.getAllNonGbPatientStatsByCenters(centerIds,fromDate,toDate);
+    }
+
+    @Override
+    public Optional<BigDecimal> getTotalAmount(HealthCenter center, String fromDate, String toDate) {
+        Integer officeTypeId = center.getOfficeTypeId();
+        if(officeTypeId==1 || officeTypeId==4){
+            return invoiceRepository.getTotalAmount(fromDate,toDate);
+        }
+        List<Long> centerIds = new ArrayList<>();
+        if(officeTypeId==5){
+            centerIds = getCenterIds(center);
+            return invoiceRepository.getTotalAmountByCenterIds(centerIds, fromDate, toDate);
+        }
+
+        centerIds.add(center.getId());
+        return invoiceRepository.getTotalAmountByCenterIds(centerIds, fromDate, toDate);
     }
 }

@@ -78,4 +78,16 @@ public class HealthCenterController {
         return new ResponseEntity<>(new EntityCollectionResponse<>(HttpStatus.OK.value(),
                 healthCenterService.getCentersByKeyword(keyword)),HttpStatus.OK);
     }
+
+    @GetMapping("/by-office-type/{officeTypeId}")
+    public ResponseEntity<IResponse> getCentersByOfficeTypeId(@PathVariable("officeTypeId") Integer officeTypeId){
+        return new ResponseEntity<>(new EntityCollectionResponse<>(HttpStatus.OK.value(),
+                healthCenterService.getCentersByOfficeTypeId(officeTypeId)),HttpStatus.OK);
+    }
+
+    @GetMapping("/by-office-level/{officeLevel}")
+    public ResponseEntity<IResponse> getCentersByOfficeLevel(@PathVariable("officeLevel") Integer officeLevel){
+        return new ResponseEntity<>(new EntityCollectionResponse<>(HttpStatus.OK.value(),
+                healthCenterService.getCentersByOfficeLevel(officeLevel)),HttpStatus.OK);
+    }
 }
