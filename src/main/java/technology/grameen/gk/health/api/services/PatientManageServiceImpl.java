@@ -112,11 +112,13 @@ public class PatientManageServiceImpl implements PatientManageService {
 
             PatientSearchResult.CardRegistration  cardRegistration = patientSearchResult.getRegistration();
 
-            // Check is Registration expired
-            LocalDateTime expiredDate = cardRegistration.getExpiredDate();
-            LocalDateTime currentTime = LocalDateTime.now();
-            if(currentTime.isAfter(expiredDate)){
-                patientSearchResult.getRegistration().setActive(false);
+            if(cardRegistration != null) {
+                // Check is Registration expired
+                LocalDateTime expiredDate = cardRegistration.getExpiredDate();
+                LocalDateTime currentTime = LocalDateTime.now();
+                if (currentTime.isAfter(expiredDate)) {
+                    patientSearchResult.getRegistration().setActive(false);
+                }
             }
         }
 
