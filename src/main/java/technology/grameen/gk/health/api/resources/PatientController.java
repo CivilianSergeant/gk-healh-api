@@ -73,6 +73,7 @@ public class PatientController {
             cardMemberService.updateMember(cardMember);
             return new ResponseEntity<>(new EntityResponse<>(HttpStatus.OK.value(),cardMember), HttpStatus.OK);
         }catch (Exception ex){
+
             return new ResponseEntity<>(new PatientCreationResponse(HttpStatus.UNPROCESSABLE_ENTITY.value(),
                     ex.getMessage()),HttpStatus.UNPROCESSABLE_ENTITY);
         }

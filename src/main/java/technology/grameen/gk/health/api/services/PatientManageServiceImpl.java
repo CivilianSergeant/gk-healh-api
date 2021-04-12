@@ -62,17 +62,7 @@ public class PatientManageServiceImpl implements PatientManageService {
     @Transactional
     public Patient addPatient(PatientRequest req) throws Exception {
 
-//        Optional<technology.grameen.gk.health.api.entity.Service> findService = serviceRepository.findByCode("103");
-//
-//        technology.grameen.gk.health.api.entity.Service service = null;
-//
-//        if(findService.isPresent()){
-//            service = findService.get();
-//        }
-//
-//        if(service ==null){
-//            throw new Exception("Card Registration Service Not found with code 103");
-//        }
+
 
         Patient patient = getPatient(req);
         HealthCenter center = patient.getCenter();
