@@ -58,7 +58,8 @@ public class ReportServiceImpl implements ReportService{
             centerIds.add(center.getId());
         });
 
-        List<ServiceRecord>  serviceRecords = (List<ServiceRecord>) serviceRecordRepository.getServiceRecords(centerIds);
+        List<ServiceRecord>  serviceRecords = (List<ServiceRecord>) serviceRecordRepository.getServiceRecords(centerIds,
+                serviceRecordSearch.getFromDate(),serviceRecordSearch.getToDate());
 
         centers.stream().forEach(center->{
             List<ServiceRecord> centerWiseRecords = new ArrayList<>();

@@ -26,8 +26,11 @@ public interface ServiceRecordRepository extends JpaRepository<PatientInvoice, L
             " from patient_invoices pi " +
             "INNER JOIN PATIENTS p ON p.ID = pi.PATIENT_ID " +
             "WHERE pi.HEALTH_CENTER_ID IN :centerIds " +
+            "AND pi.CREATED_AT BETWEEN :fromDate AND :toDate " +
             "ORDER BY pi.CREATED_AT desc",nativeQuery = true)
-    List<ServiceRecord> getServiceRecords(@Param("centerIds") List<Long> centerIds);
+    List<ServiceRecord> getServiceRecords(@Param("centerIds") List<Long> centerIds,
+                                          @Param("fromDate") LocalDateTime fromDate,
+                                          @Param("toDate") LocalDateTime toDate);
 
 
 }
