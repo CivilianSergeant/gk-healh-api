@@ -15,5 +15,7 @@ public interface ServiceRecord {
         public String getAddress();
         public BigDecimal getReceivableAmount();
         public BigDecimal getPaid();
+        Long getHealthCenterId();
+        Long getPatientId();
 
 }

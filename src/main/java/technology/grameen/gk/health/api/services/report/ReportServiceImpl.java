@@ -14,6 +14,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ReportServiceImpl implements ReportService{
@@ -44,21 +45,38 @@ public class ReportServiceImpl implements ReportService{
             centers = healthCenterService.getCenters();
         }else if(serviceRecordSearch.getOfficeTypeId()==5){
             centers = healthCenterService
-                    .getCentersByOfficeTypeId(serviceRecordSearch
-                            .getOfficeTypeId());
+                    .getCentersByThirdLevel(serviceRecordSearch
+                            .getCenterCode());
         }else{
             centers = healthCenterService.getCenterById(serviceRecordSearch.getCenterId());
         }
         List<ServiceRecordResponse> serviceRecordResponses = new ArrayList<>();
+
+
+        List<Long> centerIds = new ArrayList<>();
         centers.stream().forEach(center->{
-            List<ServiceRecord>  serviceRecords = serviceRecordRepository.getServiceRecords(center.getId(),
-                                                    serviceRecordSearch.getFromDate(),
-                                                    serviceRecordSearch.getToDate());
-            if(serviceRecords.size()>0) {
-                serviceRecordResponses.add(new ServiceRecordResponse(center, serviceRecords));
-            }
+            centerIds.add(center.getId());
         });
 
+        List<ServiceRecord>  serviceRecords = (List<ServiceRecord>) serviceRecordRepository.getServiceRecords(centerIds);
+
+        centers.stream().forEach(center->{
+            List<ServiceRecord> centerWiseRecords = new ArrayList<>();
+             serviceRecords.stream()
+                   .forEach((ServiceRecord sr)->{
+                       Long id = sr.getHealthCenterId();
+                       Long centerId = center.getId();
+                       if(id.equals(centerId)){
+                           centerWiseRecords.add(sr);
+                       }
+
+                   });
+
+
+            if(centerWiseRecords.size()>0) {
+                serviceRecordResponses.add(new ServiceRecordResponse(center, centerWiseRecords));
+            }
+        });
         return serviceRecordResponses;
     }
 

@@ -1,5 +1,7 @@
 package technology.grameen.gk.health.api.requests;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -8,8 +10,12 @@ public class ServiceRecordSearch {
     private Long centerId;
     private String centerCode;
     private Integer officeTypeId;
-    private LocalDate fromDate;
-    private  LocalDate toDate;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime fromDate;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    private  LocalDateTime toDate;
 
     public Long getCenterId() {
         return centerId;
@@ -35,19 +41,19 @@ public class ServiceRecordSearch {
         this.officeTypeId = officeTypeId;
     }
 
-    public LocalDate getFromDate() {
+    public LocalDateTime getFromDate() {
         return fromDate;
     }
 
-    public void setFromDate(LocalDate fromDate) {
+    public void setFromDate(LocalDateTime fromDate) {
         this.fromDate = fromDate;
     }
 
-    public LocalDate getToDate() {
+    public LocalDateTime getToDate() {
         return toDate;
     }
 
-    public void setToDate(LocalDate toDate) {
+    public void setToDate(LocalDateTime toDate) {
         this.toDate = toDate;
     }
 }
