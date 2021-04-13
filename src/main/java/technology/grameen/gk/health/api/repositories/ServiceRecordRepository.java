@@ -21,13 +21,16 @@ public interface ServiceRecordRepository extends JpaRepository<PatientInvoice, L
             "ORDER BY pi.CREATED_AT desc",nativeQuery = true)
     List<ServiceRecord> getServiceRecords();
 
-    @Query(value = "SELECT pi.CREATED_AT AS \"DATE\", pi.INVOICE_NUMBER as invoiceNumber , (p.FULL_NAME || ' (' || p.PID || ')') AS name , p.VILLAGE AS address,\n" +
-            "pi.PAYABLE_AMOUNT AS receivableAmount ,pi.PAID_AMOUNT AS paid\n" +
-            " from patient_invoices pi\n" +
-            "INNER JOIN PATIENTS p ON p.ID = pi.PATIENT_ID\n" +
-            "WHERE pi.CREATED_AT BETWEEN :fromDate AND :toDate\n"+
+    @Query(value = "SELECT pi.CREATED_AT AS \"DATE\", pi.INVOICE_NUMBER as invoiceNumber , (p.FULL_NAME || ' (' || p.PID || ')') AS name , p.VILLAGE AS address, " +
+            "pi.PAYABLE_AMOUNT AS receivableAmount ,pi.PAID_AMOUNT AS paid " +
+            " from patient_invoices pi " +
+            "INNER JOIN PATIENTS p ON p.ID = pi.PATIENT_ID " +
+            "WHERE pi.HEALTH_CENTER_ID = :centerId " +
+            "AND pi.CREATED_AT BETWEEN :fromDate AND :toDate "+
             "ORDER BY pi.CREATED_AT desc",nativeQuery = true)
-    List<ServiceRecord> getServiceRecords(@Param("fromDate") LocalDate fromDate, @Param("toDate") LocalDate toDate);
+    List<ServiceRecord> getServiceRecords(@Param("centerId") Long centerId,
+                                          @Param("fromDate") LocalDate fromDate,
+                                          @Param("toDate") LocalDate toDate);
 
 
 }

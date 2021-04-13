@@ -24,4 +24,6 @@ public interface HealthCenterService {
     List<HealthCenter> getCentersByOfficeLevel(Integer officeLevel);
 
     List<HealthCenter> getCentersByThirdLevel(String thirdLevel);
+
+    List<HealthCenter> getCenterById(Long id);
 }

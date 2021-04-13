@@ -33,8 +33,7 @@ public class ReportController {
     @PostMapping("/service-records")
     public ResponseEntity<IResponse> getServiceRecords(@RequestBody ServiceRecordSearch serviceRecordSearch){
         return  new ResponseEntity<>(new EntityCollectionResponse<>(HttpStatus.OK.value(),
-                reportService.getPatientInvoiceSummery(serviceRecordSearch.getFromDate(),
-                        serviceRecordSearch.getToDate())),HttpStatus.OK);
+                reportService.getPatientInvoiceSummery(serviceRecordSearch)),HttpStatus.OK);
     }
 
     @PostMapping("/stats")
@@ -48,13 +47,15 @@ public class ReportController {
         Optional<BigDecimal> totalAmount = reportService.getPatientService().getTotalAmount(healthCenter,
                 req.getFromDate(),req.getToDate());
 
+        Integer totalPatient = reportService.getPatientService().getAllPatientCount(healthCenter,
+                req.getFromDate(),req.getToDate());
+        Integer totalGbPatient = reportService.getPatientService().getGbPatientCount(healthCenter,
+                req.getFromDate(), req.getToDate());
+
         return new ResponseEntity<>(new StatsResponse(
-                reportService.getPatientService().getAllPatientCount(healthCenter,
-                        req.getFromDate(),req.getToDate()),
-                reportService.getPatientService().getGbPatientCount(healthCenter,
-                        req.getFromDate(), req.getToDate()),
-                reportService.getPatientService().getNonGbPatientCount(healthCenter,
-                        req.getFromDate(), req.getToDate()),
+                totalPatient,
+                totalGbPatient,
+                (totalPatient-totalGbPatient),
                 totalAmount.orElse(BigDecimal.valueOf(0))),HttpStatus.OK);
     }
 }

@@ -78,4 +78,9 @@ public class HealthCenterServiceImpl implements HealthCenterService {
     public List<HealthCenter> getCentersByOfficeLevel(Integer officeLevel) {
         return healthCenterRepository.findByOfficeLevel(officeLevel);
     }
+
+    @Override
+    public List<HealthCenter> getCenterById(Long id) {
+        return healthCenterRepository.findCenterById(id);
+    }
 }
