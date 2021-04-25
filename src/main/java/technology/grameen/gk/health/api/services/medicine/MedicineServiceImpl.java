@@ -1,5 +1,7 @@
 package technology.grameen.gk.health.api.services.medicine;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import technology.grameen.gk.health.api.entity.Medicine;
@@ -25,8 +27,8 @@ public class MedicineServiceImpl implements MedicineService{
     }
 
     @Override
-    public List<Medicine> getMedicines() {
-        return medicineRepository.findAll();
+    public Page<Medicine> getMedicines(Pageable pageable) {
+        return medicineRepository.findAll(pageable);
     }
 
     @Override

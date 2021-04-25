@@ -1,5 +1,7 @@
 package technology.grameen.gk.health.api.services;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 import technology.grameen.gk.health.api.projection.ServiceListItem;
 import technology.grameen.gk.health.api.entity.LabTestGroup;
@@ -56,12 +58,15 @@ public class HealthServiceImpl implements HealthServiceInterface {
     }
 
     @Override
-    public List<ServiceListItem> getAll() {
-        return serviceRepository.findAllServices();
+    public Page<ServiceListItem> getAll(Pageable pageable) {
+        return serviceRepository.findAllServices(pageable);
     }
+
+
 
     @Override
     public List<ServiceListItem> getLabServices() {
+
         return serviceRepository.findByIsLabTestEquals(true);
     }
 

@@ -1,5 +1,7 @@
 package technology.grameen.gk.health.api.repositories;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -15,6 +17,11 @@ public interface ServiceRepository extends JpaRepository<Service,Long> {
 //   new Service(s.serviceId,sc,ltg,s.name,s.code,s.currentCost,s.currentGbCost,s.description," +
 //              "s.isActive,s.isLabTest,s.createdAt,s.lastUpdatedAt)
 
+
+    @Query(value = "SELECT s FROM Service s JOIN FETCH s.serviceCategory sc" +
+            " LEFT JOIN FETCH s.labTestGroup ltg",
+    countQuery = "SELECT COUNT(s) FROM Service s JOIN s.serviceCategory sc")
+    Page<ServiceListItem> findAllServices(Pageable pageable);
 
     @Query(value = "SELECT s FROM Service s JOIN FETCH s.serviceCategory sc" +
             " LEFT JOIN FETCH s.labTestGroup ltg")

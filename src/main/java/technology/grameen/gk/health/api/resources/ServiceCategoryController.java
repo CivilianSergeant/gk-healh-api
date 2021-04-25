@@ -1,6 +1,9 @@
 package technology.grameen.gk.health.api.resources;
 
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +23,8 @@ import java.util.Optional;
 @RequestMapping("/api/v1/service-category")
 public class ServiceCategoryController {
 
+    private final Integer PAGE_SIZE = 10;
+
     private ServiceCategoryService serviceCategoryService;
 
     public ServiceCategoryController(ServiceCategoryService serviceCategoryService){
@@ -27,8 +32,22 @@ public class ServiceCategoryController {
     }
 
     @RequestMapping(value = "")
-    public ResponseEntity<List<ServiceCategory>> list(){
-        return new ResponseEntity<>(serviceCategoryService.getCategories(), HttpStatus.OK);
+    public ResponseEntity<IResponse> list(@RequestParam Optional<Integer> page,
+                                                      @RequestParam Optional<Integer> size,
+                                                      @RequestParam Optional<String> sortBy,
+                                                      @RequestParam Optional<Boolean> sortDesc){
+        String _sortBy = sortBy.orElse(null);
+
+        Sort sort = null;
+        if(!_sortBy.isEmpty()) {
+            sort =   (sortDesc.orElse(false)) ? Sort.by(_sortBy).descending()
+                    : Sort.by(_sortBy).ascending();
+        }
+        Pageable pageable = (sort!=null)? PageRequest.of(page.orElse(0),size.orElse(PAGE_SIZE),sort)
+                : PageRequest.of(page.orElse(0),size.orElse(PAGE_SIZE));
+
+        return new ResponseEntity<>(new EntityResponse<>(HttpStatus.OK.value(),
+                serviceCategoryService.getCategories(pageable)), HttpStatus.OK);
     }
 
     @PostMapping(value = "/add")

@@ -1,12 +1,17 @@
 package technology.grameen.gk.health.api.resources;
 
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import technology.grameen.gk.health.api.projection.ServiceListItem;
 import technology.grameen.gk.health.api.entity.Service;
+import technology.grameen.gk.health.api.responses.EntityResponse;
 import technology.grameen.gk.health.api.responses.ExceptionResponse;
+import technology.grameen.gk.health.api.responses.IResponse;
 import technology.grameen.gk.health.api.responses.ResponseEnum;
 import technology.grameen.gk.health.api.services.HealthServiceInterface;
 
@@ -18,6 +23,8 @@ import java.util.Optional;
 @RequestMapping("/api/v1/service")
 public class ServiceController {
 
+    private final Integer PAGE_SIZE = 10;
+
     HealthServiceInterface healthServiceInterface;
 
     public ServiceController(HealthServiceInterface healthServiceInterface){
@@ -25,8 +32,25 @@ public class ServiceController {
     }
 
     @RequestMapping(value = "")
-    public ResponseEntity<List<ServiceListItem>> list(){
-        return new ResponseEntity<>(healthServiceInterface.getAll(), HttpStatus.OK);
+    public ResponseEntity<IResponse> list(@RequestParam Optional<Integer> page,
+                                          @RequestParam Optional<Integer> size,
+                                          @RequestParam Optional<String> sortBy,
+                                          @RequestParam Optional<Boolean> sortDesc){
+
+        String _sortBy = sortBy.orElse(null);
+        _sortBy = (_sortBy.contains("active")) ? "isActive":_sortBy;
+        //_sortBy = (_sortBy.contains("labTestGroup")) ? "labTestGroup":_sortBy;
+
+        Sort sort = null;
+        if(!_sortBy.isEmpty()) {
+            sort =   (sortDesc.orElse(false)) ? Sort.by(_sortBy).descending()
+                    : Sort.by(_sortBy).ascending();
+        }
+        Pageable pageable = (sort!=null)? PageRequest.of(page.orElse(0),size.orElse(PAGE_SIZE),sort)
+                : PageRequest.of(page.orElse(0),size.orElse(PAGE_SIZE));
+
+        return new ResponseEntity<>(new EntityResponse<>(HttpStatus.OK.value(),
+                healthServiceInterface.getAll(pageable)), HttpStatus.OK);
     }
 
     @PostMapping(value = "/add")

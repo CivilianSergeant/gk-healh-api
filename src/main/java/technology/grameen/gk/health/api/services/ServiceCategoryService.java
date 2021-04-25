@@ -1,5 +1,7 @@
 package technology.grameen.gk.health.api.services;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import technology.grameen.gk.health.api.entity.ServiceCategory;
 
 import java.util.List;
@@ -9,7 +11,7 @@ public interface ServiceCategoryService {
 
      ServiceCategory addCategory(ServiceCategory category);
 
-     List<ServiceCategory> getCategories();
+     Page<ServiceCategory> getCategories(Pageable pageable);
 
      Optional<ServiceCategory> findById(Long id);
 }

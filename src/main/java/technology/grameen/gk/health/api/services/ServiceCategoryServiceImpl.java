@@ -1,5 +1,7 @@
 package technology.grameen.gk.health.api.services;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,8 +29,8 @@ public class ServiceCategoryServiceImpl implements ServiceCategoryService {
     }
 
     @Override
-    public List<ServiceCategory> getCategories() {
-        return serviceCategoryRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
+    public Page<ServiceCategory> getCategories(Pageable pageable) {
+        return serviceCategoryRepository.findAll(pageable);
     }
 
     @Override

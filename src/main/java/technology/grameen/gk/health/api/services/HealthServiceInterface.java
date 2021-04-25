@@ -1,5 +1,7 @@
 package technology.grameen.gk.health.api.services;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import technology.grameen.gk.health.api.projection.ServiceListItem;
 import technology.grameen.gk.health.api.entity.Service;
 
@@ -14,7 +16,9 @@ public interface HealthServiceInterface {
 
     public Service addServiceAttributes(Service service) throws Exception;
 
-    public List<ServiceListItem> getAll();
+    Page<ServiceListItem> getAll(Pageable pageable);
+
+
 
     public List<ServiceListItem> getLabServices();
 
