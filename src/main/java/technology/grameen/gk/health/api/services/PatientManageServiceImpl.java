@@ -272,4 +272,52 @@ public class PatientManageServiceImpl implements PatientManageService {
         centerIds.add(center.getId());
         return invoiceRepository.getTotalAmountByCenterIds(centerIds, fromDate, toDate);
     }
+
+    @Override
+    public Optional<BigDecimal> getTotalAmountUptoLastDay(HealthCenter center, String toDate) {
+        Integer officeTypeId = center.getOfficeTypeId();
+        if(officeTypeId==1 || officeTypeId==4){
+            return invoiceRepository.getTotalAmountUptoLastDay(toDate);
+        }
+        List<Long> centerIds = new ArrayList<>();
+        if(officeTypeId==5){
+            centerIds = getCenterIds(center);
+            return invoiceRepository.getTotalAmountByCenterIdsUpToLastDay(centerIds,toDate);
+        }
+
+        centerIds.add(center.getId());
+        return invoiceRepository.getTotalAmountByCenterIdsUpToLastDay(centerIds, toDate);
+    }
+
+    @Override
+    public Integer getAllPatientCountUpToLastDay(HealthCenter center, String toDate) {
+        Integer officeTypeId = center.getOfficeTypeId();
+        if(officeTypeId==1 || officeTypeId==4){
+            return patientRepository.getAllPatientStats(toDate);
+        }
+        List<Long> centerIds = new ArrayList<>();
+        if(officeTypeId==5){
+            centerIds = getCenterIds(center);
+            return patientRepository.getAllPatientStatsByCenters(centerIds, toDate);
+        }
+
+        centerIds.add(center.getId());
+        return patientRepository.getAllPatientStatsByCenters(centerIds, toDate);
+    }
+
+    @Override
+    public Integer getGbPatientCountUpToLastDay(HealthCenter center, String toDate) {
+        Integer officeTypeId = center.getOfficeTypeId();
+        if(officeTypeId==1 || officeTypeId==4){
+            return patientRepository.getAllGbPatientStats(toDate);
+        }
+        List<Long> centerIds = new ArrayList<>();
+        if(officeTypeId==5){
+            centerIds = getCenterIds(center);
+            return patientRepository.getAllGbPatientStatsByCenters(centerIds,  toDate);
+        }
+
+        centerIds.add(center.getId());
+        return patientRepository.getAllGbPatientStatsByCenters(centerIds,  toDate);
+    }
 }

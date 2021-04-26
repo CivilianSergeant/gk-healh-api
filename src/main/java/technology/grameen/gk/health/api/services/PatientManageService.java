@@ -38,8 +38,14 @@ public interface PatientManageService {
    Page<PatientListItem> getPatientsBySearch(Long centerId, String field, String value, Pageable pageable);
 
    Optional<BigDecimal> getTotalAmount(HealthCenter center, String fromDate, String toDate);
+   Optional<BigDecimal> getTotalAmountUptoLastDay(HealthCenter center,  String toDate);
+
    Integer getAllPatientCount(HealthCenter center, String fromDate, String toDate);
    Integer getGbPatientCount(HealthCenter center, String fromDate, String toDate);
    Integer getNonGbPatientCount(HealthCenter center, String fromDate, String toDate);
+
+   Integer getAllPatientCountUpToLastDay(HealthCenter center, String toDate);
+   Integer getGbPatientCountUpToLastDay(HealthCenter center, String toDate);
+//   Integer getNonGbPatientCount(HealthCenter center, String fromDate, String toDate);
 
 }

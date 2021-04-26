@@ -43,12 +43,21 @@ public class ReportController {
         healthCenter.setOfficeTypeId(req.getOfficeTypeId());
         healthCenter.setCenterCode(req.getCenterCode());
 
+        Optional<BigDecimal> totalAmountUptoLastDay = reportService.getPatientService()
+                .getTotalAmountUptoLastDay(healthCenter,req.getToDate());
 
         Optional<BigDecimal> totalAmount = reportService.getPatientService().getTotalAmount(healthCenter,
                 req.getFromDate(),req.getToDate());
 
+        Integer totalPatientUpToLastDay = reportService.getPatientService()
+                .getAllPatientCountUpToLastDay(healthCenter, req.getToDate());
+
         Integer totalPatient = reportService.getPatientService().getAllPatientCount(healthCenter,
                 req.getFromDate(),req.getToDate());
+
+        Integer totalGbPatientUpToLastDay = reportService.getPatientService()
+                .getGbPatientCountUpToLastDay(healthCenter,req.getToDate());
+
         Integer totalGbPatient = reportService.getPatientService().getGbPatientCount(healthCenter,
                 req.getFromDate(), req.getToDate());
 
@@ -56,6 +65,11 @@ public class ReportController {
                 totalPatient,
                 totalGbPatient,
                 (totalPatient-totalGbPatient),
-                totalAmount.orElse(BigDecimal.valueOf(0))),HttpStatus.OK);
+                totalAmount.orElse(BigDecimal.valueOf(0)),
+                totalAmountUptoLastDay.orElse(BigDecimal.valueOf(0)),
+                totalPatientUpToLastDay,
+                totalGbPatientUpToLastDay,
+                (totalPatientUpToLastDay-totalGbPatientUpToLastDay)
+                ),HttpStatus.OK);
     }
 }

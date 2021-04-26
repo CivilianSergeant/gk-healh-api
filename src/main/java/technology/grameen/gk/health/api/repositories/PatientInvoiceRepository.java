@@ -41,6 +41,11 @@ public interface PatientInvoiceRepository extends JpaRepository<PatientInvoice,L
             "AND TO_DATE(:toDate,'YYYY-MM-DD HH24:MI:SS')",nativeQuery = true)
     Optional<BigDecimal> getTotalAmount(@Param("fromDate") String fromDate, @Param("toDate") String  toDate);
 
+    @Query(value = "SELECT SUM (PAID_AMOUNT) FROM patient_invoices " +
+            "WHERE CREATED_AT <  " +
+            " TO_DATE(:toDate,'YYYY-MM-DD HH24:MI:SS')",nativeQuery = true)
+    Optional<BigDecimal> getTotalAmountUptoLastDay(@Param("toDate") String  toDate);
+
     @Query(value ="SELECT SUM (PAID_AMOUNT) FROM patient_invoices " +
             "WHERE CREATED_AT BETWEEN TO_DATE(:fromDate,'YYYY-MM-DD HH24:MI:SS') " +
             "AND TO_DATE(:toDate,'YYYY-MM-DD HH24:MI:SS') " +
@@ -48,4 +53,12 @@ public interface PatientInvoiceRepository extends JpaRepository<PatientInvoice,L
     Optional<BigDecimal> getTotalAmountByCenterIds(@Param("centerIds") List<Long> centerIds,
                                          @Param("fromDate") String fromDate,
                                          @Param("toDate") String toDate);
+
+    @Query(value ="SELECT SUM (PAID_AMOUNT) FROM patient_invoices " +
+            "WHERE CREATED_AT < " +
+            " TO_DATE(:toDate,'YYYY-MM-DD HH24:MI:SS') " +
+            "AND HEALTH_CENTER_ID IN :centerIds",nativeQuery = true)
+    Optional<BigDecimal> getTotalAmountByCenterIdsUpToLastDay(@Param("centerIds") List<Long> centerIds,
+
+                                                   @Param("toDate") String toDate);
 }
