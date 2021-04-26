@@ -6,6 +6,7 @@ import technology.grameen.gk.health.api.entity.HealthCenter;
 import technology.grameen.gk.health.api.entity.Patient;
 import technology.grameen.gk.health.api.projection.PatientSearchResult;
 import technology.grameen.gk.health.api.projection.PatientNumberAutoComplete;
+import technology.grameen.gk.health.api.repositories.PatientInvoiceRepository;
 import technology.grameen.gk.health.api.requests.PatientRequest;
 import technology.grameen.gk.health.api.requests.PatientSearch;
 import technology.grameen.gk.health.api.responses.PatientListItem;
@@ -47,5 +48,8 @@ public interface PatientManageService {
    Integer getAllPatientCountUpToLastDay(HealthCenter center, String toDate);
    Integer getGbPatientCountUpToLastDay(HealthCenter center, String toDate);
 //   Integer getNonGbPatientCount(HealthCenter center, String fromDate, String toDate);
+
+   PatientInvoiceRepository getInvoiceRepository();
+
 
 }

@@ -60,6 +60,10 @@ public class PatientManageServiceImpl implements PatientManageService {
         this.patientServiceRepository = patientServiceRepository;
     }
 
+    public PatientInvoiceRepository getInvoiceRepository() {
+        return invoiceRepository;
+    }
+
     @Override
     @Transactional
     public Patient addPatient(PatientRequest req) throws Exception {

@@ -72,4 +72,10 @@ public class ReportController {
                 (totalPatientUpToLastDay-totalGbPatientUpToLastDay)
                 ),HttpStatus.OK);
     }
+
+    @GetMapping("/month-wise-received")
+    public ResponseEntity<IResponse> getMonthWiseTotalAmountReceived(){
+        return new ResponseEntity<>(new EntityResponse<>(HttpStatus.OK.value(),
+                reportService.getMonthWiseTotalAmountReceived()),HttpStatus.OK);
+    }
 }

@@ -3,6 +3,7 @@ package technology.grameen.gk.health.api.services.report;
 import org.springframework.stereotype.Service;
 import technology.grameen.gk.health.api.entity.HealthCenter;
 import technology.grameen.gk.health.api.entity.PatientInvoice;
+import technology.grameen.gk.health.api.projection.MonthWiseReceived;
 import technology.grameen.gk.health.api.projection.ServiceRecord;
 import technology.grameen.gk.health.api.repositories.ServiceRecordRepository;
 import technology.grameen.gk.health.api.requests.ServiceRecordSearch;
@@ -10,6 +11,7 @@ import technology.grameen.gk.health.api.responses.ServiceRecordResponse;
 import technology.grameen.gk.health.api.services.HealthCenterService;
 import technology.grameen.gk.health.api.services.PatientManageService;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -84,5 +86,10 @@ public class ReportServiceImpl implements ReportService{
     @Override
     public PatientManageService getPatientService() {
         return patientManageService;
+    }
+
+    @Override
+    public MonthWiseReceived getMonthWiseTotalAmountReceived() {
+        return patientManageService.getInvoiceRepository().getTotalAmountMonthWise();
     }
 }
