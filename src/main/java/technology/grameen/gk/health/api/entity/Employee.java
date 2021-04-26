@@ -27,7 +27,6 @@ public class Employee {
     private String employeeCode;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonBackReference
     private HealthCenter center;
 
     @OneToMany(mappedBy = "createdBy")
@@ -100,7 +99,7 @@ public class Employee {
         this.email = email;
     }
 
-
+    @JsonBackReference
     public HealthCenter getCenter() {
         return center;
     }

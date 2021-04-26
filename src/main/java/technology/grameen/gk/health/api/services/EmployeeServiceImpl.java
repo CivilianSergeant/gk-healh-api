@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import technology.grameen.gk.health.api.entity.Employee;
 import technology.grameen.gk.health.api.entity.HealthCenter;
+import technology.grameen.gk.health.api.projection.EmployeeItem;
 import technology.grameen.gk.health.api.repositories.EmployeeRepository;
 import technology.grameen.gk.health.api.responses.EntityResponse;
 import technology.grameen.gk.health.api.responses.IResponse;
@@ -36,8 +37,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public Page<Employee> getAll(Pageable pageable) {
-        return employeeRepository.findAll(pageable);
+    public Page<EmployeeItem> getAll(Pageable pageable) {
+        return employeeRepository.findAllEmployee(pageable);
     }
 
     @Override
