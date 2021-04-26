@@ -1,5 +1,8 @@
 package technology.grameen.gk.health.api.services;
 
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import technology.grameen.gk.health.api.entity.HealthCenter;
 
 import java.util.List;
@@ -12,6 +15,8 @@ public interface HealthCenterService {
     HealthCenter updateCenter(HealthCenter center);
 
     List<HealthCenter> getCenters();
+
+    Page<HealthCenter> getCenters(Pageable pageable);
 
     Optional<HealthCenter> findById(Long id);
 

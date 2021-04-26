@@ -3,6 +3,9 @@ package technology.grameen.gk.health.api.resources;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.*;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -30,6 +33,8 @@ import java.util.*;
 @RequestMapping("/api/v1/employee")
 public class EmployeeController {
 
+    private final Integer PAGE_SIZE = 10;
+
     EmployeeService employeeService;
     HealthCenterService centerService;
 
@@ -39,8 +44,26 @@ public class EmployeeController {
     }
 
     @RequestMapping("")
-    public ResponseEntity<List<Employee>> list(){
-        return new ResponseEntity<>(employeeService.getAll(), HttpStatus.OK);
+    public ResponseEntity<IResponse> list(@RequestParam Optional<Integer> page,
+                                               @RequestParam Optional<Integer> size,
+                                               @RequestParam Optional<String> sortBy,
+                                               @RequestParam Optional<Boolean> sortDesc){
+
+
+        String _sortBy = sortBy.orElse(null);
+
+        Sort sort = null;
+
+        if(!_sortBy.isEmpty()) {
+            sort =   (sortDesc.orElse(false)) ? Sort.by(_sortBy).descending()
+                    : Sort.by(_sortBy).ascending();
+        }
+        Pageable pageable = (sort!=null)? PageRequest.of(page.orElse(0),size.orElse(PAGE_SIZE),sort)
+                : PageRequest.of(page.orElse(0),size.orElse(PAGE_SIZE));
+
+        return new ResponseEntity<>(new EntityResponse<>(
+                HttpStatus.OK.value(), employeeService.getAll(pageable)
+        ), HttpStatus.OK);
     }
 
     @RequestMapping("/add")
