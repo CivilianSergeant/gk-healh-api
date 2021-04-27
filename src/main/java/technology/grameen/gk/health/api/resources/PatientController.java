@@ -3,6 +3,7 @@ package technology.grameen.gk.health.api.resources;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -102,9 +103,22 @@ public class PatientController {
                                                          @RequestParam Optional<String> field,
                                                          @RequestParam Optional<String> value,
                                                          @RequestParam Optional<Integer> page,
-                                                         @RequestParam Optional<Integer> size){
+                                                         @RequestParam Optional<Integer> size,
+                                                         @RequestParam Optional<String> sortBy,
+                                                         @RequestParam Optional<Boolean> sortDesc){
 
-        Pageable pageable = PageRequest.of(page.orElse(0),size.orElse(5));
+        String _sortBy = sortBy.orElse(null);
+
+        Sort sort = null;
+
+        if(!_sortBy.isEmpty()) {
+            sort =   (sortDesc.orElse(false)) ? Sort.by(_sortBy).descending()
+                    : Sort.by(_sortBy).ascending();
+        }
+
+        Pageable pageable = (sort!=null)? PageRequest.of(page.orElse(0),size.orElse(5),sort) :
+                 PageRequest.of(page.orElse(0),size.orElse(5));
+
         return new ResponseEntity<>(new EntityResponse(HttpStatus.OK.value(),
                 patientManageService.getPatientsBySearch(centerId.orElse(null),
                                 field.orElse(null), value.orElse(null), pageable)),
