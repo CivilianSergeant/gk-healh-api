@@ -21,7 +21,7 @@ public interface ServiceRecordRepository extends JpaRepository<PatientInvoice, L
             "ORDER BY pi.CREATED_AT desc",nativeQuery = true)
     List<ServiceRecord> getServiceRecords();
 
-    @Query(value = "SELECT pi.CREATED_AT AS \"DATE\",pi.PATIENT_ID as patientId, pi.HEALTH_CENTER_ID as healthCenterId, pi.INVOICE_NUMBER as invoiceNumber , (p.FULL_NAME || ' (' || p.PID || ')') AS name , p.VILLAGE AS address, " +
+    @Query(value = "SELECT pi.CREATED_AT AS \"DATE\",pi.PATIENT_ID as patientId, pi.HEALTH_CENTER_ID as healthCenterId, pi.id as invoiceId,  pi.INVOICE_NUMBER as invoiceNumber , (p.FULL_NAME || ' (' || p.PID || ')') AS name , p.VILLAGE AS address, " +
             "pi.PAYABLE_AMOUNT AS receivableAmount ,pi.PAID_AMOUNT AS paid " +
             " from patient_invoices pi " +
             "INNER JOIN PATIENTS p ON p.ID = pi.PATIENT_ID " +
