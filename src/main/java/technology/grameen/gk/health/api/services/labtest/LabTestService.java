@@ -1,5 +1,7 @@
 package technology.grameen.gk.health.api.services.labtest;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import technology.grameen.gk.health.api.entity.*;
 import technology.grameen.gk.health.api.projection.LabTestDetailItem;
 import technology.grameen.gk.health.api.projection.LabTestListItem;
@@ -11,7 +13,7 @@ public interface LabTestService {
 
     LabTest saveLabTest(LabTest labTest);
 
-    List<LabTestListItem> getLabTestReports();
+    Page<LabTestListItem> getLabTestReports(Pageable pageable);
 
     Optional<LabTestDetailItem> getLabTestReportById(Long id);
 

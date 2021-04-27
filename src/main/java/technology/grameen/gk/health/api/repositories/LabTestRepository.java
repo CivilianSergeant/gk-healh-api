@@ -1,5 +1,7 @@
 package technology.grameen.gk.health.api.repositories;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -22,8 +24,11 @@ public interface LabTestRepository extends JpaRepository<LabTest,Long> {
     @Query(value = "SELECT lt.id, lt.status, p.FULL_NAME AS fullName , p.PID as pid , pi2.INVOICE_NUMBER AS invoiceNumber, se.NAME AS serviceName," +
             " lt.CREATED_AT AS createdAt FROM  LAB_TESTS lt INNER JOIN PATIENTS p ON p.id = lt.PATIENT_ID \n" +
             "INNER JOIN PATIENT_INVOICES pi2 ON pi2.id = lt.PATIENT_INVOICE_ID " +
-            "INNER JOIN SERVICE se ON se.SERVICE_ID = lt.SERVICE_ID ORDER BY lt.id DESC", nativeQuery=true)
-    List<LabTestListItem> getLabTests();
+            "INNER JOIN SERVICE se ON se.SERVICE_ID = lt.SERVICE_ID ORDER BY lt.id DESC",
+            countQuery = "SELECT count(*) from LAB_TESTS lt INNER JOIN PATIENTS p ON p.id = lt.PATIENT_ID" +
+                    " INNER JOIN PATIENT_INVOICES pi2 ON pi2.id = lt.PATIENT_INVOICE_ID" +
+                    " INNER JOIN SERVICE se ON se.SERVICE_ID = lt.SERVICE_ID", nativeQuery=true)
+    Page<LabTestListItem> getLabTests(Pageable pageable);
 
     @Query("Select l from LabTest l where l.id = :id")
     Optional<LabTestDetailItem> findByLabTest(@Param("id") Long id);

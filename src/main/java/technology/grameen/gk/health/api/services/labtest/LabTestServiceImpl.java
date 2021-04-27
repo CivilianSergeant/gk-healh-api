@@ -1,5 +1,7 @@
 package technology.grameen.gk.health.api.services.labtest;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import technology.grameen.gk.health.api.entity.*;
@@ -59,8 +61,8 @@ public class LabTestServiceImpl implements LabTestService {
     }
 
     @Override
-    public List<LabTestListItem> getLabTestReports() {
-        return labTestRepository.getLabTests();
+    public Page<LabTestListItem> getLabTestReports(Pageable pageable) {
+        return labTestRepository.getLabTests(pageable);
     }
 
     @Override
