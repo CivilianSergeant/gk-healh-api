@@ -17,5 +17,6 @@ public interface ServiceRecord {
         public BigDecimal getPaid();
         Long getHealthCenterId();
         Long getPatientId();
+        Long getInvoiceId();
 
 }
