@@ -181,13 +181,31 @@ public class PatientManageServiceImpl implements PatientManageService {
         if(centerId != null && field != null && value != null){
 
             if(field.equalsIgnoreCase("fullName")){
-                return patientRepository.findByCenterAndfullName(centerId,value,pageable);
+                return patientRepository.findByCenterAndFullName(centerId,value,pageable);
             }
             if(field.equalsIgnoreCase("mobileNumber")){
                 return patientRepository.findByCenterAndMobileNo(centerId,value,pageable);
             }
             if(field.equalsIgnoreCase("pid")){
                 return patientRepository.findByCenterAndPid(centerId,value,pageable);
+            }
+            if(field.equalsIgnoreCase("guardianName")){
+                return patientRepository.findByCenterAndGuardianName(centerId,value,pageable);
+            }
+        }
+
+        if(centerId == null && (field != null && value != null)){
+            if(field.equalsIgnoreCase("fullName")){
+                return patientRepository.findByFullName(value,pageable);
+            }
+            if(field.equalsIgnoreCase("mobileNumber")){
+                return patientRepository.findByMobileNumber(value,pageable);
+            }
+            if(field.equalsIgnoreCase("pid")){
+                return patientRepository.findByPid(value,pageable);
+            }
+            if(field.equalsIgnoreCase("guardianName")){
+                return patientRepository.findByGuardianName(value,pageable);
             }
         }
 
