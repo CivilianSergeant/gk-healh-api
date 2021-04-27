@@ -14,6 +14,44 @@ public interface PatientInvoiceDetail {
     BigDecimal getPaidAmount();
     BigDecimal getPayableAmount();
 
+    interface CardMemberCardRegistration{
+        Long getId();
+        Boolean getGB();
+
+        String getCardNumber();
+        Integer getValidityDuration();
+        Integer getTotalServiceTaken();
+        Boolean getActive();
+        LocalDateTime getStartDate();
+        LocalDateTime getExpiredDate();
+    }
+
+    interface CardMember{
+        Long getId();
+        String getFullName();
+        CardMemberCardRegistration getCardRegistration();
+        Patient getPatient();
+
+    }
+
+    interface CardRegistration{
+        Long getId();
+        Boolean getActive();
+        String getCardNumber();
+
+        Boolean getGB();
+        Integer getValidityDuration();
+
+        Integer getTotalServiceTaken();
+        LocalDateTime getStartDate();
+        LocalDateTime getExpiredDate();
+        void setActive(Boolean active);
+    }
+
+
+
+
+
     interface Patient{
 
         Long getId();
@@ -25,6 +63,25 @@ public interface PatientInvoiceDetail {
         String getMobileNumber();
         String getAge();
         CardRegistration getRegistration();
+
+    }
+
+    interface Service{
+        Long getServiceId();
+        String getName();
+    }
+
+    interface PatientServiceDetail{
+        Long getId();
+        Service getService();
+        Integer getRoomNumber();
+        Integer getServiceQty();
+        BigDecimal getServiceAmount();
+        BigDecimal getDiscountAmount();
+        BigDecimal getPayableAmount();
+        LocalDateTime getCreatedAt();
+        LocalDateTime getLastUpdatedAt();
+        Boolean getReportGenerated();
     }
 
     Patient getPatient();
