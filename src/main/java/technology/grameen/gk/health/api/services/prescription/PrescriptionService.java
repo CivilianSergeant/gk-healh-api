@@ -1,5 +1,7 @@
 package technology.grameen.gk.health.api.services.prescription;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import technology.grameen.gk.health.api.entity.Patient;
 import technology.grameen.gk.health.api.entity.PatientInvoice;
 import technology.grameen.gk.health.api.entity.Prescription;
@@ -13,7 +15,7 @@ public interface PrescriptionService {
 
     Prescription savePrescription(Prescription prescription);
 
-    List<PrescriptionListItem> getPrescriptions();
+    Page<PrescriptionListItem> getPrescriptions(Pageable pageable);
 
     Optional<PrescriptionDetail> getPrescriptionById(Long id);
 

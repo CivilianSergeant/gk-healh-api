@@ -1,5 +1,7 @@
 package technology.grameen.gk.health.api.services.prescription;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import technology.grameen.gk.health.api.entity.*;
@@ -76,8 +78,8 @@ public class PrescriptionServiceImpl implements PrescriptionService {
     }
 
     @Override
-    public List<PrescriptionListItem> getPrescriptions() {
-        return prescriptionRepository.findAllPrescriptions();
+    public Page<PrescriptionListItem> getPrescriptions(Pageable pageable) {
+        return prescriptionRepository.findAllPrescriptions(pageable);
     }
 
     String getPrescriptionNumber(HealthCenter center){
