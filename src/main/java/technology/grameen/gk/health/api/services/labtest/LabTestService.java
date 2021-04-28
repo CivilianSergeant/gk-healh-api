@@ -15,6 +15,8 @@ public interface LabTestService {
 
     Page<LabTestListItem> getLabTestReports(Pageable pageable);
 
+    Page<LabTestListItem> getLabTestReports(String invoiceNumber, String fullName, String pid, Pageable pageable);
+
     Optional<LabTestDetailItem> getLabTestReportById(Long id);
 
     Optional<LabTestDetailItem> getLabTestReportByPatientInvoiceService(Patient patient,

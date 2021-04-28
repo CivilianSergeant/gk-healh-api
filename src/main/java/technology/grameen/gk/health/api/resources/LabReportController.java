@@ -45,7 +45,10 @@ public class LabReportController {
     }
 
     @GetMapping("")
-    public ResponseEntity<IResponse> getLabTestReports(@RequestParam Optional<Integer> page,
+    public ResponseEntity<IResponse> getLabTestReports(@RequestParam Optional<String>  invoiceNumber,
+                                                       @RequestParam Optional<String> fullName,
+                                                       @RequestParam Optional<String> pid,
+                                                       @RequestParam Optional<Integer> page,
                                                        @RequestParam Optional<Integer> size,
                                                        @RequestParam Optional<String> sortBy,
                                                        @RequestParam Optional<Boolean> sortDesc){
@@ -62,7 +65,9 @@ public class LabReportController {
                 : PageRequest.of(page.orElse(0),size.orElse(PAGE_SIZE));
 
         return  new ResponseEntity<>(new EntityResponse<>(HttpStatus.OK.value(),
-                labTestService.getLabTestReports(pageable)),HttpStatus.OK);
+                labTestService.getLabTestReports(invoiceNumber.orElse(""),
+                        fullName.orElse(""),
+                        pid.orElse("") ,pageable)),HttpStatus.OK);
 
     }
 

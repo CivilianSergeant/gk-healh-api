@@ -32,10 +32,12 @@ public class ServiceCategoryController {
     }
 
     @RequestMapping(value = "")
-    public ResponseEntity<IResponse> list(@RequestParam Optional<Integer> page,
-                                                      @RequestParam Optional<Integer> size,
-                                                      @RequestParam Optional<String> sortBy,
-                                                      @RequestParam Optional<Boolean> sortDesc){
+    public ResponseEntity<IResponse> list(
+                                        @RequestParam Optional<String> categoryName,
+                                        @RequestParam Optional<Integer> page,
+                                        @RequestParam Optional<Integer> size,
+                                        @RequestParam Optional<String> sortBy,
+                                        @RequestParam Optional<Boolean> sortDesc){
         String _sortBy = sortBy.orElse(null);
 
         Sort sort = null;
@@ -47,7 +49,7 @@ public class ServiceCategoryController {
                 : PageRequest.of(page.orElse(0),size.orElse(PAGE_SIZE));
 
         return new ResponseEntity<>(new EntityResponse<>(HttpStatus.OK.value(),
-                serviceCategoryService.getCategories(pageable)), HttpStatus.OK);
+                serviceCategoryService.getCategories(categoryName.orElse(""),pageable)), HttpStatus.OK);
     }
 
     @PostMapping(value = "/add")

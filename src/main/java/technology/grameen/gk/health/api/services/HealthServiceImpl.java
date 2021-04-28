@@ -62,7 +62,13 @@ public class HealthServiceImpl implements HealthServiceInterface {
         return serviceRepository.findAllServices(pageable);
     }
 
-
+    @Override
+    public Page<ServiceListItem> getAll(String serviceName, Pageable pageable) {
+        if(serviceName.isEmpty()){
+            return serviceRepository.findAllServices(pageable);
+        }
+        return serviceRepository.findAllServices(serviceName,pageable);
+    }
 
     @Override
     public List<ServiceListItem> getLabServices() {

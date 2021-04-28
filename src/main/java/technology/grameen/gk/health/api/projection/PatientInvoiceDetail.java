@@ -66,9 +66,15 @@ public interface PatientInvoiceDetail {
 
     }
 
+    interface ServiceCategory{
+        Long getId();
+        String getName();
+    }
+
     interface Service{
         Long getServiceId();
         String getName();
+        ServiceCategory getServiceCategory();
     }
 
     interface PatientServiceDetail{

@@ -34,6 +34,14 @@ public class ServiceCategoryServiceImpl implements ServiceCategoryService {
     }
 
     @Override
+    public Page<ServiceCategory> getCategories(String name, Pageable pageable) {
+        if(name.isEmpty()){
+            return serviceCategoryRepository.findAll(pageable);
+        }
+        return serviceCategoryRepository.findAllByNameContainingIgnoreCase(name,pageable);
+    }
+
+    @Override
     public Optional<ServiceCategory> findById(Long id) {
         return serviceCategoryRepository.findById(id);
     }

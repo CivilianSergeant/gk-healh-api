@@ -24,6 +24,12 @@ public interface ServiceRepository extends JpaRepository<Service,Long> {
     Page<ServiceListItem> findAllServices(Pageable pageable);
 
     @Query(value = "SELECT s FROM Service s JOIN FETCH s.serviceCategory sc" +
+            " LEFT JOIN FETCH s.labTestGroup ltg WHERE upper(s.name) LIKE upper(concat('%',:serviceName,'%'))",
+            countQuery = "SELECT COUNT(s) FROM Service s JOIN s.serviceCategory sc " +
+                    " WHERE upper(s.name) LIKE upper(concat('%',:serviceName,'%'))")
+    Page<ServiceListItem> findAllServices(@Param("serviceName") String serviceName, Pageable pageable);
+
+    @Query(value = "SELECT s FROM Service s JOIN FETCH s.serviceCategory sc" +
             " LEFT JOIN FETCH s.labTestGroup ltg")
     List<ServiceListItem> findAllServices();
 
