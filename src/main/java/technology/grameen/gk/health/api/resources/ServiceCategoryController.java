@@ -8,10 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import technology.grameen.gk.health.api.entity.ServiceCategory;
-import technology.grameen.gk.health.api.responses.EntityResponse;
-import technology.grameen.gk.health.api.responses.ExceptionResponse;
-import technology.grameen.gk.health.api.responses.IResponse;
-import technology.grameen.gk.health.api.responses.ResponseEnum;
+import technology.grameen.gk.health.api.responses.*;
 import technology.grameen.gk.health.api.services.ServiceCategoryService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,6 +26,12 @@ public class ServiceCategoryController {
 
     public ServiceCategoryController(ServiceCategoryService serviceCategoryService){
         this.serviceCategoryService = serviceCategoryService;
+    }
+
+    @GetMapping(value = "/list")
+    public ResponseEntity<IResponse> list(){
+        return new ResponseEntity<>(new EntityCollectionResponse<>(HttpStatus.OK.value(),
+                serviceCategoryService.getCategories()),HttpStatus.OK);
     }
 
     @RequestMapping(value = "")

@@ -29,8 +29,8 @@ public class ServiceCategoryServiceImpl implements ServiceCategoryService {
     }
 
     @Override
-    public Page<ServiceCategory> getCategories(Pageable pageable) {
-        return serviceCategoryRepository.findAll(pageable);
+    public List<ServiceCategory> getCategories() {
+        return serviceCategoryRepository.findAll();
     }
 
     @Override

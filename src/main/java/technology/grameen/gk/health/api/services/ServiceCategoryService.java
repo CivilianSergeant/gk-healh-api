@@ -11,7 +11,7 @@ public interface ServiceCategoryService {
 
      ServiceCategory addCategory(ServiceCategory category);
 
-     Page<ServiceCategory> getCategories(Pageable pageable);
+     List<ServiceCategory> getCategories();
      Page<ServiceCategory> getCategories(String name, Pageable pageable);
 
      Optional<ServiceCategory> findById(Long id);
