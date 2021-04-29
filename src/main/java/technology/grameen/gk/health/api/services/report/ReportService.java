@@ -20,6 +20,6 @@ public interface ReportService {
 
      PatientManageService getPatientService();
 
-     MonthWiseReceived getMonthWiseTotalAmountReceived();
+     MonthWiseReceived getMonthWiseTotalAmountReceived(Long centerId);
 
 }

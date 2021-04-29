@@ -32,6 +32,14 @@ public class MedicineServiceImpl implements MedicineService{
     }
 
     @Override
+    public Page<Medicine> getMedicines(String medicineName, Pageable pageable) {
+        if(medicineName.isEmpty()){
+            return medicineRepository.findAll(pageable);
+        }
+        return medicineRepository.findAllByNameContainingIgnoreCase(medicineName,pageable);
+    }
+
+    @Override
     public Optional <Medicine> findById(Long id) {
         return medicineRepository.findById(id);
     }

@@ -77,4 +77,20 @@ public interface PatientInvoiceRepository extends JpaRepository<PatientInvoice,L
             " (SELECT COALESCE(SUM (PAID_AMOUNT),0) \"Jan\" FROM patient_invoices WHERE TO_CHAR(CREATED_AT,'YYYY-MM') = CONCAT(to_char(sysdate, 'YYYY'),'-12')) AS \"Dec\"\n" +
             "FROM DUAL",nativeQuery = true)
     MonthWiseReceived getTotalAmountMonthWise();
+
+    @Query(value = "SELECT \n" +
+            " (SELECT COALESCE(SUM (PAID_AMOUNT),0) \"Jan\" FROM patient_invoices WHERE HEALTH_CENTER_ID IN :centerIds AND TO_CHAR(CREATED_AT,'YYYY-MM') = CONCAT(to_char(sysdate, 'YYYY'),'-01')) AS \"Jan\",\n" +
+            " (SELECT COALESCE(SUM (PAID_AMOUNT),0) \"Jan\" FROM patient_invoices WHERE HEALTH_CENTER_ID IN :centerIds AND TO_CHAR(CREATED_AT,'YYYY-MM') = CONCAT(to_char(sysdate, 'YYYY'),'-02')) AS \"Feb\",\n" +
+            " (SELECT COALESCE(SUM (PAID_AMOUNT),0) \"Jan\" FROM patient_invoices WHERE HEALTH_CENTER_ID IN :centerIds AND TO_CHAR(CREATED_AT,'YYYY-MM') = CONCAT(to_char(sysdate, 'YYYY'),'-03')) AS \"Mar\",\n" +
+            " (SELECT COALESCE(SUM (PAID_AMOUNT),0) \"Jan\" FROM patient_invoices WHERE HEALTH_CENTER_ID IN :centerIds AND TO_CHAR(CREATED_AT,'YYYY-MM') = CONCAT(to_char(sysdate, 'YYYY'),'-04')) AS \"Apr\",\n" +
+            " (SELECT COALESCE(SUM (PAID_AMOUNT),0) \"Jan\" FROM patient_invoices WHERE HEALTH_CENTER_ID IN :centerIds AND TO_CHAR(CREATED_AT,'YYYY-MM') = CONCAT(to_char(sysdate, 'YYYY'),'-05')) AS \"May\",\n" +
+            " (SELECT COALESCE(SUM (PAID_AMOUNT),0) \"Jan\" FROM patient_invoices WHERE HEALTH_CENTER_ID IN :centerIds AND TO_CHAR(CREATED_AT,'YYYY-MM') = CONCAT(to_char(sysdate, 'YYYY'),'-06')) AS \"Jun\",\n" +
+            " (SELECT COALESCE(SUM (PAID_AMOUNT),0) \"Jan\" FROM patient_invoices WHERE HEALTH_CENTER_ID IN :centerIds AND TO_CHAR(CREATED_AT,'YYYY-MM') = CONCAT(to_char(sysdate, 'YYYY'),'-07')) AS \"Jul\",\n" +
+            " (SELECT COALESCE(SUM (PAID_AMOUNT),0) \"Jan\" FROM patient_invoices WHERE HEALTH_CENTER_ID IN :centerIds AND TO_CHAR(CREATED_AT,'YYYY-MM') = CONCAT(to_char(sysdate, 'YYYY'),'-08')) AS \"Aug\",\n" +
+            " (SELECT COALESCE(SUM (PAID_AMOUNT),0) \"Jan\" FROM patient_invoices WHERE HEALTH_CENTER_ID IN :centerIds AND TO_CHAR(CREATED_AT,'YYYY-MM') = CONCAT(to_char(sysdate, 'YYYY'),'-09')) AS \"Sep\",\n" +
+            " (SELECT COALESCE(SUM (PAID_AMOUNT),0) \"Jan\" FROM patient_invoices WHERE HEALTH_CENTER_ID IN :centerIds AND TO_CHAR(CREATED_AT,'YYYY-MM') = CONCAT(to_char(sysdate, 'YYYY'),'-10')) AS \"Oct\",\n" +
+            " (SELECT COALESCE(SUM (PAID_AMOUNT),0) \"Jan\" FROM patient_invoices WHERE HEALTH_CENTER_ID IN :centerIds AND TO_CHAR(CREATED_AT,'YYYY-MM') = CONCAT(to_char(sysdate, 'YYYY'),'-11')) AS \"Nov\",\n" +
+            " (SELECT COALESCE(SUM (PAID_AMOUNT),0) \"Jan\" FROM patient_invoices WHERE HEALTH_CENTER_ID IN :centerIds AND TO_CHAR(CREATED_AT,'YYYY-MM') = CONCAT(to_char(sysdate, 'YYYY'),'-12')) AS \"Dec\"\n" +
+            "FROM DUAL",nativeQuery = true)
+    MonthWiseReceived getTotalAmountMonthWiseInCenters(@Param("centerIds") List<Long> centerIds);
 }

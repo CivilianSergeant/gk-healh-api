@@ -15,7 +15,9 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -43,6 +45,7 @@ public class ReportServiceImpl implements ReportService{
     public List<ServiceRecordResponse> getPatientInvoiceSummery(ServiceRecordSearch serviceRecordSearch) {
 
         List<HealthCenter> centers = new ArrayList<>();
+        List<Long> centerIds = new ArrayList<>();
         if(serviceRecordSearch.getOfficeTypeId() == 1 || serviceRecordSearch.getOfficeTypeId() == 4){
             centers = healthCenterService.getCenters();
         }else if(serviceRecordSearch.getOfficeTypeId()==5){
@@ -55,7 +58,7 @@ public class ReportServiceImpl implements ReportService{
         List<ServiceRecordResponse> serviceRecordResponses = new ArrayList<>();
 
 
-        List<Long> centerIds = new ArrayList<>();
+
         centers.stream().forEach(center->{
             centerIds.add(center.getId());
         });
@@ -89,7 +92,34 @@ public class ReportServiceImpl implements ReportService{
     }
 
     @Override
-    public MonthWiseReceived getMonthWiseTotalAmountReceived() {
-        return patientManageService.getInvoiceRepository().getTotalAmountMonthWise();
+    public MonthWiseReceived getMonthWiseTotalAmountReceived(Long centerId) {
+        Optional<HealthCenter> centerOptional = healthCenterService.findById(centerId);
+        final List<Long> centerIds = new ArrayList<>();
+        List<HealthCenter> centers = new ArrayList<>();
+
+        if(centerOptional.isPresent()){
+            HealthCenter center = centerOptional.get();
+            if(center.getOfficeTypeId() == 1 || center.getOfficeTypeId() == 4){
+                List<String> strList = healthCenterService.getCenterIds();
+                Optional<String> rowOp   = strList.stream().findFirst();
+                String row = rowOp.get();
+                Arrays.stream(row.split(",")).forEach(m->{
+                    centerIds.add(Long.valueOf(m));
+                });
+            }
+            if(center.getOfficeTypeId() == 5){
+                List<String> strList = healthCenterService.getCenterIds(center.getCenterCode());
+                Optional<String> rowOp   = strList.stream().findFirst();
+                String row = rowOp.get();
+                Arrays.stream(row.split(",")).forEach(m->{
+                    centerIds.add(Long.valueOf(m));
+                });
+
+            }
+            else{
+                centerIds.add(centerId);
+            }
+        }
+        return patientManageService.getInvoiceRepository().getTotalAmountMonthWiseInCenters(centerIds);
     }
 }

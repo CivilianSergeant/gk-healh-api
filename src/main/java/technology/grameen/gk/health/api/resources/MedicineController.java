@@ -29,7 +29,9 @@ public class MedicineController {
     }
 
     @GetMapping(value="")
-    public ResponseEntity<IResponse> list(@RequestParam Optional<Integer> page,
+    public ResponseEntity<IResponse> list(
+                                          @RequestParam Optional<String> medicineName,
+                                          @RequestParam Optional<Integer> page,
                                           @RequestParam Optional<Integer> size,
                                           @RequestParam Optional<String> sortBy,
                                           @RequestParam Optional<Boolean> sortDesc){
@@ -46,7 +48,7 @@ public class MedicineController {
                     : PageRequest.of(page.orElse(0),size.orElse(PAGE_SIZE));
 
         return new ResponseEntity<>(new EntityResponse<>(HttpStatus.OK.value(),
-                medicineService.getMedicines(pageable) ), HttpStatus.OK);
+                medicineService.getMedicines(medicineName.orElse(""),pageable) ), HttpStatus.OK);
     }
 
     @PostMapping(value = "/add")

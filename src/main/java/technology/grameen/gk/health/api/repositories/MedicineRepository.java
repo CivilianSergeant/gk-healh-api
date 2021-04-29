@@ -10,4 +10,6 @@ import technology.grameen.gk.health.api.entity.Medicine;
 public interface MedicineRepository extends JpaRepository<Medicine, Long> {
 
     Page<Medicine> findAll(Pageable pageable);
+
+    Page<Medicine> findAllByNameContainingIgnoreCase(String medicineName, Pageable pageable);
 }

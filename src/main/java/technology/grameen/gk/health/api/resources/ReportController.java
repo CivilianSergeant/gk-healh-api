@@ -74,8 +74,8 @@ public class ReportController {
     }
 
     @GetMapping("/month-wise-received")
-    public ResponseEntity<IResponse> getMonthWiseTotalAmountReceived(){
+    public ResponseEntity<IResponse> getMonthWiseTotalAmountReceived(@RequestParam Optional<Long> centerId){
         return new ResponseEntity<>(new EntityResponse<>(HttpStatus.OK.value(),
-                reportService.getMonthWiseTotalAmountReceived()),HttpStatus.OK);
+                reportService.getMonthWiseTotalAmountReceived(centerId.orElse(Long.valueOf(0)))),HttpStatus.OK);
     }
 }

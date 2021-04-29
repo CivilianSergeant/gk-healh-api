@@ -88,4 +88,14 @@ public class HealthCenterServiceImpl implements HealthCenterService {
     public List<HealthCenter> getCenterById(Long id) {
         return healthCenterRepository.findCenterById(id);
     }
+
+    @Override
+    public List<String> getCenterIds() {
+        return healthCenterRepository.getAllIds();
+    }
+
+    @Override
+    public List<String> getCenterIds(String thirdLevelCode) {
+        return healthCenterRepository.getAllIds(thirdLevelCode);
+    }
 }
