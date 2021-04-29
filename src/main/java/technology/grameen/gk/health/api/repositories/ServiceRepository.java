@@ -18,6 +18,7 @@ public interface ServiceRepository extends JpaRepository<Service,Long> {
 //              "s.isActive,s.isLabTest,s.createdAt,s.lastUpdatedAt)
 
 
+
     @Query(value = "SELECT s FROM Service s JOIN FETCH s.serviceCategory sc" +
             " LEFT JOIN FETCH s.labTestGroup ltg",
     countQuery = "SELECT COUNT(s) FROM Service s JOIN s.serviceCategory sc")

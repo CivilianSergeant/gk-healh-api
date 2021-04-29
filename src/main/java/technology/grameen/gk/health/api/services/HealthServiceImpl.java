@@ -58,8 +58,8 @@ public class HealthServiceImpl implements HealthServiceInterface {
     }
 
     @Override
-    public Page<ServiceListItem> getAll(Pageable pageable) {
-        return serviceRepository.findAllServices(pageable);
+    public List<ServiceListItem> getAll() {
+        return serviceRepository.findAllServices();
     }
 
     @Override

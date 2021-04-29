@@ -9,10 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import technology.grameen.gk.health.api.projection.ServiceListItem;
 import technology.grameen.gk.health.api.entity.Service;
-import technology.grameen.gk.health.api.responses.EntityResponse;
-import technology.grameen.gk.health.api.responses.ExceptionResponse;
-import technology.grameen.gk.health.api.responses.IResponse;
-import technology.grameen.gk.health.api.responses.ResponseEnum;
+import technology.grameen.gk.health.api.responses.*;
 import technology.grameen.gk.health.api.services.HealthServiceInterface;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,6 +26,12 @@ public class ServiceController {
 
     public ServiceController(HealthServiceInterface healthServiceInterface){
         this.healthServiceInterface = healthServiceInterface;
+    }
+
+    @GetMapping(value = "/list")
+    public ResponseEntity<IResponse> list(){
+        return new ResponseEntity<>(new EntityCollectionResponse<>(HttpStatus.OK.value(),
+                healthServiceInterface.getAll()), HttpStatus.OK);
     }
 
     @RequestMapping(value = "")

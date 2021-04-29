@@ -16,7 +16,7 @@ public interface HealthServiceInterface {
 
     public Service addServiceAttributes(Service service) throws Exception;
 
-    Page<ServiceListItem> getAll(Pageable pageable);
+    List<ServiceListItem> getAll();
     Page<ServiceListItem> getAll(String serviceName, Pageable pageable);
 
 
