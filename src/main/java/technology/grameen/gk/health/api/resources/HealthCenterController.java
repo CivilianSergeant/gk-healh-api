@@ -55,6 +55,18 @@ public class HealthCenterController {
         return new ResponseEntity<>(healthCenterService.getCenters(),HttpStatus.OK);
     }
 
+    @GetMapping(value = "/ra-office")
+    public ResponseEntity<List<HealthCenter>> getRaOffice(){
+        return new ResponseEntity<>(healthCenterService.getRaCenters(),HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/hc-office")
+    public ResponseEntity<List<HealthCenter>> getHcOfficeByRaOffice(@RequestParam Optional<String> raOfficeCode){
+        return new ResponseEntity<>(
+                healthCenterService.getCentersByThirdLevel(raOfficeCode.orElse(""))
+        ,HttpStatus.OK);
+    }
+
     @GetMapping("/api-id/{apiCenterId}")
     public ResponseEntity<IResponse> getCenterByApiCenterId(@PathVariable("apiCenterId") Long apiCenterId){
         return new ResponseEntity<>(new EntityResponse(HttpStatus.OK.value(),

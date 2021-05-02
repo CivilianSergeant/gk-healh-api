@@ -42,6 +42,32 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
+    public Page<EmployeeItem> getAll(Long centerId,
+                                     String employeeCode,
+                                     String fullName,
+                                     String contactNo,
+                                     String email,
+                                     Pageable pageable) {
+
+        if(centerId != null){
+            return employeeRepository.findAllByCenterId(centerId,pageable);
+        }
+        if(!employeeCode.isEmpty() && !fullName.isEmpty() && !contactNo.isEmpty() && !email.isEmpty()){
+
+        }else if(!employeeCode.isEmpty()) {
+            return employeeRepository.findAllByEmployeeCodeContaining(employeeCode,pageable);
+        }else if(!fullName.isEmpty()){
+            return employeeRepository.findAllByFullNameContainingIgnoreCase(fullName,pageable);
+        }else if(!contactNo.isEmpty()){
+            return employeeRepository.findAllByContactNumberContaining(contactNo,pageable);
+        }else if(!email.isEmpty()){
+            return employeeRepository.findAllByEmailContainingIgnoreCase(email,pageable);
+        }
+
+        return employeeRepository.findAllEmployee(pageable);
+    }
+
+    @Override
     public IResponse getEmployeeByApiEmployeeId(Long id) {
         Integer count = employeeRepository.getCount(id);
         if(count>1){

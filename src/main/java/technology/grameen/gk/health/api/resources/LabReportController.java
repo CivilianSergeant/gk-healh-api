@@ -48,6 +48,7 @@ public class LabReportController {
     public ResponseEntity<IResponse> getLabTestReports(@RequestParam Optional<String>  invoiceNumber,
                                                        @RequestParam Optional<String> fullName,
                                                        @RequestParam Optional<String> pid,
+                                                       @RequestParam Optional<String> status,
                                                        @RequestParam Optional<Integer> page,
                                                        @RequestParam Optional<Integer> size,
                                                        @RequestParam Optional<String> sortBy,
@@ -67,7 +68,8 @@ public class LabReportController {
         return  new ResponseEntity<>(new EntityResponse<>(HttpStatus.OK.value(),
                 labTestService.getLabTestReports(invoiceNumber.orElse(""),
                         fullName.orElse(""),
-                        pid.orElse("") ,pageable)),HttpStatus.OK);
+                        pid.orElse("") ,
+                        status.orElse(""),pageable)),HttpStatus.OK);
 
     }
 

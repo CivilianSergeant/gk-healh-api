@@ -55,6 +55,11 @@ public class HealthCenterServiceImpl implements HealthCenterService {
     }
 
     @Override
+    public List<HealthCenter> getRaCenters() {
+        return healthCenterRepository.findByOfficeTypeId(5);
+    }
+
+    @Override
     public Optional<HealthCenter> findById(Long id) {
         return healthCenterRepository.findById(id);
     }

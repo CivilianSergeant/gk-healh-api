@@ -28,6 +28,60 @@ public interface PrescriptionRepository extends JpaRepository<Prescription,Long>
                     " from prescriptions pr INNER JOIN patients p ON p.id=pr.prescription_patient_id")
     Page<PrescriptionListItem> findAllPrescriptions(Pageable pageable);
 
+    @Query(value = "SELECT pr.id as prescriptionId, pr.p_number as pNumber, pr.created_at as createdAt, p.id,p.full_name as fullName " +
+            " from prescriptions pr" +
+            " INNER JOIN patients p ON p.id = pr.prescription_patient_id" +
+            " WHERE upper(pr.p_number) LIKE upper('%'||:pNumber||'%') " +
+            " AND upper(p.full_name) LIKE upper('%'||:fullName||'%') " +
+            " AND TO_CHAR(pr.created_at,'YYYY-MM-DD') = :date"+
+            " ORDER BY pr.created_at DESC",nativeQuery = true,
+            countQuery = "SELECT count(*) " +
+                    " from prescriptions pr INNER JOIN patients p ON p.id=pr.prescription_patient_id"+
+                    " WHERE upper(pr.p_number) LIKE upper('%'||:pNumber||'%') " +
+                    " AND upper(p.full_name) LIKE upper('%'||:fullName||'%') " +
+                    " AND TO_CHAR(pr.created_at,'YYYY-MM-DD') = :date"
+    )
+    Page<PrescriptionListItem> findAllPrescriptions(@Param("pNumber") String pNumber,
+                                                    @Param("fullName") String fullName,
+                                                    @Param("date") String date, Pageable pageable);
+
+    @Query(value = "SELECT pr.id as prescriptionId, pr.p_number as pNumber, pr.created_at as createdAt, p.id,p.full_name as fullName " +
+            " from prescriptions pr" +
+            " INNER JOIN patients p ON p.id = pr.prescription_patient_id" +
+            " WHERE upper(pr.p_number) LIKE upper('%'||:pNumber||'%') " +
+            " ORDER BY pr.created_at DESC",nativeQuery = true,
+            countQuery = "SELECT count(*) " +
+                    " from prescriptions pr INNER JOIN patients p ON p.id=pr.prescription_patient_id"+
+                    " WHERE upper(pr.p_number) LIKE upper('%'||:pNumber||'%') "
+
+    )
+    Page<PrescriptionListItem> findAllPrescriptionsByPNumber(@Param("pNumber") String pNumber,
+                                                     Pageable pageable);
+
+    @Query(value = "SELECT pr.id as prescriptionId, pr.p_number as pNumber, pr.created_at as createdAt, p.id,p.full_name as fullName " +
+            " from prescriptions pr" +
+            " INNER JOIN patients p ON p.id = pr.prescription_patient_id" +
+            " WHERE upper(p.full_name) LIKE upper('%'||:fullName||'%')"+
+            " ORDER BY pr.created_at DESC",nativeQuery = true,
+            countQuery = "SELECT count(*) " +
+                    " from prescriptions pr INNER JOIN patients p ON p.id=pr.prescription_patient_id"+
+                    " WHERE upper(p.full_name) LIKE upper('%'||:fullName||'%')"
+    )
+    Page<PrescriptionListItem> findAllPrescriptionsByFullName(
+                                                    @Param("fullName") String fullName,
+                                                     Pageable pageable);
+
+    @Query(value = "SELECT pr.id as prescriptionId, pr.p_number as pNumber, pr.created_at as createdAt, p.id,p.full_name as fullName " +
+            " from prescriptions pr" +
+            " INNER JOIN patients p ON p.id = pr.prescription_patient_id" +
+            " WHERE TO_CHAR(pr.created_at,'YYYY-MM-DD') = :date"+
+            " ORDER BY pr.created_at DESC",nativeQuery = true,
+            countQuery = "SELECT count(*) " +
+                    " from prescriptions pr INNER JOIN patients p ON p.id=pr.prescription_patient_id"+
+                    " WHERE TO_CHAR(pr.created_at,'YYYY-MM-DD') = :date"
+    )
+    Page<PrescriptionListItem> findAllPrescriptionsByDate(@Param("date") String date, Pageable pageable);
+
     @Query(value = "SELECT p from Prescription p WHERE p.id=:id")
     Optional<PrescriptionDetail> findByPatientId(@Param("id") Long id);
 

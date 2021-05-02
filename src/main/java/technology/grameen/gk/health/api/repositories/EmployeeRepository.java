@@ -19,6 +19,12 @@ public interface EmployeeRepository extends JpaRepository<Employee,Long> {
     countQuery = "SELECT e from Employee e JOIN FETCH e.center c")
     Page<EmployeeItem> findAllEmployee(Pageable pageable);
 
+    Page<EmployeeItem> findAllByCenterId(Long centerId,Pageable pageable);
+    Page<EmployeeItem> findAllByEmployeeCodeContaining(String employeeCode,Pageable pageable);
+    Page<EmployeeItem> findAllByFullNameContainingIgnoreCase(String fullName,Pageable pageable);
+    Page<EmployeeItem> findAllByContactNumberContaining(String contactNo,Pageable pageable);
+    Page<EmployeeItem> findAllByEmailContainingIgnoreCase(String email,Pageable pageable);
+
     @Query("Select e from Employee e WHERE  e.apiEmployeeId=:id")
     Optional<Employee> findByApiEmployeeId(@Param("id") Long id);
 

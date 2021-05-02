@@ -15,6 +15,7 @@ public interface HealthCenterService {
     HealthCenter updateCenter(HealthCenter center);
 
     List<HealthCenter> getCenters();
+    List<HealthCenter> getRaCenters();
 
     Page<HealthCenter> getCenters(Pageable pageable);
 

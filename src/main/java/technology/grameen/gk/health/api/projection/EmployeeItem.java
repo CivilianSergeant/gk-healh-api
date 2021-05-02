@@ -11,9 +11,16 @@ public interface EmployeeItem {
     String getDesignation();
     String getContactNumber();
     String getEmail();
+    interface HealthCenter{
+        Long getId();
+        String getName();
+        String getCenterCode();
+        Integer getOfficeTypeId();
+        Integer getOfficeLevel();
+    }
+    Boolean getIsActive();
     HealthCenter getCenter();
     String getEmployeeCode();
-    Boolean getActive();
     LocalDateTime getCreatedAt();
     LocalDateTime getLastUpdatedAt();
 }

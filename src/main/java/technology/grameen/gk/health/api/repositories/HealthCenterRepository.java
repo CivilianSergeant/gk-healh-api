@@ -20,6 +20,8 @@ public interface HealthCenterRepository extends JpaRepository<HealthCenter,Long>
     @Query("SELECT c FROM HealthCenter c")
     List<HealthCenter> findAll();
 
+
+
     Optional<HealthCenter> findByApiOfficeId(Long apiCenterId);
 
     List<HealthCenter> findByNameContainingIgnoreCase(String keyword);

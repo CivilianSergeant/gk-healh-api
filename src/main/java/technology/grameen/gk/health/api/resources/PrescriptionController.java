@@ -1,6 +1,5 @@
 package technology.grameen.gk.health.api.resources;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -10,13 +9,10 @@ import org.springframework.web.bind.annotation.*;
 import technology.grameen.gk.health.api.entity.Patient;
 import technology.grameen.gk.health.api.entity.PatientInvoice;
 import technology.grameen.gk.health.api.entity.Prescription;
-import technology.grameen.gk.health.api.projection.PrescriptionListItem;
-import technology.grameen.gk.health.api.responses.EntityCollectionResponse;
 import technology.grameen.gk.health.api.responses.EntityResponse;
 import technology.grameen.gk.health.api.responses.IResponse;
 import technology.grameen.gk.health.api.services.prescription.PrescriptionService;
 
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -38,7 +34,11 @@ public class PrescriptionController {
     }
 
     @GetMapping("")
-    public ResponseEntity<IResponse> getPrescriptions(@RequestParam Optional<Integer> page,
+    public ResponseEntity<IResponse> getPrescriptions(
+                                                      @RequestParam Optional<String> pNumber,
+                                                      @RequestParam Optional<String> fullName,
+                                                      @RequestParam Optional<String> date,
+                                                      @RequestParam Optional<Integer> page,
                                                       @RequestParam Optional<Integer> size,
                                                       @RequestParam Optional<String> sortBy,
                                                       @RequestParam Optional<Boolean> sortDesc){
@@ -56,7 +56,9 @@ public class PrescriptionController {
 
 
         return new ResponseEntity<>(new EntityResponse<>(HttpStatus.OK.value(),
-                prescriptionService.getPrescriptions(pageable)),
+                prescriptionService.getPrescriptions(pNumber.orElse(""),
+                                                fullName.orElse(""),
+                        date.orElse(""),pageable)),
                 HttpStatus.OK);
     }
 

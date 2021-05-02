@@ -19,6 +19,7 @@ import technology.grameen.gk.health.api.responses.*;
 import technology.grameen.gk.health.api.services.EmployeeService;
 import technology.grameen.gk.health.api.services.HealthCenterService;
 
+import javax.swing.text.html.Option;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -44,7 +45,13 @@ public class EmployeeController {
     }
 
     @RequestMapping("")
-    public ResponseEntity<IResponse> list(@RequestParam Optional<Integer> page,
+    public ResponseEntity<IResponse> list(
+            @RequestParam Optional<Long> centerId,
+            @RequestParam Optional<String> employeeCode,
+                                               @RequestParam Optional<String> fullName,
+                                               @RequestParam Optional<String> contactNo,
+                                               @RequestParam Optional<String> email,
+                                               @RequestParam Optional<Integer> page,
                                                @RequestParam Optional<Integer> size,
                                                @RequestParam Optional<String> sortBy,
                                                @RequestParam Optional<Boolean> sortDesc){
@@ -62,7 +69,11 @@ public class EmployeeController {
                 : PageRequest.of(page.orElse(0),size.orElse(PAGE_SIZE));
 
         return new ResponseEntity<>(new EntityResponse<>(
-                HttpStatus.OK.value(), employeeService.getAll(pageable)
+                HttpStatus.OK.value(), employeeService.getAll(
+                        centerId.orElse(null),
+                        employeeCode.orElse(""),
+                fullName.orElse(""),contactNo.orElse(""),
+                email.orElse(""),pageable)
         ), HttpStatus.OK);
     }
 

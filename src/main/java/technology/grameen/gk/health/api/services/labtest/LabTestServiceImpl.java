@@ -69,20 +69,24 @@ public class LabTestServiceImpl implements LabTestService {
     public Page<LabTestListItem> getLabTestReports(String invoiceNumber,
                                                    String fullName,
                                                    String pid,
+                                                   String status,
                                                    Pageable pageable) {
 
 
-        if(invoiceNumber.isEmpty() && fullName.isEmpty() && pid.isEmpty()){
+        if(invoiceNumber.isEmpty() && fullName.isEmpty() && pid.isEmpty() && status.isEmpty()){
             return labTestRepository.getLabTests(pageable);
         }
-        if(!invoiceNumber.isEmpty() && fullName.isEmpty() && pid.isEmpty()) {
+        if(!invoiceNumber.isEmpty() && fullName.isEmpty() && pid.isEmpty() && status.isEmpty()) {
             return labTestRepository.getLabTestsByInvoiceNumber(invoiceNumber, pageable);
         }
-        if(invoiceNumber.isEmpty() && !fullName.isEmpty() && pid.isEmpty()) {
+        if(invoiceNumber.isEmpty() && !fullName.isEmpty() && pid.isEmpty() && status.isEmpty()) {
             return labTestRepository.getLabTestByFullName(fullName, pageable);
         }
-        if(invoiceNumber.isEmpty() && fullName.isEmpty() && !pid.isEmpty()) {
+        if(invoiceNumber.isEmpty() && fullName.isEmpty() && !pid.isEmpty() && status.isEmpty()) {
             return labTestRepository.getLabTestsByPid(pid, pageable);
+        }
+        if(invoiceNumber.isEmpty() && fullName.isEmpty() && pid.isEmpty() && !status.isEmpty()){
+            return labTestRepository.findAllByStatus(status, pageable);
         }
         return labTestRepository.getLabTests(invoiceNumber,fullName,pid,pageable);
     }

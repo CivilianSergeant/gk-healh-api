@@ -82,6 +82,23 @@ public class PrescriptionServiceImpl implements PrescriptionService {
         return prescriptionRepository.findAllPrescriptions(pageable);
     }
 
+    @Override
+    public Page<PrescriptionListItem> getPrescriptions(String pNumber, String fullName, String date, Pageable pageable) {
+        if(pNumber.isEmpty() && fullName.isEmpty() && date.isEmpty()){
+            return prescriptionRepository.findAllPrescriptions(pageable);
+        }
+        if(!pNumber.isEmpty() && fullName.isEmpty() && date.isEmpty()){
+            return prescriptionRepository.findAllPrescriptionsByPNumber(pNumber,pageable);
+        }
+        if(pNumber.isEmpty() && !fullName.isEmpty() && date.isEmpty()){
+            return prescriptionRepository.findAllPrescriptionsByFullName(fullName,pageable);
+        }
+        if(pNumber.isEmpty() && fullName.isEmpty() && !date.isEmpty()){
+            return prescriptionRepository.findAllPrescriptionsByDate(date,pageable);
+        }
+        return prescriptionRepository.findAllPrescriptions(pNumber, fullName, date, pageable);
+    }
+
     String getPrescriptionNumber(HealthCenter center){
         Calendar calendar = Calendar.getInstance();
         int year = (calendar.get(Calendar.YEAR));

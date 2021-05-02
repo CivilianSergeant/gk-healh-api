@@ -15,6 +15,12 @@ public interface EmployeeService {
     Employee addEmployee(Employee employee);
 
     Page<EmployeeItem> getAll(Pageable pageable);
+    Page<EmployeeItem> getAll(Long centerId,
+                              String employeeCode,
+                              String fullName,
+                              String contactNo,
+                              String email,
+                              Pageable pageable);
 
     IResponse getEmployeeByApiEmployeeId(Long id);
 }

@@ -85,6 +85,18 @@ public interface LabTestRepository extends JpaRepository<LabTest,Long> {
                     " WHERE upper(p.pid) LIKE upper('%'||:pid||'%')", nativeQuery=true)
     Page<LabTestListItem> getLabTestsByPid(@Param("pid") String pid, Pageable pageable);
 
+    @Query(value = "SELECT lt.id, lt.status, p.FULL_NAME AS fullName , p.PID as pid , pi2.INVOICE_NUMBER AS invoiceNumber, se.NAME AS serviceName," +
+            " lt.CREATED_AT AS createdAt FROM  LAB_TESTS lt INNER JOIN PATIENTS p ON p.id = lt.PATIENT_ID \n" +
+            "INNER JOIN PATIENT_INVOICES pi2 ON pi2.id = lt.PATIENT_INVOICE_ID " +
+            "INNER JOIN SERVICE se ON se.SERVICE_ID = lt.SERVICE_ID " +
+            "WHERE status=:status"+
+            " ORDER BY lt.id DESC",
+            countQuery = "SELECT count(*) from LAB_TESTS lt INNER JOIN PATIENTS p ON p.id = lt.PATIENT_ID" +
+                    " INNER JOIN PATIENT_INVOICES pi2 ON pi2.id = lt.PATIENT_INVOICE_ID" +
+                    " INNER JOIN SERVICE se ON se.SERVICE_ID = lt.SERVICE_ID "+
+                    " WHERE status=:status", nativeQuery=true)
+    Page<LabTestListItem> findAllByStatus(@Param("status") String status, Pageable pageable);
+
     @Query("Select l from LabTest l where l.id = :id")
     Optional<LabTestDetailItem> findByLabTest(@Param("id") Long id);
 
