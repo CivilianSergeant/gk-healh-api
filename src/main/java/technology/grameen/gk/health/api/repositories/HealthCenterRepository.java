@@ -20,6 +20,17 @@ public interface HealthCenterRepository extends JpaRepository<HealthCenter,Long>
     @Query("SELECT c FROM HealthCenter c")
     List<HealthCenter> findAll();
 
+    Page<HealthCenter> findAllByNameContainingIgnoreCase(String name, Pageable pageable);
+
+    Page<HealthCenter> findAllByCenterCode(String code , Pageable pageable);
+
+    Page<HealthCenter> findAllByThirdLevel(String thirdLevel, Pageable pageable);
+
+    Page<HealthCenter> findAllByNameContainingIgnoreCaseAndCenterCodeAndThirdLevel(String name,
+                                                               String code,
+                                                               String thirdLevel,
+                                                               Pageable pageable);
+
 
 
     Optional<HealthCenter> findByApiOfficeId(Long apiCenterId);

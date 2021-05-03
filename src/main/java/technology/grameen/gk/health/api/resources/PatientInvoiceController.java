@@ -53,4 +53,12 @@ public class PatientInvoiceController {
         }
         return new ResponseEntity<>(null, HttpStatus.OK);
     }
+
+    @GetMapping("/prescription-invoice-numbers")
+    public ResponseEntity<IResponse> getPrescriptionInvoice(){
+        return new ResponseEntity<>(new EntityCollectionResponse<>(
+                HttpStatus.OK.value(),
+                patientInvoiceService.getPrescriptionInvoiceByNumber()
+        ),HttpStatus.OK);
+    }
 }

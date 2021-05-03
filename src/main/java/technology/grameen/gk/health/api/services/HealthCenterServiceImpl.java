@@ -50,6 +50,27 @@ public class HealthCenterServiceImpl implements HealthCenterService {
     }
 
     @Override
+    public Page<HealthCenter> getCenters(String thirdLevel,
+                                         String name,
+                                         String code,
+                                         Pageable pageable) {
+
+        if(thirdLevel.isEmpty() && name.isEmpty() && code.isEmpty()){
+            return healthCenterRepository.findAll(pageable);
+        }
+        if(!name.isEmpty() && thirdLevel.isEmpty() && code.isEmpty()){
+            return healthCenterRepository.findAllByNameContainingIgnoreCase(name,pageable);
+        }
+        if(name.isEmpty() && !thirdLevel.isEmpty() && code.isEmpty()){
+            return healthCenterRepository.findAllByThirdLevel(thirdLevel,pageable);
+        }
+        if(name.isEmpty() && thirdLevel.isEmpty() && !code.isEmpty()){
+            return healthCenterRepository.findAllByCenterCode(code,pageable);
+        }
+        return healthCenterRepository.findAllByNameContainingIgnoreCaseAndCenterCodeAndThirdLevel(name,code,thirdLevel,pageable);
+    }
+
+    @Override
     public List<HealthCenter> getCenters() {
         return healthCenterRepository.findAll();
     }

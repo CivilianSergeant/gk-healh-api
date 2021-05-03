@@ -1,7 +1,8 @@
 package technology.grameen.gk.health.api.projection;
 
-public interface PatientInvoiceAutoComplete {
-
+public interface PrescriptionInvoiceAutoComplete{
     Long getId();
     String getInvoiceNumber();
+    String getPatientFullName();
+    String getPid();
 }

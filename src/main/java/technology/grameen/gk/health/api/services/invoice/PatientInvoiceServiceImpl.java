@@ -4,6 +4,7 @@ import org.springframework.transaction.annotation.Transactional;
 import technology.grameen.gk.health.api.projection.PatientInvoiceAutoComplete;
 import technology.grameen.gk.health.api.projection.PatientInvoiceDetail;
 import technology.grameen.gk.health.api.entity.*;
+import technology.grameen.gk.health.api.projection.PrescriptionInvoiceAutoComplete;
 import technology.grameen.gk.health.api.repositories.PatientInvoiceRepository;
 import technology.grameen.gk.health.api.repositories.PatientServiceRepository;
 import technology.grameen.gk.health.api.services.card_registration.CardRegistrationService;
@@ -38,6 +39,11 @@ public class PatientInvoiceServiceImpl implements PatientInvoiceService {
     @Override
     public List<PatientInvoiceAutoComplete> getInvoiceByNumber(String number) {
         return invoiceRepository.findByInvoiceNumberContaining(number);
+    }
+
+    @Override
+    public List<PrescriptionInvoiceAutoComplete> getPrescriptionInvoiceByNumber() {
+        return invoiceRepository.getPrescriptionInvoiceNumbers();
     }
 
     @Override

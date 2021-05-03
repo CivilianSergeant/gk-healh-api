@@ -8,6 +8,7 @@ import technology.grameen.gk.health.api.projection.MonthWiseReceived;
 import technology.grameen.gk.health.api.projection.PatientInvoiceDetail;
 import technology.grameen.gk.health.api.entity.PatientInvoice;
 import technology.grameen.gk.health.api.projection.PatientInvoiceAutoComplete;
+import technology.grameen.gk.health.api.projection.PrescriptionInvoiceAutoComplete;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -93,4 +94,13 @@ public interface PatientInvoiceRepository extends JpaRepository<PatientInvoice,L
             " (SELECT COALESCE(SUM (PAID_AMOUNT),0) \"Jan\" FROM patient_invoices WHERE HEALTH_CENTER_ID IN :centerIds AND TO_CHAR(CREATED_AT,'YYYY-MM') = CONCAT(to_char(sysdate, 'YYYY'),'-12')) AS \"Dec\"\n" +
             "FROM DUAL",nativeQuery = true)
     MonthWiseReceived getTotalAmountMonthWiseInCenters(@Param("centerIds") List<Long> centerIds);
+
+
+    @Query(value = "SELECT pi2.ID, pi2.INVOICE_NUMBER as invoiceNumber, p.full_name as patientFullName, p.pid as pid FROM PATIENT_INVOICES pi2 JOIN PATIENT_SERVICE_DETAILS psd " +
+            "ON pi2.ID  = psd.PATIENT_INVOICE_ID " +
+            "JOIN PATIENTS p ON p.ID = pi2.PATIENT_ID " +
+            "JOIN SERVICE s ON psd.SERVICE_ID = s.SERVICE_ID " +
+            "WHERE upper(s.NAME) LIKE upper('%prescription%') OR upper(s.name) LIKE upper('%doctor%') " +
+            "AND psd.IS_REPORT_GENERATED = 0 ORDER BY pi2.id DESC ", nativeQuery = true)
+    List<PrescriptionInvoiceAutoComplete> getPrescriptionInvoiceNumbers();
 }

@@ -30,10 +30,14 @@ public class HealthCenterController {
     }
 
     @RequestMapping(value = "/list")
-    public ResponseEntity<IResponse> list(@RequestParam Optional<Integer> page,
-                                                   @RequestParam Optional<Integer> size,
-                                                   @RequestParam Optional<String> sortBy,
-                                                   @RequestParam Optional<Boolean> sortDesc){
+    public ResponseEntity<IResponse> list(
+                            @RequestParam Optional<String> thirdLevel,
+                            @RequestParam Optional<String> name,
+                            @RequestParam Optional<String> code,
+                            @RequestParam Optional<Integer> page,
+                            @RequestParam Optional<Integer> size,
+                            @RequestParam Optional<String> sortBy,
+                            @RequestParam Optional<Boolean> sortDesc){
 
         String _sortBy = sortBy.orElse(null);
 
@@ -47,7 +51,10 @@ public class HealthCenterController {
                 : PageRequest.of(page.orElse(0),size.orElse(PAGE_SIZE));
 
         return new ResponseEntity<>(new EntityResponse<>(HttpStatus.OK.value(),
-                healthCenterService.getCenters(pageable)),HttpStatus.OK);
+                healthCenterService.getCenters(thirdLevel.orElse(""),
+                        name.orElse(""),
+                        code.orElse(""),
+                        pageable)),HttpStatus.OK);
     }
 
     @GetMapping(value = "")

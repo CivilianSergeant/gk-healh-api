@@ -19,6 +19,8 @@ public interface HealthCenterService {
 
     Page<HealthCenter> getCenters(Pageable pageable);
 
+    Page<HealthCenter> getCenters(String thirdLevel, String name, String code, Pageable pageable);
+
     Optional<HealthCenter> findById(Long id);
 
     Optional<HealthCenter> getCenterByApiCenterId(Long apiCenterId);
