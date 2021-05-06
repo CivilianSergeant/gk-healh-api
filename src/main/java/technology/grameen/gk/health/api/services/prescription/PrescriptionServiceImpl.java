@@ -5,12 +5,15 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import technology.grameen.gk.health.api.entity.*;
+import technology.grameen.gk.health.api.projection.PatientInvoiceDetail;
 import technology.grameen.gk.health.api.projection.PrescriptionDetail;
 import technology.grameen.gk.health.api.projection.PrescriptionListItem;
 import technology.grameen.gk.health.api.repositories.*;
+import technology.grameen.gk.health.api.services.invoice.PatientInvoiceService;
 
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -23,13 +26,15 @@ public class PrescriptionServiceImpl implements PrescriptionService {
     private GeneralExaminationRepository generalExaminationRepository;
     private RecommendedTestRepository recommendedTestRepository;
     private RecommendedMedicineRepository recommendedMedicineRepository;
+    private PatientInvoiceService patientInvoiceService;
 
     PrescriptionServiceImpl(PrescriptionRepository prescriptionRepository,
                             FamilyHistoryRepository familyHistoryRepository,
                             PersonalHistoryRepository personalHistoryRepository,
                             GeneralExaminationRepository generalExaminationRepository,
                             RecommendedTestRepository recommendedTestRepository,
-                            RecommendedMedicineRepository recommendedMedicineRepository){
+                            RecommendedMedicineRepository recommendedMedicineRepository,
+                            PatientInvoiceService patientInvoiceService){
 
         this.prescriptionRepository = prescriptionRepository;
         this.familyHistoryRepository = familyHistoryRepository;
@@ -37,13 +42,18 @@ public class PrescriptionServiceImpl implements PrescriptionService {
         this.generalExaminationRepository = generalExaminationRepository;
         this.recommendedTestRepository = recommendedTestRepository;
         this.recommendedMedicineRepository = recommendedMedicineRepository;
-
+        this.patientInvoiceService = patientInvoiceService;
     }
 
     @Override
     @Transactional
     public Prescription savePrescription(Prescription prescription) {
+
+
+
+
         Prescription newPrescription = prescriptionRepository.save(prescription);
+
         newPrescription.setpNumber(getPrescriptionNumber(prescription.getCenter()));
         FamilyHistory familyHistory = prescription.getFamilyHistory();
         PersonalHistory personalHistory = prescription.getPersonalHistory();
@@ -51,27 +61,45 @@ public class PrescriptionServiceImpl implements PrescriptionService {
         familyHistory.setPrescription(prescription);
         personalHistory.setPrescription(prescription);
         generalExamination.setPrescription(prescription);
-        familyHistoryRepository.save(familyHistory);
-        personalHistoryRepository.save(personalHistory);
-        generalExaminationRepository.save(generalExamination);
 
-        if(prescription.getRecommendedTests().size()>0) {
-            prescription.getRecommendedTests().stream()
-                    .map((recommendedTest) -> {
-                        recommendedTest.setPrescription(prescription);
-                        return recommendedTest;
-                    }).collect(Collectors.toSet());
-            recommendedTestRepository.saveAll(prescription.getRecommendedTests());
-        }
+        if(newPrescription.getId()>0) {
 
-        if(prescription.getRecommendedMedicines().size()>0) {
-            prescription.getRecommendedMedicines().stream()
-                    .map((recommendedMedicine) -> {
-                        recommendedMedicine.setPrescription(prescription);
-                        return recommendedMedicine;
-                    }).collect(Collectors.toSet());
 
-            recommendedMedicineRepository.saveAll(prescription.getRecommendedMedicines());
+
+            familyHistoryRepository.save(familyHistory);
+            personalHistoryRepository.save(personalHistory);
+            generalExaminationRepository.save(generalExamination);
+
+            if (prescription.getRecommendedTests().size() > 0) {
+                prescription.getRecommendedTests().stream()
+                        .map((recommendedTest) -> {
+                            recommendedTest.setPrescription(prescription);
+                            return recommendedTest;
+                        }).collect(Collectors.toSet());
+                recommendedTestRepository.saveAll(prescription.getRecommendedTests());
+            }
+
+            if (prescription.getRecommendedMedicines().size() > 0) {
+                prescription.getRecommendedMedicines().stream()
+                        .map((recommendedMedicine) -> {
+                            recommendedMedicine.setPrescription(prescription);
+                            return recommendedMedicine;
+                        }).collect(Collectors.toSet());
+
+                recommendedMedicineRepository.saveAll(prescription.getRecommendedMedicines());
+            }
+
+
+            Optional<PatientServiceDetail> _patientServiceDetail=null;
+
+            _patientServiceDetail = patientInvoiceService
+                    .getPrescriptionServiceDetailByPatientInvoice(prescription.getPatientInvoice());
+            if(_patientServiceDetail != null && _patientServiceDetail.isPresent()) {
+                PatientServiceDetail patientServiceDetail = _patientServiceDetail.get();
+                patientServiceDetail.setReportGenerated(true);
+                patientInvoiceService.updatePatientServiceDetail(patientServiceDetail);
+            }
+
         }
 
         return newPrescription;

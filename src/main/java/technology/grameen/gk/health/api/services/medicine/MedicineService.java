@@ -9,7 +9,8 @@ import java.util.Optional;
 
 public interface MedicineService {
     public Medicine addMedicine(Medicine medicine);
-    Page<Medicine> getMedicines(Pageable pageable);
+    List<Medicine> getMedicines();
+
     Page<Medicine> getMedicines(String medicineName,Pageable pageable);
     Optional <Medicine> findById(Long id);
 }

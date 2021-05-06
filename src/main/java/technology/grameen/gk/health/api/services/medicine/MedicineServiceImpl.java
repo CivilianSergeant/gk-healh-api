@@ -27,9 +27,11 @@ public class MedicineServiceImpl implements MedicineService{
     }
 
     @Override
-    public Page<Medicine> getMedicines(Pageable pageable) {
-        return medicineRepository.findAll(pageable);
+    public List<Medicine> getMedicines() {
+        return medicineRepository.findAll();
     }
+
+
 
     @Override
     public Page<Medicine> getMedicines(String medicineName, Pageable pageable) {

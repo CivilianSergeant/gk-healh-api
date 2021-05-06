@@ -112,4 +112,32 @@ public class PatientInvoiceServiceImpl implements PatientInvoiceService {
     public PatientServiceDetail updatePatientServiceDetail(PatientServiceDetail patientServiceDetail) {
         return patientServiceRepository.save(patientServiceDetail);
     }
+
+    @Override
+    public Optional<PatientServiceDetail> getPrescriptionServiceDetailByPatientInvoice(PatientInvoice patientInvoice) {
+        Optional<PatientServiceDetail> _patientServiceDetail =null;
+            Long patientInvoiceId = patientInvoice.getId();
+
+            Optional<PatientInvoiceDetail> patientInvoiceDetail = getInvoiceById(patientInvoiceId);
+
+            if (patientInvoiceDetail.isPresent()) {
+                PatientInvoiceDetail _patientInvoice = patientInvoiceDetail.get();
+                Optional<PatientInvoiceDetail.PatientServiceDetail> patientServiceDetailOptional = _patientInvoice
+                        .getPatientServiceDetails()
+                        .stream()
+                        .filter(patientServiceDetail -> patientServiceDetail.getService()
+                                .getName().toLowerCase().contains("prescription") ||
+                                patientServiceDetail.getService()
+                                        .getName().toLowerCase().contains("doctor"))
+                        .findFirst();
+
+                if (patientServiceDetailOptional.isPresent()) {
+
+                    _patientServiceDetail = patientServiceRepository.findById(patientServiceDetailOptional.get().getId());
+
+                }
+            }
+
+        return _patientServiceDetail;
+    }
 }

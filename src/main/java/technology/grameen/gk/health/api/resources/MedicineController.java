@@ -13,6 +13,7 @@ import technology.grameen.gk.health.api.responses.ExceptionResponse;
 import technology.grameen.gk.health.api.responses.IResponse;
 import technology.grameen.gk.health.api.services.medicine.MedicineService;
 
+import javax.xml.ws.Response;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,6 +50,14 @@ public class MedicineController {
 
         return new ResponseEntity<>(new EntityResponse<>(HttpStatus.OK.value(),
                 medicineService.getMedicines(medicineName.orElse(""),pageable) ), HttpStatus.OK);
+    }
+
+    @GetMapping("/list")
+    public ResponseEntity<IResponse> getMedicineList(){
+        return new ResponseEntity<>(new EntityCollectionResponse<>(
+                HttpStatus.OK.value(),
+                medicineService.getMedicines()
+        ),HttpStatus.OK);
     }
 
     @PostMapping(value = "/add")

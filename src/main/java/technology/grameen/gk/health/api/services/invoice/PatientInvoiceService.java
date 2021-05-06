@@ -24,4 +24,6 @@ public interface PatientInvoiceService {
                                                                               Service service);
 
     PatientServiceDetail updatePatientServiceDetail(PatientServiceDetail patientServiceDetail);
+
+    Optional<PatientServiceDetail> getPrescriptionServiceDetailByPatientInvoice(PatientInvoice patientInvoice);
 }
