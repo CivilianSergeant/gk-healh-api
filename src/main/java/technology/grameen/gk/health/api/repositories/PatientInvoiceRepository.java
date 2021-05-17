@@ -103,4 +103,6 @@ public interface PatientInvoiceRepository extends JpaRepository<PatientInvoice,L
             "WHERE (upper(s.NAME) LIKE upper('%prescription%') OR upper(s.name) LIKE upper('%doctor%')) " +
             "AND psd.IS_REPORT_GENERATED = 0 ORDER BY pi2.id ASC ", nativeQuery = true)
     List<PrescriptionInvoiceAutoComplete> getPrescriptionInvoiceNumbers();
+
+    List<PatientInvoiceAutoComplete> findByInvoiceNumberContainingIgnoreCase(String number);
 }
