@@ -52,11 +52,11 @@ public class LocationController {
         ),HttpStatus.OK);
     }
 
-    @GetMapping("/villages/{unionCode}")
-    public ResponseEntity<IResponse> villages(@PathVariable("unionCode") String unionCode){
+    @GetMapping("/villages/{unionId}")
+    public ResponseEntity<IResponse> villages(@PathVariable("unionId") Long unionId){
         return new ResponseEntity<>(new EntityCollectionResponse<>(
                 HttpStatus.OK.value(),
-                locationService.getVillageList(unionCode)
+                locationService.getVillageList(unionId)
         ),HttpStatus.OK);
     }
 

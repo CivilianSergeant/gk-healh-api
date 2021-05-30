@@ -20,6 +20,10 @@ public class Village {
     private String divisionCode;
     private String divisionName;
     private Long countryId;
+    private Long unionId;
+    private Long thanaId;
+    private Long districtId;
+    private Long divisionId;
 
     public Long getLgVillageId() {
         return lgVillageId;
@@ -115,5 +119,37 @@ public class Village {
 
     public void setCountryId(Long countryId) {
         this.countryId = countryId;
+    }
+
+    public Long getUnionId() {
+        return unionId;
+    }
+
+    public void setUnionId(Long unionId) {
+        this.unionId = unionId;
+    }
+
+    public Long getThanaId() {
+        return thanaId;
+    }
+
+    public void setThanaId(Long thanaId) {
+        this.thanaId = thanaId;
+    }
+
+    public Long getDistrictId() {
+        return districtId;
+    }
+
+    public void setDistrictId(Long districtId) {
+        this.districtId = districtId;
+    }
+
+    public Long getDivisionId() {
+        return divisionId;
+    }
+
+    public void setDivisionId(Long divisionId) {
+        this.divisionId = divisionId;
     }
 }

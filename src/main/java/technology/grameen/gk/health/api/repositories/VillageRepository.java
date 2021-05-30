@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface VillageRepository extends JpaRepository<Village, Long> {
-    List<Village> findByUnionCode(String unionCode);
+    List<Village> findByUnionId(Long unionId);
 }

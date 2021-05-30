@@ -1,6 +1,7 @@
 package technology.grameen.gk.health.api.services;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import technology.grameen.gk.health.api.entity.*;
 import technology.grameen.gk.health.api.repositories.*;
 
@@ -27,6 +28,12 @@ public class LocationServiceImpl implements LocationService {
         this.villageRepository = villageRepository;
     }
 
+    @Override
+    @Transactional
+    public Village addLocation(Village village){
+        villageRepository.save(village);
+        return village;
+    }
 
     @Override
     public List<Division> getDivisionList() {
@@ -49,7 +56,9 @@ public class LocationServiceImpl implements LocationService {
     }
 
     @Override
-    public List<Village> getVillageList(String unionCode) {
-        return villageRepository.findByUnionCode(unionCode);
+    public List<Village> getVillageList(Long unionId) {
+        return villageRepository.findByUnionId(unionId);
     }
+
+
 }
