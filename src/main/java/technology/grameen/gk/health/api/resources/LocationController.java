@@ -2,12 +2,11 @@ package technology.grameen.gk.health.api.resources;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import technology.grameen.gk.health.api.responses.EntityCollectionResponse;
-import technology.grameen.gk.health.api.responses.IResponse;
+import org.springframework.web.bind.annotation.*;
+import technology.grameen.gk.health.api.entity.Medicine;
+import technology.grameen.gk.health.api.entity.Village;
+import technology.grameen.gk.health.api.requests.LocationMappingRequest;
+import technology.grameen.gk.health.api.responses.*;
 import technology.grameen.gk.health.api.services.LocationService;
 
 @RestController
@@ -59,6 +58,30 @@ public class LocationController {
                 locationService.getVillageList(unionId)
         ),HttpStatus.OK);
     }
+
+    @PostMapping(value = "/mapping")
+    public ResponseEntity<IResponse> mapping(@RequestBody LocationMappingRequest req){
+
+        if(!locationService.villageMapping(req)){
+            return new ResponseEntity<>(new ExceptionResponse(HttpStatus.UNPROCESSABLE_ENTITY.value(),
+                    "Mapping failed"),HttpStatus.UNPROCESSABLE_ENTITY);
+        }
+
+        return new ResponseEntity<>(new SimpleResponse(HttpStatus.OK.value(),
+                "Successfully Mapped"),HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/add")
+    public ResponseEntity<IResponse> addLocation(@RequestBody Village req){
+        if(req.getVillageName().isEmpty()){
+            return new ResponseEntity<>(new ExceptionResponse(HttpStatus.OK.value(), "Name is Required")
+                    , HttpStatus.OK);
+        }
+        Village village = locationService.addLocation(req);
+        return new ResponseEntity<>(new EntityResponse<>(HttpStatus.OK.value(), village), HttpStatus.OK);
+    }
+
+
 
 
 }

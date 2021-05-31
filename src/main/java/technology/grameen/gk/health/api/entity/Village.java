@@ -25,6 +25,10 @@ public class Village {
     private Long districtId;
     private Long divisionId;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private HealthCenter center;
+
+
     public Long getLgVillageId() {
         return lgVillageId;
     }
@@ -151,5 +155,13 @@ public class Village {
 
     public void setDivisionId(Long divisionId) {
         this.divisionId = divisionId;
+    }
+
+    public HealthCenter getCenter() {
+        return center;
+    }
+
+    public void setCenter(HealthCenter center) {
+        this.center = center;
     }
 }

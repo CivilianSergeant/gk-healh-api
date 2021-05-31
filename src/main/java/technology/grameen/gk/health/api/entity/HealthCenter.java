@@ -29,6 +29,9 @@ public class HealthCenter {
     private String fourthLevel;
     private String fifthLevel;
 
+    @OneToMany(mappedBy = "center")
+    private Set<Village> villages;
+
     private Integer officeTypeId;
 
     @OneToMany(mappedBy = "center")
@@ -232,5 +235,19 @@ public class HealthCenter {
 
     public void setOfficeTypeId(Integer officeTypeId) {
         this.officeTypeId = officeTypeId;
+    }
+
+    public Set<Village> getVillages() {
+        return villages;
+    }
+
+    public void addVillage(Village village) {
+       if(village!=null){
+           if(this.villages==null){
+               this.villages = new HashSet<>();
+           }
+           village.setCenter(this);
+           this.villages.add(village);
+       }
     }
 }

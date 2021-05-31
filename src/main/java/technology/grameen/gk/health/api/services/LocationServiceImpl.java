@@ -4,8 +4,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import technology.grameen.gk.health.api.entity.*;
 import technology.grameen.gk.health.api.repositories.*;
+import technology.grameen.gk.health.api.requests.LocationMappingRequest;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class LocationServiceImpl implements LocationService {
@@ -15,17 +17,21 @@ public class LocationServiceImpl implements LocationService {
     private ThanaRepository thanaRepository;
     private UnionRepository unionRepository;
     private VillageRepository villageRepository;
+    private HealthCenterService healthCenterService;
+
 
     public LocationServiceImpl(DivisionRepository divisionRepository,
                                DistrictRepository districtRepository,
                                ThanaRepository thanaRepository,
                                UnionRepository unionRepository,
-                               VillageRepository villageRepository) {
+                               VillageRepository villageRepository,
+                               HealthCenterService healthCenterService) {
         this.divisionRepository = divisionRepository;
         this.districtRepository = districtRepository;
         this.thanaRepository = thanaRepository;
         this.unionRepository = unionRepository;
         this.villageRepository = villageRepository;
+        this.healthCenterService = healthCenterService;
     }
 
     @Override
@@ -60,5 +66,25 @@ public class LocationServiceImpl implements LocationService {
         return villageRepository.findByUnionId(unionId);
     }
 
+    @Override
+    public Boolean villageMapping(LocationMappingRequest locationMappingRequest) {
+        Long villageId = locationMappingRequest.getVillage().getLgVillageId();
+        Long centerId = locationMappingRequest.getHealthCenter().getId();
+        Optional<Village> village = this.findById(villageId);
+        Optional<HealthCenter> healthCenter =  healthCenterService.findById(centerId);
 
+        if(village.isPresent() && healthCenter.isPresent()){
+            Village village1 = village.get();
+            HealthCenter healthCenter1 = healthCenter.get();
+            healthCenter1.addVillage(village1);
+            villageRepository.save(village1);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public Optional<Village> findById(Long id) {
+        return villageRepository.findById(id);
+    }
 }
