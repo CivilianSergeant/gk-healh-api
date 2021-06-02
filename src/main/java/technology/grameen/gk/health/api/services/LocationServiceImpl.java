@@ -1,8 +1,11 @@
 package technology.grameen.gk.health.api.services;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import technology.grameen.gk.health.api.entity.*;
+import technology.grameen.gk.health.api.projection.VillageListItem;
 import technology.grameen.gk.health.api.repositories.*;
 import technology.grameen.gk.health.api.requests.LocationMappingRequest;
 
@@ -86,5 +89,20 @@ public class LocationServiceImpl implements LocationService {
     @Override
     public Optional<Village> findById(Long id) {
         return villageRepository.findById(id);
+    }
+
+//    @Override
+//    public List<VillageListItem> getVillages() {
+//        return villageRepository.findAll();
+//    }
+
+    @Override
+    public List<Village> getCenterVillageList(Long centerId) {
+        return villageRepository.findByCenterId(centerId);
+    }
+
+    @Override
+    public Page<VillageListItem> getVillages(Pageable pageable) {
+        return villageRepository.findAllVillage(pageable);
     }
 }

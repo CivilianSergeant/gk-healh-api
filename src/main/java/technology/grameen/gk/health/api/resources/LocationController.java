@@ -1,18 +1,23 @@
 package technology.grameen.gk.health.api.resources;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import technology.grameen.gk.health.api.entity.Medicine;
 import technology.grameen.gk.health.api.entity.Village;
 import technology.grameen.gk.health.api.requests.LocationMappingRequest;
 import technology.grameen.gk.health.api.responses.*;
 import technology.grameen.gk.health.api.services.LocationService;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping(value = "/api/v1/location")
 public class LocationController {
 
+    private static final Integer PAGE_SIZE = 25;
     private LocationService locationService;
 
     public LocationController(LocationService locationService) {
@@ -25,6 +30,31 @@ public class LocationController {
                HttpStatus.OK.value(),
                locationService.getDivisionList()
        ),HttpStatus.OK);
+    }
+
+    @GetMapping("/villages")
+    public ResponseEntity<IResponse> villages(
+            @RequestParam Optional<Integer> page,
+            @RequestParam Optional<Integer> size,
+            @RequestParam Optional<String> sortBy,
+            @RequestParam Optional<Boolean> sortDesc
+    ){
+        String _sortBy = sortBy.orElse(null);
+
+        Sort sort = null;
+
+        if(!_sortBy.isEmpty()) {
+            sort =   (sortDesc.orElse(false)) ? Sort.by(_sortBy).descending()
+                    : Sort.by(_sortBy).ascending();
+        }
+        Pageable pageable = (sort!=null)? PageRequest.of(page.orElse(0),size.orElse(PAGE_SIZE),sort)
+                : PageRequest.of(page.orElse(0),size.orElse(PAGE_SIZE));
+
+
+        return new ResponseEntity<>(new EntityResponse<>(
+                HttpStatus.OK.value(),
+                locationService.getVillages(pageable)
+        ),HttpStatus.OK);
     }
 
     @GetMapping("/districts/{divisionId}")
@@ -56,6 +86,14 @@ public class LocationController {
         return new ResponseEntity<>(new EntityCollectionResponse<>(
                 HttpStatus.OK.value(),
                 locationService.getVillageList(unionId)
+        ),HttpStatus.OK);
+    }
+
+    @GetMapping("/center-villages/{centerId}")
+    public ResponseEntity<IResponse> villages1(@PathVariable("centerId") Long centerId){
+        return new ResponseEntity<>(new EntityCollectionResponse<>(
+                HttpStatus.OK.value(),
+                locationService.getCenterVillageList(centerId)
         ),HttpStatus.OK);
     }
 
