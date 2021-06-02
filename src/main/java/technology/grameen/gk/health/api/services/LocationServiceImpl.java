@@ -91,11 +91,6 @@ public class LocationServiceImpl implements LocationService {
         return villageRepository.findById(id);
     }
 
-//    @Override
-//    public List<VillageListItem> getVillages() {
-//        return villageRepository.findAll();
-//    }
-
     @Override
     public List<Village> getCenterVillageList(Long centerId) {
         return villageRepository.findByCenterId(centerId);
