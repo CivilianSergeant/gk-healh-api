@@ -19,8 +19,10 @@ public class Patient {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long apiVillageId;
-    private String village;
+
+    @OneToOne
+    private Village village;
+    private String streetAddress;
     private String pid;
     private String fullName;
     private String guardianName;
@@ -94,20 +96,20 @@ public class Patient {
         this.id = id;
     }
 
-    public Long getApiVillageId() {
-        return apiVillageId;
-    }
-
-    public void setApiVillageId(Long apiVillageId) {
-        this.apiVillageId = apiVillageId;
-    }
-
-    public String getVillage() {
+    public Village getVillage() {
         return village;
     }
 
-    public void setVillage(String village) {
+    public void setVillage(Village village) {
         this.village = village;
+    }
+
+    public String getStreetAddress() {
+        return streetAddress;
+    }
+
+    public void setStreetAddress(String streetAddress) {
+        this.streetAddress = streetAddress;
     }
 
     public String getPid() {

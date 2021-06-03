@@ -144,8 +144,8 @@ public class PatientManageServiceImpl implements PatientManageService {
         patient.setMaritalStatus(req.getMaritalStatus());
         patient.setGender(req.getGender());
         patient.setAge(String.valueOf(req.getAge()));
-        patient.setApiVillageId(req.getApiVillageId());
         patient.setVillage(req.getVillage());
+        patient.setStreetAddress(req.getStreetAddress());
         patient.setDetail(req.getDetail());
         return patient;
     }

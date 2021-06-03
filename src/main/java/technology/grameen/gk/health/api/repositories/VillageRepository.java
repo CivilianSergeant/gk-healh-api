@@ -4,7 +4,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import technology.grameen.gk.health.api.entity.HealthCenter;
 import technology.grameen.gk.health.api.entity.Village;
 import technology.grameen.gk.health.api.projection.VillageListItem;
 
@@ -13,7 +15,9 @@ import java.util.List;
 @Repository
 public interface VillageRepository extends JpaRepository<Village, Long> {
     List<Village> findByUnionId(Long unionId);
-    List<Village> findByCenterId(Long centerId);
+
+    @Query(value = "select v from Village v join fetch v.center c where c=:center")
+    List<Village> findByCenter(@Param("center") HealthCenter center);
 
     @Query(value = "select lg_village_Id as lgVillageId,village_code as villageCode, \n" +
             "village_name as villageName,\n" +

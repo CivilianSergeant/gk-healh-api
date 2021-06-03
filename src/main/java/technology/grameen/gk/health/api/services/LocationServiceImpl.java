@@ -93,7 +93,9 @@ public class LocationServiceImpl implements LocationService {
 
     @Override
     public List<Village> getCenterVillageList(Long centerId) {
-        return villageRepository.findByCenterId(centerId);
+        HealthCenter healthCenter = new HealthCenter();
+        healthCenter.setId(centerId);
+        return villageRepository.findByCenter(healthCenter);
     }
 
     @Override

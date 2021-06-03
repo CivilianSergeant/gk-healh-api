@@ -237,7 +237,7 @@ public class HealthCenter {
         this.officeTypeId = officeTypeId;
     }
 
-    @JsonBackReference
+    @JsonBackReference(value = "get-village")
     public Set<Village> getVillages() {
         return villages;
     }

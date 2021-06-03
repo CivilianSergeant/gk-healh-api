@@ -2,13 +2,20 @@ package technology.grameen.gk.health.api.projection;
 
 import technology.grameen.gk.health.api.entity.CardRegistration;
 import technology.grameen.gk.health.api.entity.HealthCenter;
+import technology.grameen.gk.health.api.entity.PatientDetail;
 import technology.grameen.gk.health.api.entity.PatientInvoice;
+
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Set;
 
 public interface PatientSearchResult {
+
+        interface Village{
+                Long getLgVillageId();
+                String getVillageName();
+        }
 
         interface Service{
                 Long getServiceId();
@@ -86,6 +93,8 @@ public interface PatientSearchResult {
         Long getId();
         String getPid();
         String getFullName();
+        Village getVillage();
+        String getStreetAddress();
         String getGuardianName();
         String getMotherName();
         String getGender();
@@ -95,5 +104,7 @@ public interface PatientSearchResult {
         void addRegistration(CardRegistration cardRegistration);
         Set<PatientInvoice> getPatientInvoices();
         CardMember getCardMember();
+        String getMaritalStatus();
+        PatientDetail getDetail();
 
 }
