@@ -74,9 +74,10 @@ public class PatientManageServiceImpl implements PatientManageService {
         HealthCenter center = patient.getCenter();
         Employee employee = patient.getCreatedBy();
 
-        center.addPatient(patient);
-        employee.addPatient(patient);
-
+        if(patient.getId()==null) {
+            center.addPatient(patient);
+            employee.addPatient(patient);
+        }
         patientRepository.save(patient);
 
         PatientDetail detail = patient.getDetail();
