@@ -99,7 +99,45 @@ public class LocationServiceImpl implements LocationService {
     }
 
     @Override
-    public Page<VillageListItem> getVillages(Pageable pageable) {
+    public Page<VillageListItem> getVillages(
+            Long divisionId,
+            Long districtId,
+            Long thanaId,
+            Long unionId,
+            String villageCode,
+            String villageName,
+            Pageable pageable) {
+
+
+        if(villageCode.isEmpty() && villageName.isEmpty()) {
+            if (divisionId != null && districtId == null && thanaId == null && unionId == null) {
+                return villageRepository.findAllByDivisionId(divisionId, pageable);
+            }
+
+            if (divisionId != null && districtId != null && thanaId == null && unionId == null) {
+                return villageRepository.findAllByDivisionIdAndDistrictId(divisionId, districtId, pageable);
+            }
+
+            if (divisionId != null && districtId != null && thanaId != null && unionId == null) {
+                return villageRepository.findAllByDivisionIdAndDistrictIdAndThanaId(divisionId, districtId,
+                        thanaId, pageable);
+            }
+
+            if (divisionId != null && districtId != null && thanaId != null && unionId != null) {
+                return villageRepository.findAllByDivisionIdAndDistrictIdAndThanaIdAndUnionId(divisionId,
+                        districtId,
+                        thanaId, unionId, pageable);
+            }
+        }
+
+        if(!villageCode.isEmpty()){
+            return villageRepository.findAllByVillageCodeContaining(villageCode, pageable);
+        }
+
+        if(!villageName.isEmpty()){
+            return villageRepository.findAllByVillageNameContaining(villageName, pageable);
+        }
+
         return villageRepository.findAllVillage(pageable);
     }
 }

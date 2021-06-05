@@ -6,7 +6,7 @@ public interface VillageListItem {
     String getVillageCode();
     String getVillageName();
     String getUnionName();
-    String getThanaName();
+    String getUpozillaName();
     String getDistrictName();
     String getDivisionName();
 

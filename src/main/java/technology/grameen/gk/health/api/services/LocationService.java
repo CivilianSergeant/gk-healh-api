@@ -13,7 +13,14 @@ public interface LocationService {
 
     public Village addLocation(Village village);
     List<Division> getDivisionList();
-    Page<VillageListItem> getVillages(Pageable pageable);
+    Page<VillageListItem> getVillages(
+            Long divisionId,
+            Long districtId,
+            Long thanaId,
+            Long unionId,
+            String villageCode,
+            String villageName,
+            Pageable pageable);
     List<District> getDistrictList(Long divisionId);
     List<Thana> getThanaList(Long districtId);
     List<Union> getUnionList(Long thanaId);
