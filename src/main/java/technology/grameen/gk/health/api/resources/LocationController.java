@@ -34,6 +34,12 @@ public class LocationController {
 
     @GetMapping("/villages")
     public ResponseEntity<IResponse> villages(
+            @RequestParam Optional<Long> divisionId,
+            @RequestParam Optional<Long> districtId,
+            @RequestParam Optional<Long> thanaId,
+            @RequestParam Optional<Long> unionId,
+            @RequestParam Optional<String> villageCode,
+            @RequestParam Optional<String> villageName,
             @RequestParam Optional<Integer> page,
             @RequestParam Optional<Integer> size,
             @RequestParam Optional<String> sortBy,
@@ -53,7 +59,14 @@ public class LocationController {
 
         return new ResponseEntity<>(new EntityResponse<>(
                 HttpStatus.OK.value(),
-                locationService.getVillages(pageable)
+                locationService.getVillages(
+                        divisionId.orElse(null),
+                        districtId.orElse(null),
+                        thanaId.orElse(null),
+                        unionId.orElse(null),
+                        villageCode.orElse(""),
+                        villageName.orElse(""),
+                        pageable)
         ),HttpStatus.OK);
     }
 
