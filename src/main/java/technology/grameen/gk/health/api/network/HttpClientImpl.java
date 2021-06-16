@@ -45,7 +45,7 @@ public class HttpClientImpl implements HttpClient {
                requestData.add("username","admin");
                requestData.add("password","admin");
                requestData.add("client_id","admin-cli");
-        HttpEntity<MultiValueMap<String,String>> requestBody = new HttpEntity<MultiValueMap<String,String>>(requestData,httpHeaders);
+        HttpEntity<MultiValueMap<String,String>> requestBody = new HttpEntity<>(requestData,httpHeaders);
         response = restTemplate.postForObject(url,requestBody,AdminAcessToken.class);
 
 

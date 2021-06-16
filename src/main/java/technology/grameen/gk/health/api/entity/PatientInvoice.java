@@ -48,6 +48,8 @@ public class PatientInvoice {
 
     private BigDecimal dueAmount;
 
+    private Boolean isPosted;
+
     @ManyToOne
     @JoinColumn(name = "created_by",referencedColumnName = "id")
     private Employee createdBy;
@@ -171,5 +173,13 @@ public class PatientInvoice {
 
     public void setLastUpdatedAt(LocalDateTime lastUpdatedAt) {
         this.lastUpdatedAt = lastUpdatedAt;
+    }
+
+    public Boolean getPosted() {
+        return isPosted;
+    }
+
+    public void setPosted(Boolean posted) {
+        isPosted = posted;
     }
 }
