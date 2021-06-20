@@ -46,6 +46,15 @@ public class HealthCenter {
     @OneToMany(mappedBy = "center")
     private Set<PatientInvoice> patientInvoices;
 
+    @OneToMany(mappedBy = "center")
+    private Set<Event> events;
+
+    @OneToMany(mappedBy = "center")
+    private Set<PatientOperation>  patientOperations;
+
+    @OneToMany(mappedBy = "heldOnCenter")
+    private Set<PatientOperation> heldOnPatientOperations;
+
     @CreationTimestamp
     private LocalDateTime createdAt;
 

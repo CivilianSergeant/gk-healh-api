@@ -40,6 +40,12 @@ public class Employee {
     @OneToMany(mappedBy = "createdBy")
     private Set<LabTest> labTests;
 
+    @OneToMany(mappedBy = "employee")
+    private Set<EventPersonnel> eventPersonnels;
+
+    @OneToMany(mappedBy = "employee")
+    private Set<PatientOperation> patientOperations;
+
     @OneToMany(mappedBy = "doctor",fetch = FetchType.LAZY)
     @JsonManagedReference
     @JsonIgnore
