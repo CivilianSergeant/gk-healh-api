@@ -78,14 +78,18 @@ public class PatientManageServiceImpl implements PatientManageService {
             center.addPatient(patient);
             employee.addPatient(patient);
         }
-        patientRepository.save(patient);
 
         PatientDetail detail = patient.getDetail();
         if(detail != null) {
             detail.setPatient(patient);
-            detailRepository.save(detail);
         }
 
+        patientRepository.save(patient);
+
+        if(detail != null) {
+            detail.setPatient(patient);
+            detailRepository.save(detail);
+        }
         return patient;
     }
 
@@ -145,9 +149,14 @@ public class PatientManageServiceImpl implements PatientManageService {
         patient.setMaritalStatus(req.getMaritalStatus());
         patient.setGender(req.getGender());
         patient.setAge(String.valueOf(req.getAge()));
-        patient.setVillage(req.getVillage());
+        Village village = null;
+        if(req.getVillage() != null && req.getVillage().getLgVillageId() != null){
+            village = req.getVillage();
+        }
+        patient.setVillage(village);
         patient.setStreetAddress(req.getStreetAddress());
         patient.setDetail(req.getDetail());
+        patient.setGB(req.getGb());
         return patient;
     }
 

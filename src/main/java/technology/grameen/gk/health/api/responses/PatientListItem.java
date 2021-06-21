@@ -10,6 +10,7 @@ public class PatientListItem {
     private String gender;
     private String maritalStatus;
     private String age;
+    private Boolean gb;
     private String center;
     private String guardianName;
     private String mobileNumber;
@@ -17,7 +18,7 @@ public class PatientListItem {
     private LocalDateTime lastUpdatedAt;
 
     public PatientListItem(Long id, String pid, String fullName, String gender, String maritalStatus,
-                           String age, String center, String guardianName, String mobileNumber,
+                           String age, Boolean gb, String center, String guardianName, String mobileNumber,
                            LocalDateTime createdAt, LocalDateTime lastUpdatedAt) {
         this.id = id;
         this.pid = pid;
@@ -25,6 +26,7 @@ public class PatientListItem {
         this.gender = gender;
         this.maritalStatus = maritalStatus;
         this.age = age;
+        this.gb = gb;
         this.center = center;
         this.guardianName = guardianName;
         this.mobileNumber = mobileNumber;
@@ -126,5 +128,13 @@ public class PatientListItem {
 
     public void setLastUpdatedAt(LocalDateTime lastUpdatedAt) {
         this.lastUpdatedAt = lastUpdatedAt;
+    }
+
+    public Boolean getGb() {
+        return gb;
+    }
+
+    public void setGb(Boolean gb) {
+        this.gb = gb;
     }
 }

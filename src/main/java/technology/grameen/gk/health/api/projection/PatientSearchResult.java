@@ -1,5 +1,6 @@
 package technology.grameen.gk.health.api.projection;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import technology.grameen.gk.health.api.entity.CardRegistration;
 import technology.grameen.gk.health.api.entity.HealthCenter;
 import technology.grameen.gk.health.api.entity.PatientDetail;
@@ -32,6 +33,8 @@ public interface PatientSearchResult {
                 BigDecimal getServiceAmount();
                 BigDecimal getDiscountAmount();
                 BigDecimal getPayableAmount();
+
+                @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
                 LocalDateTime getCreatedAt();
                 Boolean getReportGenerated();
         }
@@ -45,6 +48,8 @@ public interface PatientSearchResult {
                 BigDecimal getPayableAmount();
                 BigDecimal getPaidAmount();
                 BigDecimal getDueAmount();
+
+                @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
                 LocalDateTime getCreatedAt();
                 HealthCenter getCenter();
         }
@@ -63,7 +68,11 @@ public interface PatientSearchResult {
                 Integer getValidityDuration();
                 Set<CardMember> getMembers();
                 Integer getTotalServiceTaken();
+
+                @JsonFormat(pattern = "yyyy-MM-dd")
                 LocalDateTime getStartDate();
+
+                @JsonFormat(pattern = "yyyy-MM-dd")
                 LocalDateTime getExpiredDate();
                 void setActive(Boolean active);
         }
@@ -76,7 +85,11 @@ public interface PatientSearchResult {
                 Integer getValidityDuration();
                 Integer getTotalServiceTaken();
                 Boolean getActive();
+
+                @JsonFormat(pattern = "yyyy-MM-dd")
                 LocalDateTime getStartDate();
+
+                @JsonFormat(pattern = "yyyy-MM-dd")
                 LocalDateTime getExpiredDate();
         }
 
@@ -106,5 +119,6 @@ public interface PatientSearchResult {
         CardMember getCardMember();
         String getMaritalStatus();
         PatientDetail getDetail();
+        Boolean getGB();
 
 }

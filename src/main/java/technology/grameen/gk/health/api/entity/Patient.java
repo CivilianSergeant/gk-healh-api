@@ -44,6 +44,9 @@ public class Patient {
     @OneToOne(mappedBy = "patient")
     private CardRegistration registration;
 
+    @OneToMany(mappedBy = "patient")
+    private Set<CardRegistrationLog> registrationLogs;
+
     @OneToMany(mappedBy = "prescriptionPatient")
     private Set<Prescription> prescriptions;
 

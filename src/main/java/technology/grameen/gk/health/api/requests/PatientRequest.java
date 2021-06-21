@@ -35,6 +35,8 @@ public class PatientRequest {
 
     private CardRegistration cardRegistration;
 
+    private Boolean gb;
+
     public PatientRequest(){}
 
     public PatientRequest(Patient cardMember){
@@ -168,4 +170,14 @@ public class PatientRequest {
     public void setCardRegistration(CardRegistration cardRegistration) {
         this.cardRegistration = cardRegistration;
     }
+
+    public Boolean getGb() {
+        return gb;
+    }
+
+    public void setGb(Boolean gb) {
+        this.gb = gb;
+    }
+
+
 }
