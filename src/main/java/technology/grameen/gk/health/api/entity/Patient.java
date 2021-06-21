@@ -32,6 +32,8 @@ public class Patient {
     private String mobileNumber;
     private String age;
 
+    private Boolean isGB;
+
     @ManyToOne
     @JoinColumn(columnDefinition = "center_id",referencedColumnName = "id")
     private HealthCenter center;
@@ -238,8 +240,13 @@ public class Patient {
         }
     }
 
+    public Boolean getGB() {
+        return isGB;
+    }
 
-
+    public void setGB(Boolean GB) {
+        isGB = GB;
+    }
 
     public Employee getCreatedBy() {
         return createdBy;

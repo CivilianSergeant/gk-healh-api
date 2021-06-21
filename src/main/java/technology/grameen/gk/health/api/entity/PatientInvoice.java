@@ -48,7 +48,12 @@ public class PatientInvoice {
 
     private BigDecimal dueAmount;
 
-    private Boolean isPosted;
+    private Boolean isPosted=false;
+
+    private String invoiceType;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Event event;
 
     @ManyToOne
     @JoinColumn(name = "created_by",referencedColumnName = "id")

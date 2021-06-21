@@ -28,6 +28,9 @@ public class Event {
     @OneToMany(mappedBy = "event")
     private Set<EventLog> eventLogs;
 
+    @OneToMany(mappedBy = "event")
+    private Set<PatientInvoice> patientInvoices;
+
     @ManyToOne(fetch = FetchType.LAZY)
     private Village village;
 
