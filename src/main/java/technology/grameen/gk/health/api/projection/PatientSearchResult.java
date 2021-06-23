@@ -86,10 +86,10 @@ public interface PatientSearchResult {
                 Integer getTotalServiceTaken();
                 Boolean getActive();
 
-                @JsonFormat(pattern = "yyyy-MM-dd")
+                @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
                 LocalDateTime getStartDate();
 
-                @JsonFormat(pattern = "yyyy-MM-dd")
+                @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
                 LocalDateTime getExpiredDate();
         }
 
