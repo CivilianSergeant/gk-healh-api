@@ -7,6 +7,8 @@ public class EntityCollectionResponse<T> implements IResponse {
     private int status;
     private List<T> collection;
 
+    public EntityCollectionResponse(){}
+
     public EntityCollectionResponse(int status, List<T> collection) {
         this.status = status;
         this.collection = collection;

@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import technology.grameen.gk.health.api.network.AccountService;
 import technology.grameen.gk.health.api.requests.VoucherSendRequest;
+import technology.grameen.gk.health.api.responses.EntityCollectionResponse;
 import technology.grameen.gk.health.api.responses.EntityResponse;
 import technology.grameen.gk.health.api.responses.ExceptionResponse;
 import technology.grameen.gk.health.api.responses.IResponse;
@@ -81,5 +82,11 @@ public class AccountController {
                 voucherService.getVouchers(pageable)
         ), HttpStatus.OK);
 
+    }
+
+    @GetMapping("/by-module/{moduleName}")
+    public ResponseEntity<IResponse> getAlias(@PathVariable("moduleName") String moduleName){
+        EntityCollectionResponse alias =  accountService.getAlias(moduleName,"assdf");
+        return new ResponseEntity<>(alias,HttpStatus.OK);
     }
 }

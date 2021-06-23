@@ -69,10 +69,10 @@ public interface PatientSearchResult {
                 Set<CardMember> getMembers();
                 Integer getTotalServiceTaken();
 
-                @JsonFormat(pattern = "yyyy-MM-dd")
+                @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
                 LocalDateTime getStartDate();
 
-                @JsonFormat(pattern = "yyyy-MM-dd")
+                @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
                 LocalDateTime getExpiredDate();
                 void setActive(Boolean active);
         }

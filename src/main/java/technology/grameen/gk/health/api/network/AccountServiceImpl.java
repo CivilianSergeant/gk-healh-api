@@ -6,14 +6,13 @@ import org.springframework.core.env.Environment;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import technology.grameen.gk.health.api.entity.Voucher;
 import technology.grameen.gk.health.api.exceptions.CustomException;
-import technology.grameen.gk.health.api.projection.authserver.AdminAcessToken;
 import technology.grameen.gk.health.api.requests.VoucherSendRequest;
+import technology.grameen.gk.health.api.responses.EntityCollectionResponse;
 import technology.grameen.gk.health.api.responses.VoucherSendResponse;
 import technology.grameen.gk.health.api.services.voucher.VoucherService;
 
@@ -39,7 +38,7 @@ public class AccountServiceImpl implements AccountService{
     @Override
     @Transactional
     public Object sendVoucher(VoucherSendRequest req) throws Exception {
-        String accountsUrl = env.getProperty("accounts");
+        String accountsUrl = env.getProperty("accounts")+env.getProperty("auto-voucher");
 
         Voucher voucher = voucherService.addVoucher(getVoucher(req));
 
@@ -93,5 +92,25 @@ public class AccountServiceImpl implements AccountService{
         voucher.setStatus("pending");
         voucher.setCreatedAt(LocalDateTime.now());
         return voucher;
+    }
+
+    @Override
+    public EntityCollectionResponse getAlias(String moduleName, String token) {
+
+        String accountsUrl = env.getProperty("accounts")+env.getProperty("get-auto-voucher-alias")+moduleName;
+        httpHeaders.add("Authorization","Bearer "+token);
+        HttpEntity<MultiValueMap<String, Object>> requestBody = new HttpEntity<>(httpHeaders);
+        ResponseEntity<EntityCollectionResponse> response = null;
+        EntityCollectionResponse body = null;
+        try {
+            response = restTemplate.getForEntity(accountsUrl,EntityCollectionResponse.class,  requestBody);
+            body = response.getBody();
+
+
+        }catch (HttpClientErrorException ex){
+
+            ex.printStackTrace();
+        }
+        return body;
     }
 }

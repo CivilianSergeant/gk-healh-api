@@ -52,7 +52,7 @@ public class PatientInvoiceServiceImpl implements PatientInvoiceService {
         this.patientNotFound = false;
         PatientInvoice patientInvoice = patient.getPatientInvoices()
                     .stream().filter(invoice-> invoice.getId()==null)
-                            .findAny().orElse(null);
+                            .findFirst().orElse(null);
 
         int maxInvoiceId = (invoiceRepository.getMaxInvoiceId()!=null)? invoiceRepository.getMaxInvoiceId()+1 : 1;
         String invoiceId = "INV-"+patient.getPid()+"-"+((maxInvoiceId<9)? "0"+maxInvoiceId : maxInvoiceId);
