@@ -12,6 +12,7 @@ import technology.grameen.gk.health.api.responses.EntityCollectionResponse;
 import technology.grameen.gk.health.api.responses.EntityResponse;
 import technology.grameen.gk.health.api.responses.ExceptionResponse;
 import technology.grameen.gk.health.api.responses.IResponse;
+import technology.grameen.gk.health.api.services.invoice.PatientInvoiceService;
 import technology.grameen.gk.health.api.services.voucher.VoucherService;
 
 import java.math.BigDecimal;
@@ -24,10 +25,13 @@ public class AccountController {
     private static final Integer PAGE_SIZE = 10;
     private AccountService accountService;
     private VoucherService voucherService;
+    private PatientInvoiceService patientInvoiceService;
 
-    public AccountController(AccountService accountService, VoucherService voucherService) {
+
+    public AccountController(AccountService accountService, VoucherService voucherService, PatientInvoiceService patientInvoiceService) {
         this.accountService = accountService;
         this.voucherService = voucherService;
+        this.patientInvoiceService = patientInvoiceService;
     }
 
     @PostMapping("/add")
@@ -35,8 +39,9 @@ public class AccountController {
                                                  @RequestBody VoucherSendRequest voucherSendRequest) throws Exception {
 
         String _token = token.replace("Bearer","").trim();
-
-
+        BigDecimal totalAmount = (patientInvoiceService.getTotalUnPostedAmount().isPresent())?
+                patientInvoiceService.getTotalUnPostedAmount().get():BigDecimal.valueOf(0);
+        voucherSendRequest.setTotalAmount(totalAmount);
         voucherSendRequest.setAlias(voucherSendRequest.getAlias());
         voucherSendRequest.setToken(_token);
 
