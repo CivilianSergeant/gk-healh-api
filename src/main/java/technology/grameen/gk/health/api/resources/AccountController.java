@@ -37,7 +37,7 @@ public class AccountController {
         String _token = token.replace("Bearer","").trim();
 
 
-        voucherSendRequest.setAlias("patient-service");
+        voucherSendRequest.setAlias(voucherSendRequest.getAlias());
         voucherSendRequest.setToken(_token);
 
         return new ResponseEntity<>(new EntityResponse<>(
@@ -85,8 +85,9 @@ public class AccountController {
     }
 
     @GetMapping("/by-module/{moduleName}")
-    public ResponseEntity<IResponse> getAlias(@PathVariable("moduleName") String moduleName){
-        EntityCollectionResponse alias =  accountService.getAlias(moduleName,"assdf");
+    public ResponseEntity<IResponse> getAlias(@PathVariable("moduleName") String moduleName,
+                                              @RequestHeader("Authorization") String token){
+        EntityCollectionResponse alias =  accountService.getAlias(moduleName,token);
         return new ResponseEntity<>(alias,HttpStatus.OK);
     }
 }
