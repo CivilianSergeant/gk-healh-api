@@ -9,6 +9,7 @@ import technology.grameen.gk.health.api.repositories.PatientInvoiceRepository;
 import technology.grameen.gk.health.api.repositories.PatientServiceRepository;
 import technology.grameen.gk.health.api.services.card_registration.CardRegistrationService;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -139,5 +140,10 @@ public class PatientInvoiceServiceImpl implements PatientInvoiceService {
             }
 
         return _patientServiceDetail;
+    }
+
+    @Override
+    public Optional<BigDecimal> getTotalUnPostedAmount() {
+        return invoiceRepository.getTotalUnPostedAmount();
     }
 }

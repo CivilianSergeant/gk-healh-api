@@ -8,6 +8,7 @@ import technology.grameen.gk.health.api.entity.Patient;
 import technology.grameen.gk.health.api.projection.PatientInvoiceAutoComplete;
 import technology.grameen.gk.health.api.projection.PrescriptionInvoiceAutoComplete;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,4 +27,6 @@ public interface PatientInvoiceService {
     PatientServiceDetail updatePatientServiceDetail(PatientServiceDetail patientServiceDetail);
 
     Optional<PatientServiceDetail> getPrescriptionServiceDetailByPatientInvoice(PatientInvoice patientInvoice);
+
+    Optional<BigDecimal> getTotalUnPostedAmount();
 }

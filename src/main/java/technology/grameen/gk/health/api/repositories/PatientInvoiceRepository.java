@@ -105,4 +105,7 @@ public interface PatientInvoiceRepository extends JpaRepository<PatientInvoice,L
     List<PrescriptionInvoiceAutoComplete> getPrescriptionInvoiceNumbers();
 
     List<PatientInvoiceAutoComplete> findByInvoiceNumberContainingIgnoreCase(String number);
+
+    @Query(value = "SELECT sum(pi2.PAID_AMOUNT) AS totalPaid FROM  PATIENT_INVOICES pi2 WHERE pi2.IS_POSTED=0", nativeQuery = true)
+    Optional<BigDecimal> getTotalUnPostedAmount();
 }

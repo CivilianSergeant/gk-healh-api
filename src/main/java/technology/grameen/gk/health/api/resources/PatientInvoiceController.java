@@ -61,4 +61,12 @@ public class PatientInvoiceController {
                 patientInvoiceService.getPrescriptionInvoiceByNumber()
         ),HttpStatus.OK);
     }
+
+    @GetMapping("/total-unposted-amount")
+    public ResponseEntity<IResponse> getTotalUnPostedAmount(){
+        return new ResponseEntity<>(new EntityResponse<>(
+                HttpStatus.OK.value(),
+                patientInvoiceService.getTotalUnPostedAmount()
+        ), HttpStatus.OK);
+    }
 }
