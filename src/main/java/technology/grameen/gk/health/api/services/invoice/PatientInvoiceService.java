@@ -32,4 +32,6 @@ public interface PatientInvoiceService {
     Optional<BigDecimal> getTotalUnPostedAmount();
 
     Integer postInvoice();
+
+    List<PrescriptionInvoiceAutoComplete> getLabTestInvoiceByNumbers();
 }

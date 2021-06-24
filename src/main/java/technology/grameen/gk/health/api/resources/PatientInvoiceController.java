@@ -62,6 +62,14 @@ public class PatientInvoiceController {
         ),HttpStatus.OK);
     }
 
+    @GetMapping("/lab-test-invoice-numbers")
+    public ResponseEntity<IResponse> getLabTestInvoice(){
+        return new ResponseEntity<>(new EntityCollectionResponse<>(
+                HttpStatus.OK.value(),
+                patientInvoiceService.getLabTestInvoiceByNumbers()
+        ), HttpStatus.OK);
+    }
+
     @GetMapping("/total-unposted-amount")
     public ResponseEntity<IResponse> getTotalUnPostedAmount(){
         return new ResponseEntity<>(new EntityResponse<>(

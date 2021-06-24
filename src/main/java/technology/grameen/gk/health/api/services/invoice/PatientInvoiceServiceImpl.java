@@ -48,6 +48,11 @@ public class PatientInvoiceServiceImpl implements PatientInvoiceService {
     }
 
     @Override
+    public List<PrescriptionInvoiceAutoComplete> getLabTestInvoiceByNumbers() {
+        return invoiceRepository.getLabTestInvoiceNumbers();
+    }
+
+    @Override
     @Transactional
     public Boolean createInvoice(Patient patient) throws Exception {
         this.patientNotFound = false;

@@ -113,4 +113,13 @@ public interface PatientInvoiceRepository extends JpaRepository<PatientInvoice,L
     @Modifying
     @Query(value = "UPDATE PATIENT_INVOICES SET IS_POSTED=1 WHERE IS_POSTED = 0 OR IS_POSTED IS NULL",nativeQuery = true)
     Integer postInvoice();
+
+    @Query(value = "SELECT pi2.ID, pi2.INVOICE_NUMBER as invoiceNumber, p.full_name as patientFullName, p.pid as pid " +
+            "FROM PATIENT_INVOICES pi2 JOIN PATIENT_SERVICE_DETAILS psd " +
+            "ON pi2.ID  = psd.PATIENT_INVOICE_ID " +
+            "JOIN PATIENTS p ON p.ID = pi2.PATIENT_ID " +
+            "JOIN SERVICE s ON psd.SERVICE_ID = s.SERVICE_ID " +
+            "WHERE s.IS_LAB_TEST = 1 " +
+            "AND psd.IS_REPORT_GENERATED = 0 ORDER BY pi2.id ASC ", nativeQuery = true)
+    List<PrescriptionInvoiceAutoComplete> getLabTestInvoiceNumbers();
 }
