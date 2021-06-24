@@ -146,4 +146,9 @@ public class PatientInvoiceServiceImpl implements PatientInvoiceService {
     public Optional<BigDecimal> getTotalUnPostedAmount() {
         return invoiceRepository.getTotalUnPostedAmount();
     }
+
+    @Override
+    public Integer postInvoice() {
+        return invoiceRepository.postInvoice();
+    }
 }

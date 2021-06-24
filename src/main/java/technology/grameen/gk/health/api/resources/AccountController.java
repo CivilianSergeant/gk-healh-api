@@ -39,9 +39,13 @@ public class AccountController {
                                                  @RequestBody VoucherSendRequest voucherSendRequest) throws Exception {
 
         String _token = token.replace("Bearer","").trim();
-        BigDecimal totalAmount = (patientInvoiceService.getTotalUnPostedAmount().isPresent())?
-                patientInvoiceService.getTotalUnPostedAmount().get():BigDecimal.valueOf(0);
-        voucherSendRequest.setTotalAmount(totalAmount);
+
+        if(voucherSendRequest.getAlias().equalsIgnoreCase("patient-service")) {
+            BigDecimal totalAmount = (patientInvoiceService.getTotalUnPostedAmount().isPresent()) ?
+                    patientInvoiceService.getTotalUnPostedAmount().get() : BigDecimal.valueOf(0);
+            voucherSendRequest.setTotalAmount(totalAmount);
+            accountService.setPatientInvoiceService(patientInvoiceService);
+        }
         voucherSendRequest.setAlias(voucherSendRequest.getAlias());
         voucherSendRequest.setToken(_token);
 
@@ -65,7 +69,7 @@ public class AccountController {
             sortBy.orElseThrow(()-> new Exception("Query param sortBy missing"));
             sortDesc.orElseThrow(()-> new Exception("Query param sortDesc missing"));
 
-            String _sortBy = sortBy.orElse(null);
+            String _sortBy = sortBy.orElse("voucherDate");
             _sortBy = (_sortBy.contains("active"))? "isActive" : _sortBy;
 
             Sort sort = null;

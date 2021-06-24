@@ -1,5 +1,6 @@
 package technology.grameen.gk.health.api.services.invoice;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import technology.grameen.gk.health.api.entity.PatientInvoice;
 import technology.grameen.gk.health.api.entity.PatientServiceDetail;
 import technology.grameen.gk.health.api.entity.Service;
@@ -29,4 +30,6 @@ public interface PatientInvoiceService {
     Optional<PatientServiceDetail> getPrescriptionServiceDetailByPatientInvoice(PatientInvoice patientInvoice);
 
     Optional<BigDecimal> getTotalUnPostedAmount();
+
+    Integer postInvoice();
 }

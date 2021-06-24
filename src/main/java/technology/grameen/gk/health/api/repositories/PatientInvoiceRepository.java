@@ -1,6 +1,7 @@
 package technology.grameen.gk.health.api.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -108,4 +109,8 @@ public interface PatientInvoiceRepository extends JpaRepository<PatientInvoice,L
 
     @Query(value = "SELECT sum(pi2.PAID_AMOUNT) AS totalPaid FROM  PATIENT_INVOICES pi2 WHERE pi2.IS_POSTED=0", nativeQuery = true)
     Optional<BigDecimal> getTotalUnPostedAmount();
+
+    @Modifying
+    @Query(value = "UPDATE PATIENT_INVOICES SET IS_POSTED=1 WHERE IS_POSTED = 0 OR IS_POSTED IS NULL",nativeQuery = true)
+    Integer postInvoice();
 }

@@ -14,6 +14,7 @@ import technology.grameen.gk.health.api.exceptions.CustomException;
 import technology.grameen.gk.health.api.requests.VoucherSendRequest;
 import technology.grameen.gk.health.api.responses.EntityCollectionResponse;
 import technology.grameen.gk.health.api.responses.VoucherSendResponse;
+import technology.grameen.gk.health.api.services.invoice.PatientInvoiceService;
 import technology.grameen.gk.health.api.services.voucher.VoucherService;
 
 import java.time.LocalDateTime;
@@ -26,6 +27,7 @@ public class AccountServiceImpl implements AccountService{
     private RestTemplate restTemplate;
     private Environment env;
     private VoucherService voucherService;
+    private PatientInvoiceService patientInvoiceService;
 
     public AccountServiceImpl(Environment env,
                               VoucherService voucherService) {
@@ -41,6 +43,9 @@ public class AccountServiceImpl implements AccountService{
         String accountsUrl = env.getProperty("accounts")+env.getProperty("auto-voucher");
 
         Voucher voucher = voucherService.addVoucher(getVoucher(req));
+        if(voucher.getId()>0 && patientInvoiceService != null){
+            patientInvoiceService.postInvoice();
+        }
 
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         httpHeaders.add("Authorization","Bearer "+req.getToken());
@@ -112,5 +117,10 @@ public class AccountServiceImpl implements AccountService{
             ex.printStackTrace();
         }
         return body;
+    }
+
+    @Override
+    public void setPatientInvoiceService(PatientInvoiceService patientInvoiceService) {
+        this.patientInvoiceService = patientInvoiceService;
     }
 }
