@@ -81,9 +81,10 @@ public class PatientController {
 
     }
 
-    @GetMapping("/patient-ids/{patientNumber}")
-    public ResponseEntity<IResponse> getByPatientNumber(@PathVariable("patientNumber") String pid){
-        List<PatientNumberAutoComplete> pids = patientManageService.getPatientIds(pid);
+    @GetMapping("/patient-ids/{type}/{patientNumber}")
+    public ResponseEntity<IResponse> getByPatientNumber(@PathVariable("type") String type,
+                                                        @PathVariable("patientNumber") String pid){
+        List<PatientNumberAutoComplete> pids = patientManageService.getPatientIds(type,pid);
         return new ResponseEntity<>(new EntityCollectionResponse<>(HttpStatus.OK.value(),
                 pids),HttpStatus.OK);
     }

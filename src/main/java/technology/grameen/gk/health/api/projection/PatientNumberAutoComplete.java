@@ -4,5 +4,7 @@ public interface PatientNumberAutoComplete {
 
     Long getId();
     String getPid();
+    String getFullName();
+    String getMobileNumber();
 
 }

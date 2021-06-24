@@ -204,4 +204,8 @@ public interface PatientRepository extends JpaRepository<Patient,Long> {
             "AND p.CREATED_AT < " +
             " TO_DATE(:toDate,'YYYY-MM-DD HH24:MI:SS')",nativeQuery = true)
     Integer getAllGbPatientStats(@Param("toDate") String toDate);
+
+    List<PatientNumberAutoComplete> findByMobileNumberContainingIgnoreCase(String mobileNumber);
+
+    List<PatientNumberAutoComplete> findByFullNameContainingIgnoreCase(String pid);
 }
