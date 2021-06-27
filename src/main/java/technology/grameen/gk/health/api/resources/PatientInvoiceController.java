@@ -54,19 +54,19 @@ public class PatientInvoiceController {
         return new ResponseEntity<>(null, HttpStatus.OK);
     }
 
-    @GetMapping("/prescription-invoice-numbers")
-    public ResponseEntity<IResponse> getPrescriptionInvoice(){
+    @GetMapping("/prescription-invoice-numbers/{centerId}")
+    public ResponseEntity<IResponse> getPrescriptionInvoice(@PathVariable("centerId") Integer centerId){
         return new ResponseEntity<>(new EntityCollectionResponse<>(
                 HttpStatus.OK.value(),
-                patientInvoiceService.getPrescriptionInvoiceByNumber()
+                patientInvoiceService.getPrescriptionInvoiceByNumber(centerId)
         ),HttpStatus.OK);
     }
 
-    @GetMapping("/lab-test-invoice-numbers")
-    public ResponseEntity<IResponse> getLabTestInvoice(){
+    @GetMapping("/lab-test-invoice-numbers/{centerId}")
+    public ResponseEntity<IResponse> getLabTestInvoice(@PathVariable("centerId") Integer centerId){
         return new ResponseEntity<>(new EntityCollectionResponse<>(
                 HttpStatus.OK.value(),
-                patientInvoiceService.getLabTestInvoiceByNumbers()
+                patientInvoiceService.getLabTestInvoiceByNumbers(centerId)
         ), HttpStatus.OK);
     }
 

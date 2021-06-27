@@ -20,7 +20,7 @@ public interface PatientInvoiceService {
     Optional<PatientInvoiceDetail> getInvoiceById(Long id);
 
     List<PatientInvoiceAutoComplete> getInvoiceByNumber(String number);
-    List<PrescriptionInvoiceAutoComplete> getPrescriptionInvoiceByNumber();
+    List<PrescriptionInvoiceAutoComplete> getPrescriptionInvoiceByNumber(Integer centerId);
 
     Optional<PatientServiceDetail> getPatientServiceDetailByInvoiceAndService(PatientInvoice patientInvoice,
                                                                               Service service);
@@ -33,5 +33,5 @@ public interface PatientInvoiceService {
 
     Integer postInvoice();
 
-    List<PrescriptionInvoiceAutoComplete> getLabTestInvoiceByNumbers();
+    List<PrescriptionInvoiceAutoComplete> getLabTestInvoiceByNumbers(Integer centerId);
 }
