@@ -21,6 +21,7 @@ public class Employee {
     private Long apiEmployeeId;
     private String fullName;
     private String designation;
+    private Integer designationId;
     private String contactNumber;
     private String email;
     private Boolean isActive;
@@ -87,6 +88,14 @@ public class Employee {
 
     public void setDesignation(String designation) {
         this.designation = designation;
+    }
+
+    public Integer getDesignationId() {
+        return designationId;
+    }
+
+    public void setDesignationId(Integer designationId) {
+        this.designationId = designationId;
     }
 
     public String getContactNumber() {

@@ -9,6 +9,7 @@ public interface EmployeeItem {
     Long getApiEmployeeId();
     String getFullName();
     String getDesignation();
+    Integer getDesignationId();
     String getContactNumber();
     String getEmail();
     interface HealthCenter{

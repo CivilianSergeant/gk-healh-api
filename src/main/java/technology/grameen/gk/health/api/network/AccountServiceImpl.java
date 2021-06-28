@@ -101,14 +101,17 @@ public class AccountServiceImpl implements AccountService{
 
     @Override
     public EntityCollectionResponse getAlias(String moduleName, String token) {
-
+        System.out.println("HERE =========================");
+        String _token = token.replace("Bearer","").trim();
+        System.out.println(_token);
         String accountsUrl = env.getProperty("accounts")+env.getProperty("get-auto-voucher-alias")+moduleName;
-        httpHeaders.add("Authorization","Bearer "+token);
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        httpHeaders.add("Authorization","Bearer "+_token);
         HttpEntity<MultiValueMap<String, Object>> requestBody = new HttpEntity<>(httpHeaders);
         ResponseEntity<EntityCollectionResponse> response = null;
         EntityCollectionResponse body = null;
         try {
-            response = restTemplate.getForEntity(accountsUrl,EntityCollectionResponse.class,  requestBody);
+            response = restTemplate.exchange(accountsUrl,HttpMethod.GET,  requestBody,EntityCollectionResponse.class);
             body = response.getBody();
 
 
