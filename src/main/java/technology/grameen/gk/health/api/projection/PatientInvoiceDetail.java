@@ -62,6 +62,7 @@ public interface PatientInvoiceDetail {
         String getGender();
         String getMobileNumber();
         String getAge();
+        Boolean getGB();
         CardRegistration getRegistration();
 
     }
