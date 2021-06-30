@@ -37,6 +37,8 @@ public class PatientRequest {
 
     private Boolean gb;
 
+    private LocalDateTime createdAt;
+
     public PatientRequest(){}
 
     public PatientRequest(Patient cardMember){
@@ -179,5 +181,11 @@ public class PatientRequest {
         this.gb = gb;
     }
 
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
 
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
 }

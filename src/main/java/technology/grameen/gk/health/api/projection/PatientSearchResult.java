@@ -121,5 +121,7 @@ public interface PatientSearchResult {
         String getMaritalStatus();
         PatientDetail getDetail();
         Boolean getGB();
+        @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+        LocalDateTime getCreatedAt();
 
 }

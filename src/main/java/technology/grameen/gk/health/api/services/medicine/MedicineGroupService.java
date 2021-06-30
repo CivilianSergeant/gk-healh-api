@@ -7,4 +7,6 @@ import java.util.List;
 public interface MedicineGroupService {
 
     List<MedicineGroup> getList();
+
+    MedicineGroup addMedicineGroup(MedicineGroup medicineGroup);
 }

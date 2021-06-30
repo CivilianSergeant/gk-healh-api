@@ -157,6 +157,7 @@ public class PatientManageServiceImpl implements PatientManageService {
         patient.setStreetAddress(req.getStreetAddress());
         patient.setDetail(req.getDetail());
         patient.setGB(req.getGb());
+        patient.setCreatedAt(req.getCreatedAt());
         return patient;
     }
 
