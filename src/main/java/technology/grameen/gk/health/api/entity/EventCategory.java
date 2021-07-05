@@ -1,5 +1,6 @@
 package technology.grameen.gk.health.api.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -16,6 +17,7 @@ public class EventCategory {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
+    private String description;
     private Boolean status;
 
     @CreationTimestamp
@@ -44,6 +46,14 @@ public class EventCategory {
         this.name = name;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public Boolean getStatus() {
         return status;
     }
@@ -52,6 +62,7 @@ public class EventCategory {
         this.status = status;
     }
 
+    @JsonFormat(pattern = "yyyy-MM-dd")
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
@@ -60,6 +71,7 @@ public class EventCategory {
         this.createdAt = createdAt;
     }
 
+    @JsonFormat(pattern = "yyyy-MM-dd")
     public LocalDateTime getUpdatedAt() {
         return updatedAt;
     }

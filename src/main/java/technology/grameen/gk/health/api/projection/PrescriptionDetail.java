@@ -1,5 +1,6 @@
 package technology.grameen.gk.health.api.projection;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import technology.grameen.gk.health.api.entity.*;
 
 import java.time.LocalDateTime;
@@ -66,9 +67,13 @@ public interface PrescriptionDetail {
     List<RecommendedMedicine> getRecommendedMedicines();
     List<RecommendedTest> getRecommendedTests();
     String getSymptoms();
+
+    @JsonFormat(pattern = "yyyy-MM-dd")
     LocalDateTime getVisitDate();
     Boolean getNew();
     String getAdvice();
+
+    @JsonFormat(pattern = "yyyy-MM-dd")
     LocalDateTime getCreatedAt();
     String getFilePath();
     GeneralExamination getGeneralExamination();
