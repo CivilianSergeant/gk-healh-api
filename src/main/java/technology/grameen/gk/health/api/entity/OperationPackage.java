@@ -12,7 +12,7 @@ public class OperationPackage {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private OperationCategory operationCategory;
 
     private String name;
