@@ -24,8 +24,11 @@ public class OperationPackageServiceImpl implements OperationPackageService{
     }
 
     @Override
-    public Page<OperationPackage> getOperationPackages(Pageable pageable) {
-        return operationPackageRepository.findAll(pageable);
+    public Page<OperationPackage> getOperationPackages(String name,Pageable pageable) {
+        if(name.isEmpty()){
+            return operationPackageRepository.findAll(pageable);
+        }
+        return operationPackageRepository.findAllByName(name,pageable);
     }
 
     @Override

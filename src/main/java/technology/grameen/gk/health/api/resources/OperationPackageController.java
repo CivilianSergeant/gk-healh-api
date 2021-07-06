@@ -63,7 +63,7 @@ public class OperationPackageController {
 
         return new ResponseEntity<>(new EntityResponse<>(
                 HttpStatus.OK.value(),
-                packageService.getOperationPackages(pageable)
+                packageService.getOperationPackages(name.orElse(""),pageable)
         ), HttpStatus.OK);
 
     }

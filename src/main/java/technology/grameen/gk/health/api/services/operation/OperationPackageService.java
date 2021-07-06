@@ -11,7 +11,7 @@ public interface OperationPackageService {
 
     OperationPackage addPackage(OperationPackage operationPackage);
 
-    Page<OperationPackage> getOperationPackages(Pageable pageable);
+    Page<OperationPackage> getOperationPackages(String name, Pageable pageable);
 
     List<OperationPackage> getOperationPackages();
 
