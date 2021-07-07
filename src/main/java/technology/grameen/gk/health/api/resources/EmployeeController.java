@@ -158,4 +158,12 @@ public class EmployeeController {
 
         return new ResponseEntity<>(new ExceptionResponse(422,"Sorry! try again later"),HttpStatus.OK);
     }
+
+    @GetMapping("/{designation}")
+    public ResponseEntity<IResponse> getByDesignation(@PathVariable("designation") String designation){
+        return new ResponseEntity<>(new EntityCollectionResponse<>(
+                HttpStatus.OK.value(),
+                employeeService.getEmployeeByDesignation(designation)
+        ), HttpStatus.OK);
+    }
 }

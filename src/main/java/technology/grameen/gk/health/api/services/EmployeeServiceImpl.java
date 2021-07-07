@@ -75,4 +75,9 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
         return new EntityResponse<>(HttpStatus.OK.value(),employeeRepository.findByApiEmployeeId(id));
     }
+
+    @Override
+    public List<EmployeeItem> getEmployeeByDesignation(String designation) {
+        return employeeRepository.findAllByDesignationContainingIgnoreCase(designation);
+    }
 }

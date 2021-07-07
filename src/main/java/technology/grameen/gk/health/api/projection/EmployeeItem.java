@@ -1,5 +1,6 @@
 package technology.grameen.gk.health.api.projection;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import technology.grameen.gk.health.api.entity.HealthCenter;
 
 import java.time.LocalDateTime;
@@ -22,6 +23,10 @@ public interface EmployeeItem {
     Boolean getIsActive();
     HealthCenter getCenter();
     String getEmployeeCode();
+
+    @JsonFormat(pattern = "yyyy-MM-dd")
     LocalDateTime getCreatedAt();
+
+    @JsonFormat(pattern = "yyyy-MM-dd")
     LocalDateTime getLastUpdatedAt();
 }

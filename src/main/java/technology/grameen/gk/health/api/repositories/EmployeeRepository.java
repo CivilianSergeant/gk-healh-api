@@ -30,4 +30,6 @@ public interface EmployeeRepository extends JpaRepository<Employee,Long> {
 
     @Query(value = "SELECT COUNT(e.id) FROM Employee e WHERE e.apiEmployeeId=:id")
     Integer getCount(@Param("id") Long id);
+
+    List<EmployeeItem> findAllByDesignationContainingIgnoreCase(String designation);
 }

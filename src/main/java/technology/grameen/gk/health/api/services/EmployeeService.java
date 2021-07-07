@@ -23,4 +23,6 @@ public interface EmployeeService {
                               Pageable pageable);
 
     IResponse getEmployeeByApiEmployeeId(Long id);
+
+    List<EmployeeItem> getEmployeeByDesignation(String designation);
 }

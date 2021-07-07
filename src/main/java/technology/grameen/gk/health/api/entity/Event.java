@@ -22,6 +22,7 @@ public class Event {
 
     private String eventType;
 
+
     @OneToMany(mappedBy = "event")
     private Set<EventPersonnel> eventPersonnels;
 
@@ -38,7 +39,7 @@ public class Event {
 
     private String locationAddress;
 
-    private Boolean status;
+    private String status;
 
 
     public Long getId() {
@@ -105,11 +106,11 @@ public class Event {
         this.locationAddress = locationAddress;
     }
 
-    public Boolean getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(Boolean status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 }
