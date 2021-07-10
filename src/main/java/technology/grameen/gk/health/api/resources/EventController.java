@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import technology.grameen.gk.health.api.entity.Event;
+import technology.grameen.gk.health.api.exceptions.CustomException;
 import technology.grameen.gk.health.api.requests.EventRequest;
 import technology.grameen.gk.health.api.responses.EntityResponse;
 import technology.grameen.gk.health.api.responses.IResponse;
@@ -26,7 +27,7 @@ public class EventController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<IResponse> addEvent(@RequestBody EventRequest event){
+    public ResponseEntity<IResponse> addEvent(@RequestBody EventRequest event) throws CustomException {
         return new ResponseEntity<>(new EntityResponse<>(
                 HttpStatus.OK.value(),
                 eventService.addEvent(event)
@@ -56,5 +57,13 @@ public class EventController {
                 eventService.getEvents(pageable)
         ), HttpStatus.OK);
 
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<IResponse> getById(@PathVariable("id") Long id){
+        return new ResponseEntity<>(new EntityResponse<>(
+                HttpStatus.OK.value(),
+                eventService.getEventById(id)
+        ), HttpStatus.OK);
     }
 }
