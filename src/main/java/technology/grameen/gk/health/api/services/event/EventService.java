@@ -25,7 +25,13 @@ public interface EventService {
 
     List<EventRepository.EventLite> hasEventForDoctorAt(Employee doctor, LocalDateTime eventDate);
 
-    Page<EventRepository.EventItem> getEvents(Pageable pageable);
+    Page<EventRepository.EventItem> getEvents(String centerId,
+                                              String eventCategoryId,
+                                              String eventType,
+                                              String doctor,
+                                              String fromDate,
+                                              String toDate,
+                                              Pageable pageable);
 
     Optional<EventRepository.EventDetail> getEventById(Long id);
 }

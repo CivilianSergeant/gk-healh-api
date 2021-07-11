@@ -27,6 +27,56 @@ public interface EventRepository extends JpaRepository<Event,Long> {
             "WHERE emp = :doctor and e.eventDate = :eventDate")
     List<EventLite> hasSchedule(Employee doctor, LocalDateTime eventDate);
 
+    @Query(value = "SELECT e.id, hc.NAME as center , e.event_date as eventDate, ec.NAME as eventCategory , " +
+            "e.EVENT_TYPE as eventType, e2.FULL_NAME as doctor, e.status FROM Events e\n" +
+            "JOIN EVENT_PERSONNEL ep ON ep.EVENT_ID = e.ID \n" +
+            "JOIN EMPLOYEES e2 ON e2.ID  = ep.EMPLOYEE_ID \n" +
+            "JOIN HEALTH_CENTERS hc ON hc.ID = e.CENTER_ID \n" +
+            "JOIN EVENT_CATEGORIES ec ON ec.ID  = e.EVENT_CATEGORY_ID \n" +
+            "JOIN LG_VILLAGES lv ON lv.LG_VILLAGE_ID  = e.VILLAGE_LG_VILLAGE_ID " +
+            "WHERE (:centerId IS NULL OR e.center_id = :centerId) " +
+            "AND (:eventCategoryId IS NULL OR e.event_category_id = :eventCategoryId) "+
+            "AND (:eventType IS NULL OR e.event_type = :eventType) "+
+            "AND (:doctor IS NULL OR ep.employee_id = :doctor) "+
+            "AND (e.event_date BETWEEN :fromDate AND :toDate) ",
+            countQuery = "SELECT count(*) FROM Events e", nativeQuery = true)
+    Page<EventItem> findAllByfilter(@Param("centerId") String centerId,
+                                    @Param("eventCategoryId") String eventCategoryId,
+                                    @Param("eventType") String eventType,
+                                    @Param("doctor") String doctor,
+                                    @Param("fromDate") LocalDateTime fromDate,
+                                    @Param("toDate") LocalDateTime toDate,
+                                    Pageable pageable);
+
+    @Query(value = "SELECT e.id, hc.NAME as center , e.event_date as eventDate, ec.NAME as eventCategory , " +
+            "e.EVENT_TYPE as eventType, e2.FULL_NAME as doctor, e.status FROM Events e\n" +
+            "JOIN EVENT_PERSONNEL ep ON ep.EVENT_ID = e.ID \n" +
+            "JOIN EMPLOYEES e2 ON e2.ID  = ep.EMPLOYEE_ID \n" +
+            "JOIN HEALTH_CENTERS hc ON hc.ID = e.CENTER_ID \n" +
+            "JOIN EVENT_CATEGORIES ec ON ec.ID  = e.EVENT_CATEGORY_ID \n" +
+            "JOIN LG_VILLAGES lv ON lv.LG_VILLAGE_ID  = e.VILLAGE_LG_VILLAGE_ID " +
+            "WHERE (:centerId IS NULL OR e.center_id = :centerId) " +
+            "AND (:eventCategoryId IS NULL OR e.event_category_id = :eventCategoryId) "+
+            "AND (:eventType IS NULL OR e.event_type = :eventType) "+
+            "AND (:doctor IS NULL OR ep.employee_id = :doctor) ",
+            countQuery = "SELECT count(*) FROM Events e", nativeQuery = true)
+    Page<EventItem> findAllByfilter(@Param("centerId") String centerId,
+                                    @Param("eventCategoryId") String eventCategoryId,
+                                    @Param("eventType") String eventType,
+                                    @Param("doctor") String doctor,
+                                    Pageable pageable);
+
+    @Query(value = "SELECT e.id, hc.NAME as center , e.event_date as eventDate, ec.NAME as eventCategory , " +
+            "e.EVENT_TYPE as eventType, e2.FULL_NAME as doctor, e.status FROM Events e\n" +
+            "JOIN EVENT_PERSONNEL ep ON ep.EVENT_ID = e.ID \n" +
+            "JOIN EMPLOYEES e2 ON e2.ID  = ep.EMPLOYEE_ID \n" +
+            "JOIN HEALTH_CENTERS hc ON hc.ID = e.CENTER_ID \n" +
+            "JOIN EVENT_CATEGORIES ec ON ec.ID  = e.EVENT_CATEGORY_ID \n" +
+            "JOIN LG_VILLAGES lv ON lv.LG_VILLAGE_ID  = e.VILLAGE_LG_VILLAGE_ID " +
+            "WHERE e.event_category_id = :eventCategoryId",
+            countQuery = "SELECT count(*) FROM Events e", nativeQuery = true)
+    Page<EventItem> findAllByEventCategory(@Param("eventCategoryId") Integer eventCategoryId, Pageable pageable);
+
     interface EventLite{
         Long getId();
         @JsonFormat(pattern = "yyyy-MM-dd")
@@ -57,6 +107,19 @@ public interface EventRepository extends JpaRepository<Event,Long> {
             "JOIN LG_VILLAGES lv ON lv.LG_VILLAGE_ID  = e.VILLAGE_LG_VILLAGE_ID",
     countQuery = "SELECT count(*) FROM Events e",nativeQuery = true)
     Page<EventItem> findAllEvents(Pageable pageable);
+
+    @Query(value = "SELECT e.id, hc.NAME as center , e.event_date as eventDate, ec.NAME as eventCategory , " +
+            "e.EVENT_TYPE as eventType, e2.FULL_NAME as doctor, e.status FROM Events e\n" +
+            "JOIN EVENT_PERSONNEL ep ON ep.EVENT_ID = e.ID " +
+            "JOIN EMPLOYEES e2 ON e2.ID  = ep.EMPLOYEE_ID " +
+            "JOIN HEALTH_CENTERS hc ON hc.ID = e.CENTER_ID " +
+            "JOIN EVENT_CATEGORIES ec ON ec.ID  = e.EVENT_CATEGORY_ID " +
+            "JOIN LG_VILLAGES lv ON lv.LG_VILLAGE_ID  = e.VILLAGE_LG_VILLAGE_ID " +
+            "WHERE e.event_Date BETWEEN :fromDate AND :toDate ",
+            countQuery = "SELECT count(*) FROM Events e",nativeQuery = true)
+    Page<EventItem> findAllEventsByDateRange(@Param("fromDate") LocalDateTime fromDate,
+                                             @Param("toDate") LocalDateTime toDate,
+                                             Pageable pageable);
 
     interface EventDetail{
         Long getId();

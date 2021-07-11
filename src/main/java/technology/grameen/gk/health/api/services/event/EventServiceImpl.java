@@ -29,8 +29,31 @@ public class EventServiceImpl implements EventService{
     }
 
     @Override
-    public Page<EventRepository.EventItem> getEvents(Pageable pageable) {
-        return eventRepository.findAllEvents(pageable);
+    public Page<EventRepository.EventItem> getEvents(
+                                                     String centerId,
+                                                     String eventCategoryId,
+                                                     String eventType,
+                                                     String doctor,
+                                                     String fromDate,
+                                                     String toDate,
+                                                     Pageable pageable) {
+
+        if(centerId.isEmpty() && eventCategoryId.isEmpty() && eventType.isEmpty() &&
+        doctor.isEmpty() && fromDate.isEmpty() && toDate.isEmpty()){
+            return eventRepository.findAllEvents(pageable);
+        }
+
+        if(!fromDate.isEmpty() && !toDate.isEmpty()) {
+            LocalDateTime _fromDate = LocalDateTime.parse(fromDate);
+            LocalDateTime _toDate = LocalDateTime.parse(toDate);
+            return eventRepository.findAllByfilter(centerId,eventCategoryId,
+                    eventType,doctor,_fromDate,_toDate,pageable);
+        }
+
+
+        return eventRepository.findAllByfilter(centerId,eventCategoryId,
+                                    eventType,doctor,pageable);
+
     }
 
     @Override

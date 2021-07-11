@@ -13,6 +13,7 @@ import technology.grameen.gk.health.api.responses.EntityResponse;
 import technology.grameen.gk.health.api.responses.IResponse;
 import technology.grameen.gk.health.api.services.event.EventService;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @RestController
@@ -35,7 +36,14 @@ public class EventController {
     }
 
     @GetMapping("")
-    public ResponseEntity<IResponse> getEvents(@RequestParam Optional<Integer> page,
+    public ResponseEntity<IResponse> getEvents(
+             @RequestParam Optional<String> centerId,
+             @RequestParam Optional<String> eventCategoryId,
+                                               @RequestParam Optional<String> eventType,
+                                               @RequestParam Optional<String> doctor,
+                                               @RequestParam Optional<String> fromDate,
+                                               @RequestParam Optional<String> toDate,
+                                               @RequestParam Optional<Integer> page,
                                                @RequestParam Optional<Integer> size,
                                                @RequestParam Optional<String> sortBy,
                                                @RequestParam Optional<Boolean> sortDesc){
@@ -54,7 +62,14 @@ public class EventController {
 
         return new ResponseEntity<>(new EntityResponse<>(
                 HttpStatus.OK.value(),
-                eventService.getEvents(pageable)
+                eventService.getEvents(
+                        centerId.orElse(null),
+                        eventCategoryId.orElse(null),
+                        eventType.orElse(null),
+                        doctor.orElse(null),
+                        fromDate.orElse(null),
+                        toDate.orElse(null),
+                        pageable)
         ), HttpStatus.OK);
 
     }
