@@ -13,6 +13,7 @@ import technology.grameen.gk.health.api.repositories.EventRepository;
 import technology.grameen.gk.health.api.requests.EventRequest;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,17 +38,21 @@ public class EventServiceImpl implements EventService{
     public Event addEvent(EventRequest er) throws CustomException {
         Event event = er.getEvent();
 
-        List<EventRepository.EventLite> hasEvent = hasEventOnCenterAt(event.getCenter(), event.getEventDate());
-        if(hasEvent.size()>0){
-            throw new CustomException("Sorry! Event exist on the date");
+        List<EventRepository.EventLite> hasEvent = new ArrayList<>();
+        if(event.getId()==null) {
+            hasEvent = hasEventOnCenterAt(event.getCenter(), event.getEventDate());
+            if (hasEvent.size() > 0) {
+                throw new CustomException("Sorry! Event exist on the date");
+            }
+
+            hasEvent = hasEventForDoctorAt(er.getEventPersonnel().getEmployee(), event.getEventDate());
+            if(hasEvent.size()>0){
+                throw new CustomException("Sorry! This Doctor has schedule on this date");
+            }
         }
 
-        hasEvent = hasEventForDoctorAt(er.getEventPersonnel().getEmployee(), event.getEventDate());
-        if(hasEvent.size()>0){
-            throw new CustomException("Sorry! This Doctor has schedule on this date");
-        }
 
-
+        event.setRegionOfficeId(er.getRegionOfficeId());
         EventPersonnel eventPersonnel = er.getEventPersonnel();
         eventRepository.save(event);
         eventPersonnel.setEvent(event);

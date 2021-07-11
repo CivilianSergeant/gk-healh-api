@@ -15,6 +15,8 @@ public class Event {
     @ManyToOne(fetch = FetchType.LAZY)
     private EventCategory eventCategory;
 
+    private Integer regionOfficeId;
+
     @ManyToOne(fetch = FetchType.LAZY)
     private HealthCenter center;
 
@@ -56,6 +58,14 @@ public class Event {
 
     public void setEventCategory(EventCategory eventCategory) {
         this.eventCategory = eventCategory;
+    }
+
+    public Integer getRegionOfficeId() {
+        return regionOfficeId;
+    }
+
+    public void setRegionOfficeId(Integer regionOfficeId) {
+        this.regionOfficeId = regionOfficeId;
     }
 
     public HealthCenter getCenter() {

@@ -60,11 +60,12 @@ public interface EventRepository extends JpaRepository<Event,Long> {
 
     interface EventDetail{
         Long getId();
+        Integer getRegionOfficeId();
         Center getCenter();
         String getLocationAddress();
         String getNote();
         Village getVillage();
-        String eventType();
+        String getEventType();
 
         @JsonFormat(pattern = "yyyy-MM-dd")
         LocalDateTime getEventDate();
@@ -85,6 +86,7 @@ public interface EventRepository extends JpaRepository<Event,Long> {
         }
         interface EventPersonnel{
             Long getId();
+            String getPersonnelType();
             Emplpoyee getEmployee();
         }
         interface Emplpoyee{
