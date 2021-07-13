@@ -168,4 +168,28 @@ public interface EventRepository extends JpaRepository<Event,Long> {
             " JOIN FETCH e.village v " +
             "WHERE e.id = :id")
     Optional<EventDetail> findEventById(@Param("id") Long id);
+
+
+    interface EventSchedule{
+        Long getHcId();
+        String getHcName();
+        Integer getEcId();
+        String getEcName();
+
+        @JsonFormat(pattern = "yyyy-MM-dd")
+        LocalDateTime getEventDate();
+        String getEventType();
+        Long getEmpId();
+        String getDoctorName();
+
+    }
+    @Query(value = "SELECT hc.id AS hcId,hc.name as hcName,ec.id AS ecId, ec.NAME as ecName,e.EVENT_DATE as eventDate" +
+            ",e.EVENT_TYPE as eventType, ep.EMPLOYEE_ID AS empId, e2.FULL_NAME as doctorName " +
+            "FROM HEALTH_CENTERS hc " +
+            "JOIN EVENTS e ON e.CENTER_ID = hc.id " +
+            "JOIN EVENT_CATEGORIES ec ON e.EVENT_CATEGORY_ID = ec.ID " +
+            "JOIN EVENT_PERSONNEL ep ON ep.EVENT_ID =e.ID " +
+            "JOIN EMPLOYEES e2 ON ep.EMPLOYEE_ID = e2.ID " +
+            "WHERE e.EVENT_TYPE='camp'",nativeQuery = true)
+    List<EventSchedule> findCampScheduleByMonth();
 }

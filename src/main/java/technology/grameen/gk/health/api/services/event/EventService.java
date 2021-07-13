@@ -34,4 +34,6 @@ public interface EventService {
                                               Pageable pageable);
 
     Optional<EventRepository.EventDetail> getEventById(Long id);
+
+    List<EventRepository.EventSchedule> getEventSchedule();
 }

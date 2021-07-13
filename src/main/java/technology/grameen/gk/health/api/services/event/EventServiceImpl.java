@@ -99,4 +99,9 @@ public class EventServiceImpl implements EventService{
     public Optional<EventRepository.EventDetail> getEventById(Long id) {
         return eventRepository.findEventById(id);
     }
+
+    @Override
+    public List<EventRepository.EventSchedule> getEventSchedule() {
+        return eventRepository.findCampScheduleByMonth();
+    }
 }

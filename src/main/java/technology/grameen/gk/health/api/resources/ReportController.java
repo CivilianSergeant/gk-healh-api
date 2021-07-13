@@ -1,5 +1,6 @@
 package technology.grameen.gk.health.api.resources;
 
+import org.keycloak.authorization.client.util.Http;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -77,5 +78,13 @@ public class ReportController {
     public ResponseEntity<IResponse> getMonthWiseTotalAmountReceived(@RequestParam Optional<Long> centerId){
         return new ResponseEntity<>(new EntityResponse<>(HttpStatus.OK.value(),
                 reportService.getMonthWiseTotalAmountReceived(centerId.orElse(Long.valueOf(0)))),HttpStatus.OK);
+    }
+
+    @GetMapping("/event-schedule")
+    public ResponseEntity<IResponse> getEventSchedule(){
+        return new ResponseEntity<>(new EntityCollectionResponse<>(
+                HttpStatus.OK.value(),
+                reportService.getEventSchedule()
+        ), HttpStatus.OK);
     }
 }

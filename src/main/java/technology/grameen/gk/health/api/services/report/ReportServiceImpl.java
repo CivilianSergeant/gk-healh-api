@@ -2,23 +2,23 @@ package technology.grameen.gk.health.api.services.report;
 
 import org.springframework.stereotype.Service;
 import technology.grameen.gk.health.api.entity.HealthCenter;
-import technology.grameen.gk.health.api.entity.PatientInvoice;
 import technology.grameen.gk.health.api.projection.MonthWiseReceived;
 import technology.grameen.gk.health.api.projection.ServiceRecord;
+import technology.grameen.gk.health.api.projection.event.schedule.Event;
+import technology.grameen.gk.health.api.projection.event.schedule.EventCategory;
+import technology.grameen.gk.health.api.projection.event.schedule.HCenter;
+import technology.grameen.gk.health.api.repositories.EventRepository;
 import technology.grameen.gk.health.api.repositories.ServiceRecordRepository;
 import technology.grameen.gk.health.api.requests.ServiceRecordSearch;
 import technology.grameen.gk.health.api.responses.ServiceRecordResponse;
 import technology.grameen.gk.health.api.services.HealthCenterService;
 import technology.grameen.gk.health.api.services.PatientManageService;
+import technology.grameen.gk.health.api.services.event.EventService;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class ReportServiceImpl implements ReportService{
@@ -26,15 +26,19 @@ public class ReportServiceImpl implements ReportService{
     ServiceRecordRepository serviceRecordRepository;
     PatientManageService patientManageService;
     HealthCenterService healthCenterService;
+    EventService eventService;
 
 
     ReportServiceImpl(ServiceRecordRepository serviceRecordRepository,
                       PatientManageService patientManageService,
-                      HealthCenterService healthCenterService){
+                      HealthCenterService healthCenterService,
+                      EventService eventService){
         this.serviceRecordRepository = serviceRecordRepository;
         this.patientManageService = patientManageService;
         this.healthCenterService = healthCenterService;
+        this.eventService = eventService;
     }
+
 
     @Override
     public List<ServiceRecord> getPatientInvoiceSummery() {
@@ -121,5 +125,52 @@ public class ReportServiceImpl implements ReportService{
             }
         }
         return patientManageService.getInvoiceRepository().getTotalAmountMonthWiseInCenters(centerIds);
+    }
+
+    @Override
+    public List<HCenter> getEventSchedule() {
+
+        List<EventRepository.EventSchedule> schedules = eventService.getEventSchedule();
+        List<Long> centerIds = new ArrayList<>();
+        List<Integer> ecIds = new ArrayList<>();
+        List<HCenter> centers = new ArrayList<>();
+        for(EventRepository.EventSchedule es : schedules){
+            if(!centerIds.contains(es.getHcId())){
+                centerIds.add(es.getHcId());
+                HCenter hc = new HCenter(es.getHcId(), es.getHcName());
+                centers.add(hc);
+                if(!ecIds.contains(es.getEcId())) {
+                    ecIds.add(es.getEcId());
+                    hc.addEventCategories(new EventCategory(es.getEcId(),es.getEcName()));
+                }else{
+                    Optional<EventCategory> ecOptional = hc.getEventCategories().stream()
+                            .filter(ec->ec.getId().equals(es.getEcId())).findFirst();
+                    if(ecOptional.isPresent()){
+                        EventCategory ec = ecOptional.get();
+                        ec.addEvents(new Event());
+                    }
+                }
+            }else{
+               Optional<HCenter> hCenterOptional = centers.stream().
+                                                    filter(c->c.getId().equals(es.getHcId()))
+                                                    .findFirst();
+               if(hCenterOptional.isPresent()){
+                   HCenter hc = hCenterOptional.get();
+                   if(!ecIds.contains(es.getEcId())) {
+                       ecIds.add(es.getEcId());
+                       hc.addEventCategories(new EventCategory(es.getEcId(),es.getEcName()));
+                   }else{
+                       Optional<EventCategory> ecOptional = hc.getEventCategories().stream()
+                                                            .filter(ec->ec.getId().equals(es.getEcId()))
+                                                            .findFirst();
+                       if(ecOptional.isPresent()){
+                           EventCategory ec = ecOptional.get();
+                            ec.addEvents(new Event());
+                       }
+                   }
+               }
+            }
+        }
+        return centers;
     }
 }

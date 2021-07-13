@@ -3,6 +3,8 @@ package technology.grameen.gk.health.api.services.report;
 import technology.grameen.gk.health.api.entity.PatientInvoice;
 import technology.grameen.gk.health.api.projection.MonthWiseReceived;
 import technology.grameen.gk.health.api.projection.ServiceRecord;
+import technology.grameen.gk.health.api.projection.event.schedule.HCenter;
+import technology.grameen.gk.health.api.repositories.EventRepository;
 import technology.grameen.gk.health.api.requests.ServiceRecordSearch;
 import technology.grameen.gk.health.api.responses.ServiceRecordResponse;
 import technology.grameen.gk.health.api.services.PatientManageService;
@@ -22,4 +24,5 @@ public interface ReportService {
 
      MonthWiseReceived getMonthWiseTotalAmountReceived(Long centerId);
 
+    List<HCenter> getEventSchedule();
 }
