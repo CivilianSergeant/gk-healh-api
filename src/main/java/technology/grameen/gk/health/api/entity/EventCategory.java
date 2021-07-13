@@ -62,7 +62,7 @@ public class EventCategory {
         this.status = status;
     }
 
-    @JsonFormat(pattern = "yyyy-MM-dd")
+
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
@@ -71,7 +71,7 @@ public class EventCategory {
         this.createdAt = createdAt;
     }
 
-    @JsonFormat(pattern = "yyyy-MM-dd")
+
     public LocalDateTime getUpdatedAt() {
         return updatedAt;
     }

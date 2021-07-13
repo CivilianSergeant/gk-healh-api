@@ -37,7 +37,7 @@ public class EventCategoryServiceImpl implements EventCategoryService{
     }
 
     @Override
-    public Optional<EventCategory> getById(Integer id) {
-        return eventCategoryRepository.findById(id);
+    public Optional<EventCategoryRepository.EventCategoryDetail> getById(Integer id) {
+        return eventCategoryRepository.findEventCategoryById(id);
     }
 }
