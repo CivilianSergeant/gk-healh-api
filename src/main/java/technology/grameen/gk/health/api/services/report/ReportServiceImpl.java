@@ -15,10 +15,9 @@ import technology.grameen.gk.health.api.services.HealthCenterService;
 import technology.grameen.gk.health.api.services.PatientManageService;
 import technology.grameen.gk.health.api.services.event.EventService;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.text.DateFormat;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 @Service
 public class ReportServiceImpl implements ReportService{
@@ -131,23 +130,56 @@ public class ReportServiceImpl implements ReportService{
     public List<HCenter> getEventSchedule() {
 
         List<EventRepository.EventSchedule> schedules = eventService.getEventSchedule();
-        List<Long> centerIds = new ArrayList<>();
+        Map<Long,Map<Integer,Map<Long,Object>>> centerIds = new HashMap<>();
         List<Integer> ecIds = new ArrayList<>();
         List<HCenter> centers = new ArrayList<>();
+        HCenter hc = null;
+        EventCategory ec = null;
+        Event event = null;
         for(EventRepository.EventSchedule es : schedules){
-            if(!centerIds.contains(es.getHcId())){
-                centerIds.add(es.getHcId());
-                HCenter hc = new HCenter(es.getHcId(), es.getHcName());
+            if(!centerIds.containsKey(es.getHcId())){
+                centerIds.put(es.getHcId(),new HashMap<>());
+                hc = new HCenter(es.getHcId(), es.getHcName());
                 centers.add(hc);
-                if(!ecIds.contains(es.getEcId())) {
-                    ecIds.add(es.getEcId());
-                    hc.addEventCategories(new EventCategory(es.getEcId(),es.getEcName()));
+                if(!centerIds.get(es.getHcId()).containsKey(es.getEcId())) {
+                    centerIds.get(es.getHcId()).put(es.getEcId(),new HashMap<>());
+                    ec =  new EventCategory(es.getEcId(),es.getEcName());
+                    hc.addEventCategories(ec);
+                    if(!centerIds.get(es.getHcId()).get(es.getEcId()).containsKey(es.getEmpId())){
+                        centerIds.get(es.getHcId()).get(es.getEcId()).put(es.getEmpId(),es.getEcId());
+                        event = new Event(es.getEmpId(),es.getDoctorName());
+                        event.addDate(es.getEventDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+                        ec.addEvents(event);
+                    }else{
+                        Optional<Event> eventOptional = ec.getEvents().stream()
+                                .filter((Event _event)->_event.getEmpId().equals(es.getEmpId())).findFirst();
+                        if(eventOptional.isPresent()){
+                            event = eventOptional.get();
+                            event.addDate(es.getEventDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+                        }
+
+                    }
+
                 }else{
                     Optional<EventCategory> ecOptional = hc.getEventCategories().stream()
-                            .filter(ec->ec.getId().equals(es.getEcId())).findFirst();
+                            .filter((EventCategory _ec)->_ec.getId().equals(es.getEcId())).findFirst();
                     if(ecOptional.isPresent()){
-                        EventCategory ec = ecOptional.get();
-                        ec.addEvents(new Event());
+                        ec = ecOptional.get();
+                        if(!centerIds.get(es.getHcId()).get(es.getEcId()).containsKey(es.getEmpId())){
+                            centerIds.get(es.getHcId()).get(es.getEcId()).put(es.getEmpId(),es.getEcId());
+                            event = new Event(es.getEmpId(),es.getDoctorName());
+                            event.addDate(es.getEventDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+                            ec.addEvents(event);
+                        }else{
+                            Optional<Event> eventOptional = ec.getEvents().stream()
+                                    .filter((Event _event)->_event.getEmpId().equals(es.getEmpId())).findFirst();
+                            if(eventOptional.isPresent()){
+                                event = eventOptional.get();
+                                event.addDate(es.getEventDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+                            }
+
+                        }
+
                     }
                 }
             }else{
@@ -155,17 +187,45 @@ public class ReportServiceImpl implements ReportService{
                                                     filter(c->c.getId().equals(es.getHcId()))
                                                     .findFirst();
                if(hCenterOptional.isPresent()){
-                   HCenter hc = hCenterOptional.get();
-                   if(!ecIds.contains(es.getEcId())) {
-                       ecIds.add(es.getEcId());
-                       hc.addEventCategories(new EventCategory(es.getEcId(),es.getEcName()));
+                   hc = hCenterOptional.get();
+                   if(!centerIds.get(es.getHcId()).containsKey(es.getEcId())) {
+                       centerIds.get(es.getHcId()).put(es.getEcId(),new HashMap<>());
+                       ec = new EventCategory(es.getEcId(),es.getEcName());
+                       hc.addEventCategories(ec);
+                       if(!centerIds.get(es.getHcId()).get(es.getEcId()).containsKey(es.getEmpId())){
+                           centerIds.get(es.getHcId()).get(es.getEcId()).put(es.getEmpId(),es.getEcId());
+                           event = new Event(es.getEmpId(),es.getDoctorName());
+                           event.addDate(es.getEventDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+                           ec.addEvents(event);
+                       }else{
+                           Optional<Event> eventOptional = ec.getEvents().stream()
+                                   .filter((Event _event)->_event.getEmpId().equals(es.getEmpId())).findFirst();
+                           if(eventOptional.isPresent()){
+                               event = eventOptional.get();
+                               event.addDate(es.getEventDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+                           }
+
+                       }
                    }else{
                        Optional<EventCategory> ecOptional = hc.getEventCategories().stream()
-                                                            .filter(ec->ec.getId().equals(es.getEcId()))
+                                                            .filter((EventCategory _ec)->_ec.getId().equals(es.getEcId()))
                                                             .findFirst();
                        if(ecOptional.isPresent()){
-                           EventCategory ec = ecOptional.get();
-                            ec.addEvents(new Event());
+                            ec = ecOptional.get();
+                           if(!centerIds.get(es.getHcId()).get(es.getEcId()).containsKey(es.getEmpId())){
+                               centerIds.get(es.getHcId()).get(es.getEcId()).put(es.getEmpId(),es.getEcId());
+                               event = new Event(es.getEmpId(),es.getDoctorName());
+                               event.addDate(es.getEventDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+                               ec.addEvents(event);
+                           }else{
+                               Optional<Event> eventOptional = ec.getEvents().stream()
+                                       .filter((Event _event)->_event.getEmpId().equals(es.getEmpId())).findFirst();
+                               if(eventOptional.isPresent()){
+                                   event = eventOptional.get();
+                                   event.addDate(es.getEventDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+                               }
+
+                           }
                        }
                    }
                }

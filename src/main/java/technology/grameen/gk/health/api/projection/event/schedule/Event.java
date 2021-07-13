@@ -1,12 +1,18 @@
 package technology.grameen.gk.health.api.projection.event.schedule;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Event {
     private Long empId;
     private String doctor;
-    private List<LocalDateTime> dates;
+    private List<String> dates = new ArrayList<>();
+
+    public Event(Long empId, String doctor) {
+        this.empId = empId;
+        this.doctor = doctor;
+    }
 
     public Long getEmpId() {
         return empId;
@@ -24,11 +30,11 @@ public class Event {
         this.doctor = doctor;
     }
 
-    public List<LocalDateTime> getDates() {
+    public List<String> getDates() {
         return dates;
     }
 
-    public void setDates(List<LocalDateTime> dates) {
-        this.dates = dates;
+    public void addDate(String date) {
+        this.dates.add(date);
     }
 }
