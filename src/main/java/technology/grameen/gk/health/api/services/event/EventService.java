@@ -35,5 +35,5 @@ public interface EventService {
 
     Optional<EventRepository.EventDetail> getEventById(Long id);
 
-    List<EventRepository.EventSchedule> getEventSchedule();
+    List<EventRepository.EventSchedule> getEventSchedule(String raCode, String yearMonth);
 }

@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import technology.grameen.gk.health.api.entity.HealthCenter;
+import technology.grameen.gk.health.api.exceptions.CustomException;
 import technology.grameen.gk.health.api.requests.ServiceRecordSearch;
 import technology.grameen.gk.health.api.requests.StatsRequest;
 import technology.grameen.gk.health.api.responses.EntityCollectionResponse;
@@ -81,10 +82,11 @@ public class ReportController {
     }
 
     @GetMapping("/event-schedule")
-    public ResponseEntity<IResponse> getEventSchedule(){
+    public ResponseEntity<IResponse> getEventSchedule(@RequestParam Optional<String> raThirdLevelCode,
+                                                      @RequestParam Optional<String> yearMonth) throws CustomException {
         return new ResponseEntity<>(new EntityCollectionResponse<>(
                 HttpStatus.OK.value(),
-                reportService.getEventSchedule()
+                reportService.getEventSchedule(raThirdLevelCode.orElse(null),yearMonth.orElse(null))
         ), HttpStatus.OK);
     }
 }

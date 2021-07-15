@@ -101,7 +101,7 @@ public class EventServiceImpl implements EventService{
     }
 
     @Override
-    public List<EventRepository.EventSchedule> getEventSchedule() {
-        return eventRepository.findCampScheduleByMonth();
+    public List<EventRepository.EventSchedule> getEventSchedule(String raCode, String yearMonth) {
+        return eventRepository.findCampScheduleByMonth(raCode,yearMonth);
     }
 }

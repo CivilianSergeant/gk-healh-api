@@ -2,6 +2,7 @@ package technology.grameen.gk.health.api.services.report;
 
 import org.springframework.stereotype.Service;
 import technology.grameen.gk.health.api.entity.HealthCenter;
+import technology.grameen.gk.health.api.exceptions.CustomException;
 import technology.grameen.gk.health.api.projection.MonthWiseReceived;
 import technology.grameen.gk.health.api.projection.ServiceRecord;
 import technology.grameen.gk.health.api.projection.event.schedule.Event;
@@ -127,9 +128,11 @@ public class ReportServiceImpl implements ReportService{
     }
 
     @Override
-    public List<HCenter> getEventSchedule() {
-
-        List<EventRepository.EventSchedule> schedules = eventService.getEventSchedule();
+    public List<HCenter> getEventSchedule(String raCode, String yearMonth) throws CustomException {
+        if(raCode.isEmpty() || yearMonth.isEmpty()){
+            throw new CustomException("Please select Region and Year month");
+        }
+        List<EventRepository.EventSchedule> schedules = eventService.getEventSchedule(raCode,yearMonth);
         Map<Long,Map<Integer,Map<Long,Object>>> centerIds = new HashMap<>();
         List<Integer> ecIds = new ArrayList<>();
         List<HCenter> centers = new ArrayList<>();

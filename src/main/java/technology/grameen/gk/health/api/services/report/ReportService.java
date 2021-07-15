@@ -1,6 +1,7 @@
 package technology.grameen.gk.health.api.services.report;
 
 import technology.grameen.gk.health.api.entity.PatientInvoice;
+import technology.grameen.gk.health.api.exceptions.CustomException;
 import technology.grameen.gk.health.api.projection.MonthWiseReceived;
 import technology.grameen.gk.health.api.projection.ServiceRecord;
 import technology.grameen.gk.health.api.projection.event.schedule.HCenter;
@@ -24,5 +25,5 @@ public interface ReportService {
 
      MonthWiseReceived getMonthWiseTotalAmountReceived(Long centerId);
 
-    List<HCenter> getEventSchedule();
+    List<HCenter> getEventSchedule(String raCode, String yearMonth) throws CustomException;
 }
