@@ -16,7 +16,7 @@ public class EventLog {
     @ManyToOne(fetch = FetchType.LAZY)
     private Event event;
 
-    private Boolean status;
+    private String status;
     private String note;
 
     @CreationTimestamp
